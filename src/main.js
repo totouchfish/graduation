@@ -11,6 +11,9 @@ import 'iview/dist/styles/iview.css';
 import iview from "./utils/iview.js";
 Vue.use(iview);
 
+// 引入svg图标
+import './icons'
+
 // 引入权限方法
 import {
   checkArray
