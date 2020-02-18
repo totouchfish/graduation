@@ -61,11 +61,9 @@
                 <img src="@/assets/images/company.png">
               </div>
             </div>
-            <transition>
+            <transition name="fade">
               <div v-if="item.tagShow" class="labels">
                 <Tag v-for="(element,indx) in item.tagData" :key="indx" type="border">{{element.name}}</Tag>
-                <!-- <Tag type="border">{{item}}</Tag>
-                <Tag type="border">通讯津贴</Tag> -->
               </div>
             </transition>
           </li>
@@ -237,6 +235,7 @@ export default {
 .jobType {
   width: 800px;
   height: 50px;
+  cursor: pointer;
   margin-top: 20px;
   background-color: #fff;
   padding: 15px 15px;
@@ -302,8 +301,7 @@ dd {
   float: right;
 }
 .company {
-  width: 350px;
-  /* margin-top: 20px; */
+  width: 300px;
 }
 .company-logo {
   position: relative;
@@ -324,26 +322,23 @@ dd {
   padding: 4px 16px;
   border-top: 1px solid #e6e8ea;
   background-color: #f8f8f8;
-  /* transform: translateY(0);
-  transition: transform 0.3s ease; */
 }
-/* .fade-enter-active,
+/* 进入和离开时过渡状态的 动画状态 */
+.fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: all 0.2s ease;
+  height: 37px;
 }
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-} */
-.top-enter,
-.top-leave-to {
-  transform: translate3d(0, -100%, 0);
+
+/* 进入时的 初始状态 和 离开时动画的 结束状态 */
+.fade-enter,
+.fade-leave-to {
+  height: 0;
 }
-.top-leave,
-.top-enter-to {
-  transform: translate3d(0, 0, 0);
-}
-.top-enter-active,
-.top-leave-active {
-  transition: all 0.3s;
+
+/* 离开时的 初始状态 和 进入时动画的 结束状态 */
+.fade-enter-to,
+.fade-leave {
+  height: 37px;
 }
 </style>

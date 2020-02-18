@@ -16,21 +16,11 @@
                 <option value="1">职位</option>
                 <option value="2">公司</option>
               </select>
-              <input
-                type="text"
-                v-model="searchContent"
-                :placeholder="searchTips"
-                class="searchContent"
-              />
+              <input type="text" v-model="searchContent" :placeholder="searchTips" class="searchContent" />
               <Button class="searchButton">搜索</Button>
               <div style="font-size:17px;margin-top:13px;color:#999">
                 热门搜索:
-                <span
-                  class="hostSearch"
-                  v-for="(item,index) in hostSearch"
-                  :key="index"
-                  :title="item"
-                >{{item}}</span>
+                <span class="hostSearch" v-for="(item,index) in hostSearch" :key="index" :title="item">{{item}}</span>
               </div>
             </div>
           </Header>
@@ -38,11 +28,7 @@
             <div class="recruit" v-for="(item,index) in testData" :key="index">
               <a class="recruit_left" href="#" style="color:#333">
                 <p class="recruit_right_postName">{{item.postName}}</p>
-                <p
-                  class="recruit_right_workInfo"
-                  :title="item.postRequirement"
-                  v-html="item.postRequirement2"
-                >{{item.postRequirement2}}</p>
+                <p class="recruit_right_workInfo" :title="item.postRequirement" v-html="item.postRequirement2">{{item.postRequirement2}}</p>
                 <p style="font-size:14px;margin-top:11px;">{{item.releaseTime}}</p>
               </a>
               <div class="recruit_right">
@@ -50,21 +36,14 @@
                   <p class="recruit_right_title">{{item.companyName}}</p>
                   <p style="margin-top:8px;">{{item.companyCharacter}}</p>
                   <p style="margin-top:2px;">
-                    <span
-                      class="recruit_right_label"
-                      v-for="(item,index2) in item.companyWelfare.slice(0,2)"
-                      :key="index2"
-                    >{{item}}</span>
+                    <span class="recruit_right_label" v-for="(item,index2) in item.companyWelfare.slice(0,2)" :key="index2">{{item}}</span>
                   </p>
                 </a>
               </div>
             </div>
           </Content>
         </Layout>
-        <Sider
-          hide-trigger
-          :style="{background: '#fff',flex: '0 0 270px',height: '95vh',maxWidth:'280px'}"
-        >
+        <Sider hide-trigger :style="{background: '#fff',flex: '0 0 270px',height: '95vh',maxWidth:'280px'}">
           <div class="userInfo">
             <div class="userPhotoPosition">
               <img src="@/assets/images/userPhoto.png" class="userPhoto" />
@@ -117,12 +96,14 @@
 </template>
 
 <script>
+import * as API from "@/api/home.js";
+
 export default {
   name: "index",
   props: {
     msg: String
   },
-  data() {
+  data () {
     return {
       selectPosition: 1,
       selectPositionLists: [
@@ -141,8 +122,8 @@ export default {
         new Date().getHours() < 12
           ? "上午好"
           : new Date().getHours() > 18
-          ? "晚上好"
-          : "下午好",
+            ? "晚上好"
+            : "下午好",
       searchTips: "请输入关键字,例如：IT,JAVA,前端,后端等",
       hostSearch: [
         "运营",
@@ -263,7 +244,7 @@ export default {
   },
   components: {},
   watch: {
-    selectPosition(val) {
+    selectPosition (val) {
       if (val == 1) {
         this.searchTips = "请输入关键字,例如：IT,JAVA,前端,后端等";
       } else {
@@ -272,7 +253,31 @@ export default {
     }
   },
 
-  methods: {}
+  methods: {
+    initData () {
+      API.homeLists({
+        pageNum: "1",
+        pageSize: "10",
+        type:"1",
+        content:""
+      }).then(res => {
+        // console.log(res)
+        // var data = [];
+        // if (res.code == 200) {
+        //   res.result.forEach(item => {
+        //     data.push({
+        //       label: item.teacherName,
+        //       value: item.teacherId
+        //     });
+        //   });
+        // }
+        // this.electiveData.push(obj);
+      });
+    }
+  },
+  created(){
+    this.initData();
+  }
 };
 </script>
 
