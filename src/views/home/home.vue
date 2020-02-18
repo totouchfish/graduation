@@ -20,23 +20,23 @@
               <Button class="searchButton">搜索</Button>
               <div style="font-size:17px;margin-top:13px;color:#999">
                 热门搜索:
-                <span class="hostSearch" v-for="(item,index) in hostSearch" :key="index" :title="item">{{item}}</span>
+                <span class="hotSearch" v-for="(item,index) in hotSearch" :key="index" :title="item" @click="search(item)">{{item}}</span>
               </div>
             </div>
           </Header>
           <Content class="content">
-            <div class="recruit" v-for="(item,index) in testData" :key="index">
+            <div class="recruit" v-for="(item,index) in resumeData" :key="index">
               <a class="recruit_left" href="#" style="color:#333">
-                <p class="recruit_right_postName">{{item.postName}}</p>
+                <p class="recruit_right_postName">{{item.pName}}</p>
                 <p class="recruit_right_workInfo" :title="item.postRequirement" v-html="item.postRequirement2">{{item.postRequirement2}}</p>
-                <p style="font-size:14px;margin-top:11px;">{{item.releaseTime}}</p>
+                <p style="font-size:14px;margin-top:11px;">{{item.publicTime}}</p>
               </a>
               <div class="recruit_right">
                 <a href="#" :title="item.companyName" style="color:#333">
                   <p class="recruit_right_title">{{item.companyName}}</p>
-                  <p style="margin-top:8px;">{{item.companyCharacter}}</p>
+                  <p style="margin-top:8px;">{{item.trade}}</p>
                   <p style="margin-top:2px;">
-                    <span class="recruit_right_label" v-for="(item,index2) in item.companyWelfare.slice(0,2)" :key="index2">{{item}}</span>
+                    <span class="recruit_right_label" v-for="(item,index2) in item.companyWelfare.slice(0,2)" :key="index2">{{item}}</span> ...
                   </p>
                 </a>
               </div>
@@ -97,6 +97,7 @@
 
 <script>
 import * as API from "@/api/home.js";
+import tool from '@/utils/formatDate.js'
 
 export default {
   name: "index",
@@ -117,6 +118,7 @@ export default {
         }
       ],
       searchContent: "",
+      hotSearch: "",
       userName: "麻辣老王头",
       nowTime:
         new Date().getHours() < 12
@@ -125,7 +127,7 @@ export default {
             ? "晚上好"
             : "下午好",
       searchTips: "请输入关键字,例如：IT,JAVA,前端,后端等",
-      hostSearch: [
+      hotSearch: [
         "运营",
         "Java",
         "产品经理",
@@ -136,110 +138,7 @@ export default {
         "城市",
         "品牌"
       ],
-      testData: [
-        {
-          postName: "IC/FPGA测试工程师",
-          postRequirement: "面议 | 天津 | 统招本科 | 应届毕业生",
-          postRequirement2:
-            "<span style='color:red;'>面议</span> | 天津 | 统招本科 | 应届毕业生",
-          releaseTime: "2019-11-20 11:36",
-          companyName: "天津市滨海新区信息技术创新中心",
-          companyCharacter: "政府/公共事业/非营利机构",
-          companyWelfare: [
-            "绩效奖金",
-            "五险一金",
-            "带薪年假",
-            "定期体检",
-            "岗位晋升",
-            "发展空间大"
-          ]
-        },
-        {
-          postName: "数据库工程师",
-          postRequirement: "10-15k·12薪 | 天津-和平路 | 大专及以上 | 实习生",
-          postRequirement2:
-            "<span style='color:red;'>10-15k·12薪</span> | 天津-和平路 | 大专及以上 | 实习生",
-          releaseTime: "2019-11-19 13:15",
-          companyName: "软通动力技术服务",
-          companyCharacter: "互联网/移动互联网/电子商务",
-          companyWelfare: [
-            "绩效奖金",
-            "五险一金",
-            "带薪年假",
-            "定期体检",
-            "岗位晋升",
-            "发展空间大"
-          ]
-        },
-        {
-          postName: "IC/FPGA测试工程师",
-          postRequirement: "面议 | 天津 | 统招本科 | 应届毕业生",
-          postRequirement2:
-            "<span style='color:red;'>面议</span> | 天津 | 统招本科 | 应届毕业生",
-          releaseTime: "2019-11-18 10:37",
-          companyName: "天津市滨海新区信息技术创新中心",
-          companyCharacter: "政府/公共事业/非营利机构",
-          companyWelfare: [
-            "绩效奖金",
-            "五险一金",
-            "带薪年假",
-            "定期体检",
-            "岗位晋升",
-            "发展空间大"
-          ]
-        },
-        {
-          postName: "数据库工程师",
-          postRequirement: "10-15k·12薪 | 天津-和平路 | 大专及以上 | 实习生",
-          postRequirement2:
-            "<span style='color:red;'>10-15k·12薪</span> | 天津-和平路 | 大专及以上 | 实习生",
-          releaseTime: "2019-11-17 15:19",
-          companyName: "软通动力技术服务",
-          companyCharacter: "互联网/移动互联网/电子商务",
-          companyWelfare: [
-            "绩效奖金",
-            "五险一金",
-            "带薪年假",
-            "定期体检",
-            "岗位晋升",
-            "发展空间大"
-          ]
-        },
-        {
-          postName: "IC/FPGA测试工程师",
-          postRequirement: "面议 | 天津 | 统招本科 | 应届毕业生",
-          postRequirement2:
-            "<span style='color:red;'>面议</span> | 天津 | 统招本科 | 应届毕业生",
-          releaseTime: "2019-11-16 09:36",
-          companyName: "天津市滨海新区信息技术创新中心",
-          companyCharacter: "政府/公共事业/非营利机构",
-          companyWelfare: [
-            "绩效奖金",
-            "五险一金",
-            "带薪年假",
-            "定期体检",
-            "岗位晋升",
-            "发展空间大"
-          ]
-        },
-        {
-          postName: "数据库工程师",
-          postRequirement: "10-15k·12薪 | 天津-和平路 | 大专及以上 | 实习生",
-          postRequirement2:
-            "<span style='color:red;'>10-15k·12薪</span> | 天津-和平路 | 大专及以上 | 实习生",
-          releaseTime: "2019-11-15 18:18",
-          companyName: "软通动力技术服务",
-          companyCharacter: "互联网/移动互联网/电子商务",
-          companyWelfare: [
-            "绩效奖金",
-            "五险一金",
-            "带薪年假",
-            "定期体检",
-            "岗位晋升",
-            "发展空间大"
-          ]
-        }
-      ]
+      resumeData: []
     };
   },
   components: {},
@@ -254,28 +153,32 @@ export default {
   },
 
   methods: {
+    search (item) {
+      this.hotSearch = item;
+    },
     initData () {
       API.homeLists({
         pageNum: "1",
         pageSize: "10",
-        type:"1",
-        content:""
+        type: this.selectPosition,
+        hotSearch: this.hotSearch,
+        content: this.searchContent
       }).then(res => {
-        // console.log(res)
-        // var data = [];
-        // if (res.code == 200) {
-        //   res.result.forEach(item => {
-        //     data.push({
-        //       label: item.teacherName,
-        //       value: item.teacherId
-        //     });
-        //   });
-        // }
-        // this.electiveData.push(obj);
+        if (res.code == 200) {
+          let _data = res.result;
+          _data.forEach(item => {
+            _data.postRequirement = `${item.salary} | ${item.workCity} | ${item.degree} | ${item.employeeType}`
+            _data.postRequirement2 = `<span style='color:red;'>${item.salary}</span> | ${item.workCity} | ${item.degree} | ${item.employeeType}`
+            // item.publicTime = tool.formatDate(item.publicTime);
+            item.companyWelfare = item.subsidy.split("/");
+          });
+          this.resumeData = _data;
+          console.log(_data);
+        }
       });
     }
   },
-  created(){
+  created () {
     this.initData();
   }
 };
@@ -337,13 +240,13 @@ export default {
   border-bottom-right-radius: 0.2em;
   border-left: 0;
 }
-.hostSearch {
+.hotSearch {
   font-size: 17px;
   margin-left: 10px;
   color: #666;
   cursor: pointer;
 }
-.hostSearch:hover {
+.hotSearch:hover {
   color: #1890ff;
 }
 .userPhoto {

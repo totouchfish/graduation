@@ -161,6 +161,9 @@ export default {
     if (sessionStorage.getItem("workType")) {
       this.chooseItem(sessionStorage.getItem("workType"), this.workTypeLists, this.workType, 'workType');
     }
+    if (sessionStorage.getItem("functionType")) {
+      this.chooseItem(sessionStorage.getItem("functionType"), this.functionTypeLists, this.functionType, 'functionType');
+    } 
     if (sessionStorage.getItem("companyType")) {
       this.chooseItem(sessionStorage.getItem("companyType"), this.companyTypeLists, this.companyType, 'companyType');
     }
