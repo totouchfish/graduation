@@ -1,10 +1,10 @@
 const testData = [{
-      postName: "IC/FPGA测试工程师",
+      pName: "IC/FPGA测试工程师",
       postRequirement: "面议 | 天津 | 统招本科 | 应届毕业生",
       postRequirement2: "<span style='color:red;'>面议</span> | 天津 | 统招本科 | 应届毕业生",
-      releaseTime: "2019-11-20 11:36",
+      publicTime: "2019-11-20 11:36",
       companyName: "天津市滨海新区信息技术创新中心",
-      companyCharacter: "政府/公共事业/非营利机构",
+      trade: "政府/公共事业/非营利机构",
       companyWelfare: [
         "绩效奖金",
         "五险一金",
@@ -15,12 +15,12 @@ const testData = [{
       ]
     },
     {
-      postName: "数据库工程师",
+      pName: "数据库工程师",
       postRequirement: "10-15k·12薪 | 天津-和平路 | 大专及以上 | 实习生",
       postRequirement2: "<span style='color:red;'>10-15k·12薪</span> | 天津-和平路 | 大专及以上 | 实习生",
-      releaseTime: "2019-11-19 13:15",
+      publicTime: "2019-11-19 13:15",
       companyName: "软通动力技术服务",
-      companyCharacter: "互联网/移动互联网/电子商务",
+      trade: "互联网/移动互联网/电子商务",
       companyWelfare: [
         "绩效奖金",
         "五险一金",
@@ -31,12 +31,12 @@ const testData = [{
       ]
     },
     {
-      postName: "IC/FPGA测试工程师",
+      pName: "IC/FPGA测试工程师",
       postRequirement: "面议 | 天津 | 统招本科 | 应届毕业生",
       postRequirement2: "<span style='color:red;'>面议</span> | 天津 | 统招本科 | 应届毕业生",
-      releaseTime: "2019-11-18 10:37",
+      publicTime: "2019-11-18 10:37",
       companyName: "天津市滨海新区信息技术创新中心",
-      companyCharacter: "政府/公共事业/非营利机构",
+      trade: "政府/公共事业/非营利机构",
       companyWelfare: [
         "绩效奖金",
         "五险一金",
@@ -47,12 +47,12 @@ const testData = [{
       ]
     },
     {
-      postName: "数据库工程师",
+      pName: "数据库工程师",
       postRequirement: "10-15k·12薪 | 天津-和平路 | 大专及以上 | 实习生",
       postRequirement2: "<span style='color:red;'>10-15k·12薪</span> | 天津-和平路 | 大专及以上 | 实习生",
-      releaseTime: "2019-11-17 15:19",
+      publicTime: "2019-11-17 15:19",
       companyName: "软通动力技术服务",
-      companyCharacter: "互联网/移动互联网/电子商务",
+      trade: "互联网/移动互联网/电子商务",
       companyWelfare: [
         "绩效奖金",
         "五险一金",
@@ -63,12 +63,12 @@ const testData = [{
       ]
     },
     {
-      postName: "IC/FPGA测试工程师",
+      pName: "IC/FPGA测试工程师",
       postRequirement: "面议 | 天津 | 统招本科 | 应届毕业生",
       postRequirement2: "<span style='color:red;'>面议</span> | 天津 | 统招本科 | 应届毕业生",
-      releaseTime: "2019-11-16 09:36",
+      publicTime: "2019-11-16 09:36",
       companyName: "天津市滨海新区信息技术创新中心",
-      companyCharacter: "政府/公共事业/非营利机构",
+      trade: "政府/公共事业/非营利机构",
       companyWelfare: [
         "绩效奖金",
         "五险一金",
@@ -79,12 +79,12 @@ const testData = [{
       ]
     },
     {
-      postName: "数据库工程师",
+      pName: "数据库工程师",
       postRequirement: "10-15k·12薪 | 天津-和平路 | 大专及以上 | 实习生",
       postRequirement2: "<span style='color:red;'>10-15k·12薪</span> | 天津-和平路 | 大专及以上 | 实习生",
-      releaseTime: "2019-11-15 18:18",
+      publicTime: "2019-11-15 18:18",
       companyName: "软通动力技术服务",
-      companyCharacter: "互联网/移动互联网/电子商务",
+      trade: "互联网/移动互联网/电子商务",
       companyWelfare: [
         "绩效奖金",
         "五险一金",
@@ -527,6 +527,7 @@ const testData = [{
   ]
 
 export default {
+  testData,
   workCityLists,
   workCharacterLists,
   functionTypeLists,

@@ -97,7 +97,7 @@
 
 <script>
 import * as API from "@/api/home.js";
-import tool from '@/utils/formatDate.js'
+import commonData from "@/common/commonData.js";
 
 export default {
   name: "index",
@@ -118,7 +118,7 @@ export default {
         }
       ],
       searchContent: "",
-      hotSearch: "",
+      hotSearchIt: "",
       userName: "麻辣老王头",
       nowTime:
         new Date().getHours() < 12
@@ -138,7 +138,7 @@ export default {
         "城市",
         "品牌"
       ],
-      resumeData: []
+      resumeData: commonData.testData
     };
   },
   components: {},
@@ -154,25 +154,22 @@ export default {
 
   methods: {
     search (item) {
-      this.hotSearch = item;
     },
     initData () {
       API.homeLists({
-        pageNum: "1",
-        pageSize: "10",
         type: this.selectPosition,
-        hotSearch: this.hotSearch,
+        // hotSearch: this.hotSearchIt,
         content: this.searchContent
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
           _data.forEach(item => {
-            _data.postRequirement = `${item.salary} | ${item.workCity} | ${item.degree} | ${item.employeeType}`
-            _data.postRequirement2 = `<span style='color:red;'>${item.salary}</span> | ${item.workCity} | ${item.degree} | ${item.employeeType}`
+            item.postRequirement = `${item.salary} | ${item.workCity} | ${item.degree} | ${item.employeeType}`
+            item.postRequirement2 = `<span style='color:red;'>${item.salary}</span> | ${item.workCity} | ${item.degree} | ${item.employeeType}`
             // item.publicTime = tool.formatDate(item.publicTime);
             item.companyWelfare = item.subsidy.split("/");
           });
-          this.resumeData = _data;
+          // this.resumeData = _data;
           console.log(_data);
         }
       });
