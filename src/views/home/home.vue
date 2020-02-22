@@ -138,7 +138,7 @@ export default {
         "城市",
         "品牌"
       ],
-      resumeData: commonData.testData
+      resumeData: []
     };
   },
   components: {},
@@ -166,10 +166,9 @@ export default {
           _data.forEach(item => {
             item.postRequirement = `${item.salary} | ${item.workCity} | ${item.degree} | ${item.employeeType}`
             item.postRequirement2 = `<span style='color:red;'>${item.salary}</span> | ${item.workCity} | ${item.degree} | ${item.employeeType}`
-            // item.publicTime = tool.formatDate(item.publicTime);
             item.companyWelfare = item.subsidy.split("/");
           });
-          // this.resumeData = _data;
+          this.resumeData = _data;
           console.log(_data);
         }
       });

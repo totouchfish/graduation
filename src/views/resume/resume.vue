@@ -8,9 +8,9 @@
       </Header>
       <Content class="content">
         <div style="margin:20px;font-size:18px;">个人信息</div>
-        <Row v-show="userInfo" class="userInfo_show">
+        <Row v-show="!userInfo" class="userInfo_show">
           <Col span="4" style="width:135px;">
-          <img src="@/assets/images/man.jpg" class="manImage">
+            <img src="@/assets/images/man.jpg" class="manImage">
           </Col>
           <Col span="14">
           <Row>
@@ -29,28 +29,28 @@
             </Col>
           </Row>
           </Col>
-          <Col span="2" offset="4"><span class="edit">
-            <svg-icon icon-class="edit" />&nbsp;新增</span></Col>
+          <Col span="2" offset="4"><span class="edit" @click="userInfo = !userInfo">
+            <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
         </Row>
-        <Row v-show="!userInfo" class="userInfo_edit">
+        <Row v-show="userInfo" class="userInfo_edit">
           <Col>
-          <Form ref="formValidate" :model="formValidate" label-position="left" :rules="ruleValidate" :label-width="100">
+          <Form ref="form1Validate" :model="form1Validate" label-position="left" :rules="rule1Validate" :label-width="100">
             <Row>
               <Col span="10">
               <FormItem label="姓名" prop="name">
-                <Input v-model="formValidate.name" placeholder="Enter your name" style="width:194px;"></Input>
+                <Input v-model="form1Validate.name" style="width:194px;"></Input>
               </FormItem>
               <FormItem label="性别" prop="gender">
-                <RadioGroup v-model="formValidate.gender">
+                <RadioGroup v-model="form1Validate.gender">
                   <Radio label="male">男</Radio>
                   <Radio label="female">女</Radio>
                 </RadioGroup>
               </FormItem>
-              <FormItem label="出生年月" prop="date">
-                <DatePicker type="date" placeholder="Select date" v-model="formValidate.birthDate"></DatePicker>
+              <FormItem label="出生年月" prop="birthDate">
+                <DatePicker type="date" v-model="form1Validate.birthDate"></DatePicker>
               </FormItem>
-              <FormItem label="参加工作时间" prop="date">
-                <DatePicker type="date" placeholder="Select date" v-model="formValidate.workDate"></DatePicker>
+              <FormItem label="参加工作时间" prop="workDate">
+                <DatePicker type="date" v-model="form1Validate.workDate"></DatePicker>
               </FormItem>
               </Col>
               <Col span="6" offset="8">
@@ -62,20 +62,20 @@
             <FormItem label="户口所在地" prop="address">
               <Row>
                 <Col span="7">
-                <FormItem prop="address">
-                  <Select v-model="formValidate.birthProvince" placeholder="Select your city" style="widt：30%;">
-                    <Option value="beijing">New York</Option>
-                    <Option value="shanghai">London</Option>
-                    <Option value="shenzhen">Sydney</Option>
+                <FormItem prop="birthProvince">
+                  <Select v-model="form1Validate.birthProvince" placeholder="请选择户口所在省份" style="widt：30%;">
+                    <Option value="beijing">北京</Option>
+                    <Option value="shanghai">上海</Option>
+                    <Option value="shenzhen">深圳</Option>
                   </Select>
                 </FormItem>
                 </Col>
                 <Col span="7" offset="1">
-                <FormItem prop="address">
-                  <Select v-model="formValidate.birthCity" placeholder="Select your city" style="widt：30%;">
-                    <Option value="beijing">New York</Option>
-                    <Option value="shanghai">London</Option>
-                    <Option value="shenzhen">Sydney</Option>
+                <FormItem prop="birthCity">
+                  <Select v-model="form1Validate.birthCity" placeholder="请选择户口所在城市" style="widt：30%;">
+                    <Option value="beijing">北京</Option>
+                    <Option value="shanghai">上海</Option>
+                    <Option value="shenzhen">深圳</Option>
                   </Select>
                 </FormItem>
                 </Col>
@@ -84,8 +84,8 @@
             <FormItem label="现居住城市">
               <Row>
                 <Col span="8">
-                <FormItem prop="address">
-                  <Select v-model="formValidate.liveProvince" placeholder="Select your city">
+                <FormItem prop="liveProvince">
+                  <Select v-model="form1Validate.liveProvince" placeholder="请选择现居住省份">
                     <Option value="beijing">New York</Option>
                     <Option value="shanghai">London</Option>
                     <Option value="shenzhen">Sydney</Option>
@@ -93,8 +93,8 @@
                 </FormItem>
                 </Col>
                 <Col span="7" offset="1">
-                <FormItem prop="address">
-                  <Select v-model="formValidate.liveCity" placeholder="Select your city">
+                <FormItem prop="liveCity">
+                  <Select v-model="form1Validate.liveCity" placeholder="请选择现居住城市">
                     <Option value="beijing">New York</Option>
                     <Option value="shanghai">London</Option>
                     <Option value="shenzhen">Sydney</Option>
@@ -102,8 +102,8 @@
                 </FormItem>
                 </Col>
                 <Col span="7" offset="1">
-                <FormItem prop="address">
-                  <Select v-model="formValidate.liveCounty" placeholder="Select your city">
+                <FormItem prop="liveCounty">
+                  <Select v-model="form1Validate.liveCounty" placeholder="请选择现居住县区">
                     <Option value="beijing">New York</Option>
                     <Option value="shanghai">London</Option>
                     <Option value="shenzhen">Sydney</Option>
@@ -113,13 +113,13 @@
               </Row>
             </FormItem>
             <FormItem label="联系方式" prop="phone">
-              <Input v-model="formValidate.phone" placeholder="Enter your e-mail"></Input>
+              <Input v-model="form1Validate.phone"></Input>
             </FormItem>
             <FormItem label="电子邮箱" prop="mail">
-              <Input v-model="formValidate.mail" placeholder="Enter your e-mail"></Input>
+              <Input v-model="form1Validate.mail"></Input>
             </FormItem>
             <FormItem label="政治面貌" prop="identity">
-              <Select v-model="formValidate.identity" placeholder="Select your city">
+              <Select v-model="form1Validate.identity">
                 <Option value="1">中共党员(含预备党员)</Option>
                 <Option value="2">团员</Option>
                 <Option value="3">民主党派</Option>
@@ -127,12 +127,71 @@
               </Select>
             </FormItem>
             <FormItem>
-              <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
-              <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
+              <Button type="primary" @click="handleSubmit('form1Validate')">提交</Button>
+              <Button @click="userInfo = !userInfo" style="margin-left: 8px">取消</Button>
             </FormItem>
           </Form>
           </Col>
           <!-- <Col span="2" offset="4"><span class="edit"><svg-icon icon-class="edit" />&nbsp;新增</span></Col> -->
+        </Row>
+        <div style="margin:20px 0 0 20px;font-size:18px;">求职意向</div>
+        <Row v-show="!jobIntention">
+          <Col span="20" style="padding-top:5px;">
+            <Row style="margin-left:20px;">
+              <Col style="padding-top:5px;font-size:14px;line-height:2;">
+                <Row>
+                  <Col span="3">工作性质：</Col><Col span="6">全职</Col><Col span="3" offset="4">期望地点：</Col><Col span="6">邯郸-峰峰矿区</Col>
+                </Row>
+                <Row>
+                  <Col span="3">期望行业：</Col><Col span="6">IT服务</Col><Col span="3" offset="4">税前月薪：</Col><Col span="6">8001-10000元/月</Col>
+                </Row>
+                <Row>
+                  <Col span="3">期望职业：</Col><Col span="6">web前端、前端开发</Col>      
+                </Row>
+              </Col>
+            </Row>
+          </Col>
+          <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;" @click="jobIntention = !jobIntention">
+            <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
+        </Row>
+        <Row v-show="jobIntention" class="userInfo_edit">
+          <Col>
+            <Form ref="form2Validate" :model="form2Validate" label-position="left" :rules="rule2Validate" :label-width="100">
+              <FormItem label="工作性质" prop="workCharacter">
+                <Checkbox-group :model.sync="form2Validate.workCharacter">
+                    <Checkbox value="1">全职</Checkbox>
+                    <Checkbox value="2">兼职</Checkbox>
+                    <Checkbox value="3">实习</Checkbox>
+                </Checkbox-group>
+              </FormItem>
+              <FormItem label="期望地点" prop="expectPlace">
+                <Input v-model="form2Validate.expectPlace"></Input>
+              </FormItem>
+              <FormItem label="期望行业" prop="expectJob">
+                <Input v-model="form2Validate.expectwork"></Input>
+              </FormItem>
+              <FormItem label="期望职业" prop="expectJob">
+                <Input v-model="form2Validate.expectwork"></Input>
+              </FormItem>
+              <FormItem label="税前月薪" prop="expectSalary">
+                <Select v-model="form2Validate.expectSalary">
+                  <Option value="1">1000元/月以下</Option>
+                  <Option value="2">1000-2000元/月</Option>
+                  <Option value="3">2001-4000元/月</Option>
+                  <Option value="4">4001-6000元/月</Option>
+                  <Option value="5">6001-8000元/月</Option>
+                  <Option value="6">8001-10000元/月</Option>
+                  <Option value="7">10001-15000元/月</Option>
+                  <Option value="8">15001-20000元/月</Option>
+                  <Option value="9">20000元/月以上</Option>
+                </Select>
+              </FormItem>
+              <FormItem>
+                <Button type="primary" @click="handleSubmit('form2Validate')">提交</Button>
+                <Button @click="jobIntention = !jobIntention" style="margin-left: 8px">取消</Button>
+              </FormItem>
+            </Form>
+          </Col>
         </Row>
       </Content>
     </Layout>
@@ -145,7 +204,8 @@ export default {
   data () {
     return {
       userInfo: false,
-      formValidate: {
+      jobIntention: false,
+      form1Validate: {
         name: '',
         gender: '',
         birthDate: '',
@@ -159,30 +219,68 @@ export default {
         mail: '',
         identity: ''
       },
-      ruleValidate: {
+      rule1Validate: {
         name: [
-          { required: true, message: 'The name cannot be empty', trigger: 'blur' }
+          { required: true, message: '请输入姓名', trigger: 'blur' }
         ],
         gender: [
-          { required: true, message: 'Please select gender', trigger: 'change' }
+          { required: true, message: '请选择性别', trigger: 'change' }
         ],
-        date: [
-          { required: true, type: 'date', message: 'Please select the date', trigger: 'change' }
+        birthDate: [
+          { required: true, type: 'date', message: '请选择日期', trigger: 'change' }
         ],
-        address: [
-          { required: true, message: 'Please select the address', trigger: 'change' }
+        workDate: [
+          { required: true, type: 'date', message: '请选择日期', trigger: 'change' }
+        ],
+        birthProvince: [
+          { required: true, type: 'string', message: '请选择户口所省份', trigger: 'change' }
+        ],
+        birthCity: [
+          { required: true, type: 'string', message: '请选择户口所城市', trigger: 'change' }
+        ],
+        liveProvince: [
+          { required: true, type: 'string', message: '请选择现居住省份', trigger: 'change' }
+        ],
+        liveCity: [
+          { required: true, type: 'string', message: '请选择现居住城市', trigger: 'change' }
+        ],
+        liveCounty: [
+          { required: true, type: 'string', message: '请选择现居住县区', trigger: 'change' }
         ],
         phone: [
-          { required: true, message: 'phone cannot be empty', trigger: 'blur' },
-          { type: 'phone', message: 'Incorrect phone format', trigger: 'blur' }
+          { required: true, message: '请输入手机号码', trigger: 'blur' },
+          { type: 'phone', message: '手机号码格式不正确', trigger: 'blur' }
         ],
         mail: [
-          { required: true, message: 'Mailbox cannot be empty', trigger: 'blur' },
-          { type: 'email', message: 'Incorrect email format', trigger: 'blur' }
+          { required: true, message: '请输入邮箱', trigger: 'blur' },
+          { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
         ],
         identity: [
-          { required: true, message: 'Please select the city', trigger: 'change' }
+          { required: true, message: '请选择政治面貌', trigger: 'change' }
         ],
+      },
+      form2Validate: {
+        workCharacter: '',
+        expectPlace: '',
+        expectJob: '',
+        expectSalary: '',
+      },
+      rule2Validate: {
+        workCharacter: [
+          { required: true, type: 'array', min: 1, message: '至少选择一项', trigger: 'change' }
+        ],
+        expectPlace: [
+          { required: true, message: '请输入期望地点', trigger: 'change' }
+        ],
+        expectJob: [
+          { required: true, message: '请选择期望行业', trigger: 'change' }
+        ],
+        expectwork: [
+          { required: true, message: '请选择期望职业', trigger: 'change' }
+        ],
+        expectSalary: [
+          { required: true, message: '请选择税前月薪', trigger: 'change' }
+        ]
       }
     };
   },
@@ -200,9 +298,6 @@ export default {
         }
       })
     },
-    handleReset (name) {
-      this.$refs[name].resetFields();
-    }
   },
   created () {
 
@@ -231,7 +326,8 @@ span {
   background-color: #fff;
 }
 .userInfo_show {
-  background-color: #f8f8f8;
+  background-color: #fff;
+  padding-left: 20px;
 }
 .userInfo_edit {
   width: 80%;
