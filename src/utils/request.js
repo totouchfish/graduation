@@ -7,7 +7,7 @@ import $AjaxUrl from './severurl'
 
 const service = axios.create({
   baseURL: process.env.NODE_ENV == 'production' ?
-  'http://192.168.1.112:8080/recruit' : $AjaxUrl,
+  'http://127.0.0.1:8080' : $AjaxUrl,
   // baseURL: 'http://218.246.5.8/Psms',
   timeout: 5000 // 请求超时时间
 });

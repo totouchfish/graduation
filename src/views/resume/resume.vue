@@ -7,6 +7,7 @@
         </div>
       </Header>
       <Content class="content">
+        <div class="resumeUserInfo" v-bind="resumeInfo">
         <div style="margin:20px;font-size:18px;">个人信息</div>
         <Row v-show="!userInfo" class="userInfo_show">
           <Col span="4" style="width:135px;">
@@ -15,23 +16,24 @@
           <Col span="14">
           <Row>
             <Col span="14" style="padding-top:5px;">
-            <span style="font-size:24px;padding-right:20px;">孔亚楠</span>
+            <span style="font-size:24px;padding-right:20px;">{{resumeInfo.name}}</span>
             <span>更新时间:</span>&emsp;<span>2020-02-16 17:07</span>
             </Col>
           </Row>
           <Row>
-            <Col class="addressInfo"><span style="padding-left:0;">男</span>|<span>25岁</span>|<span>邯郸</span>|<span>3年经验</span></Col>
+            <Col class="addressInfo"><span style="padding-left:0;">{{resumeInfo.gender}}</span>|<span>{{resumeInfo.birthDate}}岁</span>|<span>{{resumeInfo.birthAddress}}</span>|<span>{{resumeInfo.workDate}}年经验</span></Col>
           </Row>
           <Row>
             <Col class="contactInfo">
-            <svg-icon icon-class="phone" /><span>17600625303</span>
-            <svg-icon icon-class="email" style="margin:0 20px 0 25px;" /><span>six_heart@163.com</span>
+            <svg-icon icon-class="phone" /><span>{{resumeInfo.phone}}</span>
+            <svg-icon icon-class="email" style="margin:0 20px 0 25px;" /><span>{{resumeInfo.mail}}</span>
             </Col>
           </Row>
           </Col>
           <Col span="2" offset="4"><span class="edit" @click="userInfo = !userInfo">
             <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
         </Row>
+        </div>
         <Row v-show="userInfo" class="userInfo_edit">
           <Col>
           <Form ref="form1Validate" :model="form1Validate" label-position="left" :rules="rule1Validate" :label-width="100">
@@ -134,26 +136,29 @@
           </Col>
           <!-- <Col span="2" offset="4"><span class="edit"><svg-icon icon-class="edit" />&nbsp;新增</span></Col> -->
         </Row>
+        <div class="resumeUserInfo" v-bind="resumeIntention">
         <div style="margin:20px 0 0 20px;font-size:18px;">求职意向</div>
         <Row v-show="!jobIntention">
           <Col span="20" style="padding-top:5px;">
             <Row style="margin-left:20px;">
               <Col style="padding-top:5px;font-size:14px;line-height:2;">
                 <Row>
-                  <Col span="3">工作性质：</Col><Col span="6">全职</Col><Col span="3" offset="4">期望地点：</Col><Col span="6">邯郸-峰峰矿区</Col>
+                  <Col span="3">工作性质：</Col><Col span="6">{{resumeIntention.workCharacter}}</Col><Col span="3" offset="4">期望地点：</Col><Col span="6">{{resumeIntention.expectPlace}}</Col>
                 </Row>
                 <Row>
-                  <Col span="3">期望行业：</Col><Col span="6">IT服务</Col><Col span="3" offset="4">税前月薪：</Col><Col span="6">8001-10000元/月</Col>
+                  <Col span="3">期望行业：</Col><Col span="6">{{resumeIntention.expectJob}}</Col><Col span="3" offset="4">税前月薪：</Col><Col span="6">{{resumeIntention.expectSalary}}</Col>
                 </Row>
                 <Row>
-                  <Col span="3">期望职业：</Col><Col span="6">web前端、前端开发</Col>      
+                  <Col span="3">期望职业：</Col><Col span="6">{{resumeIntention.expectPost}}</Col>      
                 </Row>
               </Col>
             </Row>
           </Col>
+          
           <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;" @click="jobIntention = !jobIntention">
             <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
         </Row>
+        </div>
         <Row v-show="jobIntention" class="userInfo_edit">
           <Col>
             <Form ref="form2Validate" :model="form2Validate" label-position="left" :rules="rule2Validate" :label-width="100">
@@ -205,6 +210,7 @@
 </template>
 
 <script>
+import * as API from "@/api/resume.js";
 export default {
   name: "index",
   data () {
@@ -289,7 +295,9 @@ export default {
         expectSalary: [
           { required: true, message: '请选择税前月薪', trigger: 'change' }
         ]
-      }
+      },
+      resumeInfo:[],
+      resumeIntention:[]
     };
   },
   watch: {
@@ -306,9 +314,29 @@ export default {
         }
       })
     },
+    initData () {
+      API.resumeInfo({
+        userId:'1',
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          this.resumeInfo = _data;
+          console.log(_data);
+        }
+      });
+      API.resumeIntention({
+         userId:'1',
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          this.resumeIntention = _data;
+          console.log(_data);
+        }
+      });
+    }
   },
   created () {
-
+     this.initData();
   }
 };
 </script>
