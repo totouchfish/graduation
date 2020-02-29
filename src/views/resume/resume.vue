@@ -193,6 +193,12 @@
             </Form>
           </Col>
         </Row>
+        <div style="margin:20px 0 0 20px;font-size:18px;">项目经验</div>
+        <Row v-show="!projectExp"></Row>
+        <Row v-show="projectExp"></Row>
+        <div style="margin:20px 0 0 20px;font-size:18px;">教育经历</div>
+        <Row v-show="!educationExp"></Row>
+        <Row v-show="educationExp"></Row>
       </Content>
     </Layout>
   </div>
@@ -205,6 +211,8 @@ export default {
     return {
       userInfo: false,
       jobIntention: false,
+      projectExp: false,
+      educationExp: false,
       form1Validate: {
         name: '',
         gender: '',
