@@ -7,7 +7,7 @@ import request from '@/utils/request'
  * @params Object 参数
  **/
 export function homeLists(arg) {
-  return request.post('/queryPositionRecruiter', arg)
+  return request.post('/recruit/queryPositionRecruiter', arg)
 }
 
 /**
