@@ -4,7 +4,7 @@
     <div class="container">
       
       <Layout>
-        <Layout :style="{width: '600px',minWidth: '700px',}">
+        <Layout :style="{width: '700px',minWidth: '770px',}">
           <Header>
             <div class="header">
                 <a class="current">我的收藏</a>
