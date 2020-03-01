@@ -181,8 +181,6 @@ export default {
 </script>
 
 <style scoped>
-/* .container {
-} */
 .ivu-menu-item {
   font-size: 20px;
 }

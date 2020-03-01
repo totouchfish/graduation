@@ -1,3 +1,4 @@
+import Layout from '@/views/index_user.vue'
 import progress from '@/views/progress/progress.vue'
 export default {
   path: '/progress',
@@ -9,6 +10,11 @@ export default {
       path: '/progress',
       name: 'progress',
       component: () => import('@/views/progress/progress')//懒加载
+    },
+    {
+      path: '/progress1',
+      name: 'progress1',
+      component: () => import('@/views/progress/progress1')//懒加载
     }
   ]
 }
