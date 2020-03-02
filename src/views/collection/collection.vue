@@ -4,7 +4,7 @@
     <div class="container">
       
       <Layout>
-        <Layout :style="{width: '700px',minWidth: '770px',}">
+        <Layout :style="{width: '780px',minWidth: '600px',}">
           <Header>
             <div class="header">
                 <a class="current">我的收藏</a>
@@ -19,6 +19,12 @@
               <span>{{item.workCity}}</span>
               <small>|</small>
               <font>{{item.publicTime}}</font></div>
+            </div>
+            <div class="coleBtn">
+                <div class="a-job-apply-button">
+                  <button class="a-button a--bordered a--filled" type="button">申请 </button><!---->
+                </div>
+                <a class="btn_a btn_a3" style="display: block;" href="" target="_blank">删除</a>
             </div>
           </li>
         </ul>
@@ -98,36 +104,36 @@ export default {
   padding: 0;
   margin: 0;
   list-style: none;
-  font-size: 16px;
+  font-size: 14px;
 }
 .collectionContent li {
   position: relative;
-  padding: 10px 19px;
-  margin-top: 20px;
+  margin-top: 10px;
+  padding: 10px 0px;
   background-color: #fff;
   border: 1px solid #e6e8ea;
   border-radius: 6px;
   overflow: hidden;
 }
 .collectionContent span{
-  margin-left: 60px;
+  margin-left: 10px;
   font-size: 14px;
   color: #999;
 }
 .float-left {
-  width: 494px;
+  width: 480px;
   float: left;
-  padding:20px 0 0 8px;
+  padding:8px 0 8px 8px;
   position: relative;
 }
 .infor1 .info2{
-  height: 28px;
+  height: 20px;
 }
 .float-left a:hover{
   text-decoration: underline;
 }
 .float-left a{
-  font-size: 16px;
+  font-size: 14px;
   display: inline-block;
   float: left;
   overflow: hidden;
@@ -136,25 +142,25 @@ export default {
 }
 .infor1 a{
   color: #282828;
-  height: 28px;
-  width: 346px;
+  height: 18px;
+  width: 250px;
 }
 .infor2 a{
   color: #333;
-  width:200px;
-  margin-right: 18px;
+  width:250px;
+  margin-top: 3px;
 }
 .infor2 span{
   display: inline-block;
   float: left;
   color:#717171;
-  width:90px;
+  width:50px;
   overflow:hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: right;
   margin-right: 14px;
-  font-size: 16px;
+  font-size: 14px;
 }
 .infor2 small{
   display: inline-block;
@@ -165,8 +171,60 @@ export default {
   display: inline-block;
   float: left;
   color:#717171;
-  width:90px;
+  width:70px;
   text-align: right;
-  font-size: 16px;
+  font-size: 14px;
+  margin-left: 14px;
 }
+.coleBtn {
+    padding-top: 15px;
+    float: left;
+    position: relative;
+}
+.a-job-apply-button {
+    float: left;
+    display: inline-block;
+     color: #000;
+    font-size: 16px;
+    line-height: normal;
+    text-align: start;
+    text-indent: 0px;
+    text-shadow: none;
+    word-break: normal;
+    word-spacing: normal;
+}
+.a-button {
+    color: #fff;
+    border: none;
+    width: 110px;
+    height: 36px;
+    font-size: 16px;
+    background: #3ba8f0;
+    margin-right: 40px;
+    margin-left: 20px;
+    float: left;
+    border-radius: 4px;
+}
+.coleBtn a {
+    font-size: 16px;
+}
+.btn_a3 {
+    display: block;
+    float: left;
+    cursor: pointer;
+    width: 108px;
+    height: 34px;
+    background: #fafafa;
+    border: 1px solid #bebebe;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    text-align: center;
+    line-height: 36px;
+    color: #555;
+    z-index: 1;
+}
+
+
 </style>

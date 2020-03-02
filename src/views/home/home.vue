@@ -5,11 +5,6 @@
 
       <Layout>
         <Layout :style="{width: '770px',minWidth: '700px'}">
-          <!-- <Breadcrumb :style="{margin: '24px 0'}">
-              <BreadcrumbItem>Home</BreadcrumbItem>
-              <BreadcrumbItem>Components</BreadcrumbItem>
-              <BreadcrumbItem>Layout</BreadcrumbItem>
-          </Breadcrumb>-->
           <Header>
             <div class="header">
               <select v-model="selectPosition" class="selectPosition">
@@ -17,10 +12,10 @@
                 <option value="2">公司</option>
               </select>
               <input type="text" v-model="searchContent" :placeholder="searchTips" class="searchContent" />
-              <Button class="searchButton">搜索</Button>
+              <Button class="searchButton" v-on:click="search()">搜索</Button>
               <div style="font-size:17px;margin-top:13px;color:#999">
                 热门搜索:
-                <span class="hotSearch" v-for="(item,index) in hotSearch" :key="index" :title="item" @click="search(item)">{{item}}</span>
+                <span class="hotSearch" v-for="(item,index) in hotSearch" :key="index" :title="item" @click="hotSearch(item)">{{item}}</span>
               </div>
             </div>
           </Header>
@@ -129,7 +124,7 @@ export default {
       searchTips: "请输入关键字,例如：IT,JAVA,前端,后端等",
       hotSearch: [
         "运营",
-        "Java",
+        "物联网",
         "产品经理",
         "销售",
         "UI设计师",
@@ -153,7 +148,38 @@ export default {
   },
 
   methods: {
-    search (item) {
+    hotSearch(item){
+        API.queryPositionInfoByTrade({
+          trade:this.item
+        }).then(res => {
+          if (res.code == 200) {
+            let _data = res.result;
+            _data.forEach(item => {
+              item.postRequirement = `${item.salary} | ${item.workCity} | ${item.degree} | ${item.employeeType}`
+              item.postRequirement2 = `<span style='color:red;'>${item.salary}</span> | ${item.workCity} | ${item.degree} | ${item.employeeType}`
+              item.companyWelfare = item.subsidy.split("/");
+            });
+            this.resumeData = _data;
+          }
+        });
+    },
+    search () {
+      API.homeLists({
+        type: this.selectPosition,
+        // hotSearch: this.hotSearchIt,
+        content: this.searchContent
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          _data.forEach(item => {
+            item.postRequirement = `${item.salary} | ${item.workCity} | ${item.degree} | ${item.employeeType}`
+            item.postRequirement2 = `<span style='color:red;'>${item.salary}</span> | ${item.workCity} | ${item.degree} | ${item.employeeType}`
+            item.companyWelfare = item.subsidy.split("/");
+          });
+          this.resumeData = _data;
+          console.log(_data);
+        }
+      });
     },
     initData () {
       API.homeLists({
