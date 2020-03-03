@@ -48,6 +48,7 @@ export default {
       // this.$router.push("/resetPassword/reset");
     },
     quit() {
+      this.$router.push("/login");
       // this.$router.push("/resetPassword/reset");
     }
   }

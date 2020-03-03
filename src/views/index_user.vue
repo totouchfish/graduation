@@ -37,7 +37,7 @@
 
 <script>
 import HeaderMenu from "@/common/header_user.vue";
-import LeftMenu from "@/common/menu_user.vue";
+// import LeftMenu from "@/common/menu_user.vue";
 export default {
   name: "index",
   props: {
@@ -48,7 +48,7 @@ export default {
   },
   components: {
     HeaderMenu,
-    LeftMenu
+    // LeftMenu
   },
 
   methods: {

@@ -1,9 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Index from '@/views/index_user.vue'
-// import Login from '@/views/login'
-// import Login from './login.routes.js'
-
 Vue.use(Router)
 
 const routerList = [];
@@ -18,17 +14,17 @@ function importAll(r) {
 importAll(require.context('../router', false, /\.routes\.js/))
 export default new Router({
   routes: [
-    // Login,
-    ...routerList,
     {
       path: '/',
-      name: 'index_user',
-      // component: Index
+      name: 'login',
+      component: resolve => require(['@/views/login/login'], resolve)
     },
+    ...routerList,
     // {
-    //   path: '/home',
-    //   name: 'home',
-    //   component: resolve => require(['@/views/home/home'], resolve)
-    // }
+    //   path: '/index_user',
+    //   name: 'index_user',
+    //   // component: Index
+    // },
+    
   ]
 })

@@ -3,26 +3,34 @@
     <Layout>
       <HeaderMenu></HeaderMenu>
       <Header>
-        <Menu mode="horizontal" theme="light" active-name="1" @on-select="handleSelected">
-          <!-- <div class="layout-logo"></div> -->
+        <Menu mode="horizontal" theme="light" active-name="1" @on-select="handleSelected" width="1000px">
           <div class="layout-nav">
             <MenuItem name="home">
-            <Icon type="ios-navigate"></Icon>首页123
+            <Icon type="ios-navigate" />首页
             </MenuItem>
-            <MenuItem name="2">
-            <Icon type="ios-keypad"></Icon>我的简历
+            <MenuItem name="searchJob">
+            <Icon type="md-briefcase" />行业
             </MenuItem>
-            <MenuItem name="3">
-            <Icon type="ios-analytics"></Icon>收藏
+            <MenuItem name="resume">
+            <Icon type="ios-paper" />我的简历
             </MenuItem>
-            <MenuItem name="4">
-            <Icon type="ios-paper"></Icon>其他
+            <MenuItem name="progress">
+            <Icon type="ios-analytics" />求职进展
+            </MenuItem>
+            <MenuItem name="collection">
+            <Icon type="md-heart" />职位收藏
+            </MenuItem>
+            <MenuItem name="personal">
+            <Icon type="ios-keypad" />个人中心
             </MenuItem>
           </div>
         </Menu>
       </Header>
-
-      <router-view />
+      <Content class="content">
+        <div style="margin-top:20px;">
+          <router-view />
+        </div>
+      </Content>
     </Layout>
   </div>
 </template>
@@ -36,48 +44,46 @@ export default {
     msg: String
   },
   data () {
-    return {
-      // isCollapsed: false
-    };
+    return {};
   },
   components: {
     HeaderMenu,
     LeftMenu
   },
-  computed: {
-    // rotateIcon() {
-    //   return ["menu-item", this.isCollapsed ? "rotate-icon" : ""];
-    // },
-    // menuitemClasses: function() {
-    //   return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
-    // }
-  },
+
   methods: {
-    // collapsedSider() {
-    //   this.$refs.side_r.toggleCollapse();
-    // },
     handleSelected (name) {
-      // this.$router.push({name:'home'})
-      this.$router.push(name)
+      // let names = name.split("_");
+      // if (names[1] == "0") {
+      this.$router.push(name);
+      // } else {
+      //   this.$router.push(names[0] + "?type=" + names[1]);
+      // }
     }
   }
 };
 </script>
 
-<style lang="less" scoped>
-// @import '~@/assets/lib/styles/mixin.less';
-
+<style scoped>
 .layout {
   border: 1px solid #d7dde4;
   background: #f5f7f9;
   position: relative;
   border-radius: 4px;
   overflow: hidden;
-  height: 100vh;
-  .layout-nav {
-    width: 420px;
-    margin: 0 auto;
-    margin-left: 3px;
-  }
+}
+.ivu-menu-light {
+  /* background-color: red; */
+  background: linear-gradient(top, #f5dea8, #d1b267);
+  background: -ms-linear-gradient(top, #f5dea8, #d1b267);
+  background: -webkit-linear-gradient(top, #f5dea8, #d1b267);
+  background: -moz-linear-gradient(top, #f5dea8, #d1b267);
+}
+.content {
+  margin: 0px auto;
+}
+.layout-nav {
+  width: 675px;
+  margin: 0 auto;
 }
 </style>

@@ -1,8 +1,8 @@
-import progress from '@/views/progress/progress.vue'
+import Layout from '@/views/index_user.vue'
 export default {
   path: '/progress',
   name: 'progress',
-  component: progress,//component引用什么组件就会在什么组件的<router-view /> 上跳转
+  component: Layout,//component引用什么组件就会在什么组件的<router-view /> 上跳转
   // 
   children: [
     {
