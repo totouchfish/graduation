@@ -5,5 +5,5 @@ import request from '@/utils/request'
  * @param {*} arg 
  */
 export function collection(arg) {
-    return request.post('/post/queryCollectPosition', arg)
+    return request.post('/collection/queryCollectPosition', arg)
   }

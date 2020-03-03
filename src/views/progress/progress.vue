@@ -26,21 +26,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="js">
-          <div class="ji js-item">
-            <div class="ji-item clearfix">
-              <div class="ji-item-info fl">
-                <a class="ji-item-info-jobName" href="" target="_blank">2020届java开发工程师</a>
-                <p>10K-15K</p>
-                <a class="ji-item-info-companyName" href="" target="_blank">北京思特奇信息技术股份有限公司</a>
-              </div>
-              <div class="ji-item-status fr">
-                <p>成功投递</p>
-                <div><span>2020-02-26</span></div>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
 
     </Content>
@@ -114,22 +99,7 @@ export default {
     search (item) {
     },
     initData () {
-      API.homeLists({
-        type: this.selectPosition,
-        // hotSearch: this.hotSearchIt,
-        content: this.searchContent
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          _data.forEach(item => {
-            item.postRequirement = `${item.salary} | ${item.workCity} | ${item.degree} | ${item.employeeType}`
-            item.postRequirement2 = `<span style='color:red;'>${item.salary}</span> | ${item.workCity} | ${item.degree} | ${item.employeeType}`
-            item.companyWelfare = item.subsidy.split("/");
-          });
-          this.resumeData = _data;
-          console.log(_data);
-        }
-      });
+     
     }
   },
   created () {

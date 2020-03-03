@@ -11,12 +11,12 @@ export function homeLists(arg) {
 }
 
 /**
- * [saveClassroom 创建教室信息]
+ * [queryPositionInfoByTrade 热门搜索]
  * @params Object 参数
  **/
 
-export function saveClassroom(arg) {
-  return request.post('/saveClassroom', arg)
+export function queryPositionInfoByTrade(arg) {
+  return request.post('/recruit/queryPositionInfoByTrade', arg)
 }
 
 /**
