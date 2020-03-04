@@ -284,7 +284,7 @@ export default {
           { required: true, type: 'array', min: 1, message: '至少选择一项', trigger: 'change' }
         ],
         expectPlace: [
-          { required: true, message: '请输入期望地点', trigger: 'change' }
+          { required: true, message: '请输入期望地点', trigger: 'blur' }
         ],
         expectJob: [
           { required: true, message: '请选择期望行业', trigger: 'change' }
