@@ -7,3 +7,11 @@ import request from '@/utils/request'
 export function collection(arg) {
     return request.post('/collection/queryCollectPosition', arg)
   }
+
+  /**
+ * 登录接口
+ * @param {*} arg 
+ */
+export function login(arg) {
+  return request.post('/login/login', arg)
+}
