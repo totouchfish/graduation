@@ -1,9 +1,8 @@
-import Layout from '@/views/index_user.vue'
+import Layout from '@/views/layout.vue'
 import postDetail from '@/views/postDetail/postDetail.vue'
 export default {
   path: '/postDetail',
   name: 'postDetail',
-  // component: () => import('@/views/index_user.vue'),
   component: postDetail,//component引用什么组件就会在什么组件的<router-view /> 上跳转
   // 
   children: [

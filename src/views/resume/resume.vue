@@ -314,7 +314,7 @@ export default {
   methods: {
     // 点击编辑按钮，获取用户信息
     editUserInfo () {
-      API.queryUserInfoById({
+      API.queryJobIntentionById({
         userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
@@ -327,7 +327,7 @@ export default {
     submitUserInfo (name) {
       this.$refs[name].validate((valid) => {
         if (valid) { //form1Validate
-          API.queryUserInfoById({
+          API.updateJobIntention({
             userId: sessionStorage.getItem('userId'),
             userInfo: form1Validate
           }).then(res => {
@@ -343,7 +343,7 @@ export default {
     },
     // 获取用户简历信息
     editResumeInfo () {
-      API.resumeInfo({
+      API.queryUserInfoById({
         userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
@@ -356,7 +356,7 @@ export default {
     submitUserInfo (name) {
       this.$refs[name].validate((valid) => {
         if (valid) { //form2Validate
-          API.queryUserInfoById({
+          API.updateUserInfo({
             userId: sessionStorage.getItem('userId'),
             userInfo: form2Validate
           }).then(res => {

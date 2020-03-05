@@ -1,4 +1,4 @@
-import Layout from '@/views/index_user.vue'
+import Layout from '@/views/layout.vue'
 export default {
   path: '/resume',
   name: 'resume',

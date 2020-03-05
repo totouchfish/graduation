@@ -5,8 +5,8 @@ import request from '@/utils/request'
  * @param {*} arg 
  */
 // 获取用户信息
-export function queryUserInfo(arg) {
-    return request.post('/resume/queryUserInfo', arg)
+export function queryUserInfoById(arg) {
+    return request.post('/resume/queryUserInfoById', arg)
   }
   // 修改用户信息
   export function updateUserInfo(arg) {
