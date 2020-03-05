@@ -8,7 +8,7 @@ export default {
     {
       path: '/resume',
       name: 'resume',
-      component: () => import('@/views/resume/resume') //懒加载
+      component: () => import('@/views/userSystem/resume/resume') //懒加载
     },
   ]
 }

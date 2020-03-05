@@ -8,7 +8,7 @@ export default {
     {
       path: '/searchJob',
       name: 'searchJob',
-      component: () => import('@/views/searchJob/searchJob') //懒加载
+      component: () => import('@/views/userSystem/searchJob/searchJob') //懒加载
     },
   ]
 }

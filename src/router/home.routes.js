@@ -8,7 +8,7 @@ export default {
     {
       path: '/home',
       name: 'home',
-      component: () => import('@/views/home/home')//懒加载
+      component: () => import('@/views/userSystem/home/home')//懒加载
     }
   ]
 }

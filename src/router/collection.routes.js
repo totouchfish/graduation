@@ -8,7 +8,7 @@ export default {
     {
       path: '/collection',
       name: 'collection',
-      component: () => import('@/views/collection/collection')//懒加载
+      component: () => import('@/views/userSystem/collection/collection')//懒加载
       // component: resolve => require(['@/views/home/home'], resolve)
     }
   ]

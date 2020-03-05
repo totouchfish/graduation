@@ -8,7 +8,7 @@ export default {
     {
       path: '/progress',
       name: 'progress',
-      component: () => import('@/views/progress/progress')//懒加载
+      component: () => import('@/views/userSystem/progress/progress')//懒加载
     }
   ]
 }
