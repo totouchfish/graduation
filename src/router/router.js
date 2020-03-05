@@ -1,1 +1,1 @@
-import Home from '@/views/index_user.vue'
+import Home from '@/views/layout.vue'
