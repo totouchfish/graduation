@@ -8,31 +8,31 @@
       </Header>
       <Content class="content">
         <div class="resumeUserInfo" v-bind="resumeInfo">
-        <div style="margin:20px;font-size:18px;">个人信息</div>
-        <Row v-show="!userInfo" class="userInfo_show">
-          <Col span="4" style="width:135px;">
+          <div style="margin:20px;font-size:18px;">个人信息</div>
+          <Row v-show="!userInfo" class="userInfo_show">
+            <Col span="4" style="width:135px;">
             <img src="@/assets/images/man.jpg" class="manImage">
-          </Col>
-          <Col span="14">
-          <Row>
-            <Col span="14" style="padding-top:5px;">
-            <span style="font-size:24px;padding-right:20px;">{{resumeInfo.name}}</span>
-            <span>更新时间:</span>&emsp;<span>2020-02-16 17:07</span>
             </Col>
-          </Row>
-          <Row>
-            <Col class="addressInfo"><span style="padding-left:0;">{{resumeInfo.gender}}</span>|<span>{{resumeInfo.birthDate}}岁</span>|<span>{{resumeInfo.birthAddress}}</span>|<span>{{resumeInfo.workDate}}年经验</span></Col>
-          </Row>
-          <Row>
-            <Col class="contactInfo">
-            <svg-icon icon-class="phone" /><span>{{resumeInfo.phone}}</span>
-            <svg-icon icon-class="email" style="margin:0 20px 0 25px;" /><span>{{resumeInfo.mail}}</span>
+            <Col span="14">
+            <Row>
+              <Col span="14" style="padding-top:5px;">
+              <span style="font-size:24px;padding-right:20px;">{{resumeInfo.name}}</span>
+              <span>更新时间:</span>&emsp;<span>2020-02-16 17:07</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col class="addressInfo"><span style="padding-left:0;">{{resumeInfo.gender}}</span>|<span>{{resumeInfo.birthDate}}岁</span>|<span>{{resumeInfo.birthAddress}}</span>|<span>{{resumeInfo.workDate}}年经验</span></Col>
+            </Row>
+            <Row>
+              <Col class="contactInfo">
+              <svg-icon icon-class="phone" /><span>{{resumeInfo.phone}}</span>
+              <svg-icon icon-class="email" style="margin:0 20px 0 25px;" /><span>{{resumeInfo.mail}}</span>
+              </Col>
+            </Row>
             </Col>
+            <Col span="2" offset="4"><span class="edit" @click="editUserInfo">
+              <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
           </Row>
-          </Col>
-          <Col span="2" offset="4"><span class="edit" @click="userInfo = !userInfo">
-            <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
-        </Row>
         </div>
         <Row v-show="userInfo" class="userInfo_edit">
           <Col>
@@ -129,7 +129,7 @@
               </Select>
             </FormItem>
             <FormItem>
-              <Button type="primary" @click="handleSubmit('form1Validate')">提交</Button>
+              <Button type="primary" @click="submitUserInfo('form1Validate')">提交</Button>
               <Button @click="userInfo = !userInfo" style="margin-left: 8px">取消</Button>
             </FormItem>
           </Form>
@@ -137,65 +137,72 @@
           <!-- <Col span="2" offset="4"><span class="edit"><svg-icon icon-class="edit" />&nbsp;新增</span></Col> -->
         </Row>
         <div class="resumeUserInfo" v-bind="resumeIntention">
-        <div style="margin:20px 0 0 20px;font-size:18px;">求职意向</div>
-        <Row v-show="!jobIntention">
-          <Col span="20" style="padding-top:5px;">
+          <div style="margin:20px 0 0 20px;font-size:18px;">求职意向</div>
+          <Row v-show="!jobIntention">
+            <Col span="20" style="padding-top:5px;">
             <Row style="margin-left:20px;">
               <Col style="padding-top:5px;font-size:14px;line-height:2;">
-                <Row>
-                  <Col span="3">工作性质：</Col><Col span="6">{{resumeIntention.workCharacter}}</Col><Col span="3" offset="4">期望地点：</Col><Col span="6">{{resumeIntention.expectPlace}}</Col>
-                </Row>
-                <Row>
-                  <Col span="3">期望行业：</Col><Col span="6">{{resumeIntention.expectJob}}</Col><Col span="3" offset="4">税前月薪：</Col><Col span="6">{{resumeIntention.expectSalary}}</Col>
-                </Row>
-                <Row>
-                  <Col span="3">期望职业：</Col><Col span="6">{{resumeIntention.expectPost}}</Col>      
-                </Row>
+              <Row>
+                <Col span="3">工作性质：</Col>
+                <Col span="6">{{resumeIntention.workCharacter}}</Col>
+                <Col span="3" offset="4">期望地点：</Col>
+                <Col span="6">{{resumeIntention.expectPlace}}</Col>
+              </Row>
+              <Row>
+                <Col span="3">期望行业：</Col>
+                <Col span="6">{{resumeIntention.expectJob}}</Col>
+                <Col span="3" offset="4">税前月薪：</Col>
+                <Col span="6">{{resumeIntention.expectSalary}}</Col>
+              </Row>
+              <Row>
+                <Col span="3">期望职业：</Col>
+                <Col span="6">{{resumeIntention.expectPost}}</Col>
+              </Row>
               </Col>
             </Row>
-          </Col>
-          
-          <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;" @click="jobIntention = !jobIntention">
-            <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
-        </Row>
+            </Col>
+
+            <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;"  @click="editResumeInfo">
+              <svg-icon icon-class="edit"/>&nbsp;编辑</span></Col>
+          </Row>
         </div>
         <Row v-show="jobIntention" class="userInfo_edit">
           <Col>
-            <Form ref="form2Validate" :model="form2Validate" label-position="left" :rules="rule2Validate" :label-width="100">
-              <FormItem label="工作性质" prop="workCharacter">
-                <Checkbox-group :model.sync="form2Validate.workCharacter">
-                    <Checkbox value="1">全职</Checkbox>
-                    <Checkbox value="2">兼职</Checkbox>
-                    <Checkbox value="3">实习</Checkbox>
-                </Checkbox-group>
-              </FormItem>
-              <FormItem label="期望地点" prop="expectPlace">
-                <Input v-model="form2Validate.expectPlace"></Input>
-              </FormItem>
-              <FormItem label="期望行业" prop="expectJob">
-                <Input v-model="form2Validate.expectwork"></Input>
-              </FormItem>
-              <FormItem label="期望职业" prop="expectJob">
-                <Input v-model="form2Validate.expectwork"></Input>
-              </FormItem>
-              <FormItem label="税前月薪" prop="expectSalary">
-                <Select v-model="form2Validate.expectSalary">
-                  <Option value="1">1000元/月以下</Option>
-                  <Option value="2">1000-2000元/月</Option>
-                  <Option value="3">2001-4000元/月</Option>
-                  <Option value="4">4001-6000元/月</Option>
-                  <Option value="5">6001-8000元/月</Option>
-                  <Option value="6">8001-10000元/月</Option>
-                  <Option value="7">10001-15000元/月</Option>
-                  <Option value="8">15001-20000元/月</Option>
-                  <Option value="9">20000元/月以上</Option>
-                </Select>
-              </FormItem>
-              <FormItem>
-                <Button type="primary" @click="handleSubmit('form2Validate')">提交</Button>
-                <Button @click="jobIntention = !jobIntention" style="margin-left: 8px">取消</Button>
-              </FormItem>
-            </Form>
+          <Form ref="form2Validate" :model="form2Validate" label-position="left" :rules="rule2Validate" :label-width="100">
+            <FormItem label="工作性质" prop="workCharacter">
+              <Checkbox-group :model.sync="form2Validate.workCharacter">
+                <Checkbox value="1">全职</Checkbox>
+                <Checkbox value="2">兼职</Checkbox>
+                <Checkbox value="3">实习</Checkbox>
+              </Checkbox-group>
+            </FormItem>
+            <FormItem label="期望地点" prop="expectPlace">
+              <Input v-model="form2Validate.expectPlace"></Input>
+            </FormItem>
+            <FormItem label="期望行业" prop="expectJob">
+              <Input v-model="form2Validate.expectwork"></Input>
+            </FormItem>
+            <FormItem label="期望职业" prop="expectJob">
+              <Input v-model="form2Validate.expectwork"></Input>
+            </FormItem>
+            <FormItem label="税前月薪" prop="expectSalary">
+              <Select v-model="form2Validate.expectSalary">
+                <Option value="1">1000元/月以下</Option>
+                <Option value="2">1000-2000元/月</Option>
+                <Option value="3">2001-4000元/月</Option>
+                <Option value="4">4001-6000元/月</Option>
+                <Option value="5">6001-8000元/月</Option>
+                <Option value="6">8001-10000元/月</Option>
+                <Option value="7">10001-15000元/月</Option>
+                <Option value="8">15001-20000元/月</Option>
+                <Option value="9">20000元/月以上</Option>
+              </Select>
+            </FormItem>
+            <FormItem>
+              <Button type="primary" @click="submitUserInfo('form2Validate')">提交</Button>
+              <Button @click="jobIntention = !jobIntention" style="margin-left: 8px">取消</Button>
+            </FormItem>
+          </Form>
           </Col>
         </Row>
         <div style="margin:20px 0 0 20px;font-size:18px;">项目经验</div>
@@ -296,8 +303,8 @@ export default {
           { required: true, message: '请选择税前月薪', trigger: 'change' }
         ]
       },
-      resumeInfo:[],
-      resumeIntention:[]
+      resumeInfo: [],
+      resumeIntention: []
     };
   },
   watch: {
@@ -305,38 +312,96 @@ export default {
   components: {},
   computed: {},
   methods: {
-    handleSubmit (name) {
+    // 点击编辑按钮，获取用户信息
+    editUserInfo () {
+      API.queryUserInfoById({
+        userId: sessionStorage.getItem('userId')
+      }).then(res => {
+        if (res.code == 200) {
+          this.form2Validate = res.result;
+          this.userInfo = !this.userInfo
+        }
+      });
+    },
+    // 提交用户信息
+    submitUserInfo (name) {
       this.$refs[name].validate((valid) => {
-        if (valid) {
-          this.$Message.success('Success!');
+        if (valid) { //form1Validate
+          API.queryUserInfoById({
+            userId: sessionStorage.getItem('userId'),
+            userInfo: form1Validate
+          }).then(res => {
+            if (res.code == 200) {
+              this.userInfo = !this.userInfo;
+              this.$Message.success('Success!');
+            }
+          });
         } else {
           this.$Message.error('Fail!');
         }
       })
     },
-    initData () {
+    // 获取用户简历信息
+    editResumeInfo () {
       API.resumeInfo({
-        userId:'1',
+        userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
-          let _data = res.result;
-          this.resumeInfo = _data;
-          console.log(_data);
+          this.form2Validate = res.result;
+          this.jobIntention = !this.jobIntention
         }
       });
-      API.resumeIntention({
-         userId:'1',
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          this.resumeIntention = _data;
-          console.log(_data);
+    },
+    // 提交用户简历信息
+    submitUserInfo (name) {
+      this.$refs[name].validate((valid) => {
+        if (valid) { //form2Validate
+          API.queryUserInfoById({
+            userId: sessionStorage.getItem('userId'),
+            userInfo: form2Validate
+          }).then(res => {
+            if (res.code == 200) {
+              this.userInfo = !this.userInfo;
+              this.$Message.success('Success!');
+            }
+          });
+        } else {
+          this.$Message.error('Fail!');
         }
-      });
+      })
+    },
+    // handleSubmit (name) {
+    //   this.$refs[name].validate((valid) => {
+    //     if (valid) {
+    //       this.$Message.success('Success!');
+    //     } else {
+    //       this.$Message.error('Fail!');
+    //     }
+    //   })
+    // },
+    initData () {
+      // API.resumeInfo({
+      //   userId: '1',
+      // }).then(res => {
+      //   if (res.code == 200) {
+      //     let _data = res.result;
+      //     this.resumeInfo = _data;
+      //     console.log(_data);
+      //   }
+      // });
+      // API.resumeIntention({
+      //   userId: '1',
+      // }).then(res => {
+      //   if (res.code == 200) {
+      //     let _data = res.result;
+      //     this.resumeIntention = _data;
+      //     console.log(_data);
+      //   }
+      // });
     }
   },
   created () {
-     this.initData();
+    this.initData();
   }
 };
 </script>
