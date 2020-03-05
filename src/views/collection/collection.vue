@@ -55,11 +55,11 @@ export default {
   methods: {
     initData () {
       API.collection({
-
+        // userId:sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
-          this.collectionData = _data;
+          this.collectionData = _data;          
         }
       });
     }
