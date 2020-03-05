@@ -32,7 +32,7 @@ export default {
   name: "login",
   data () {
     return {
-      userType: localStorage.getItem('userType') || 1,
+      userType: sessionStorage.getItem('userType') || 1,
       formValidate: {
         userName: '1',
         password: '1'
@@ -62,7 +62,7 @@ export default {
           //   if (res.code == 200) {
               this.$router.push('home');
               this.$Message.success('Success!');
-              localStorage.setItem('userType',this.userType);
+              sessionStorage.setItem('userType',this.userType);
           //   }
           // });
         } else {

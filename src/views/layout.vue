@@ -30,7 +30,7 @@
         <Menu mode="horizontal" theme="light" active-name="1" @on-select="handleSelected" width="1000px">
           <div class="layout-nav">
             <MenuItem name="home">
-            <Icon type="ios-navigate" />企业首页
+            <Icon type="ios-navigate" />首页
             </MenuItem>
             <MenuItem name="searchJob">
             <Icon type="md-briefcase" />查看简历
@@ -93,7 +93,7 @@ export default {
   },
   data () {
     return {
-      userType: localStorage.getItem('userType') || 1,
+      userType: sessionStorage.getItem('userType') || 1,
     };
   },
   components: {
