@@ -162,25 +162,25 @@
             </Row>
             </Col>
 
-            <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;"  @click="editResumeInfo">
-              <svg-icon icon-class="edit"/>&nbsp;编辑</span></Col>
+            <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editResumeInfo">
+              <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
           </Row>
         </div>
         <Row v-show="jobIntention" class="userInfo_edit">
           <Col>
           <Form ref="form2Validate" :model="form2Validate" label-position="left" :rules="rule2Validate" :label-width="100">
             <FormItem label="工作性质" prop="workCharacter">
-              <Checkbox-group :model.sync="form2Validate.workCharacter">
-                <Checkbox value="1">全职</Checkbox>
-                <Checkbox value="2">兼职</Checkbox>
-                <Checkbox value="3">实习</Checkbox>
-              </Checkbox-group>
+              <RadioGroup v-model="form2Validate.workCharacter">
+                <Radio label="1">全职</Radio>
+                <Radio label="2">兼职</Radio>
+                <Radio label="3">实习</Radio>
+              </RadioGroup>
             </FormItem>
             <FormItem label="期望地点" prop="expectPlace">
               <Input v-model="form2Validate.expectPlace"></Input>
             </FormItem>
             <FormItem label="期望行业" prop="expectJob">
-              <Input v-model="form2Validate.expectwork"></Input>
+              <Input v-model="form2Validate.expectJob"></Input>
             </FormItem>
             <FormItem label="期望职业" prop="expectJob">
               <Input v-model="form2Validate.expectwork"></Input>
@@ -199,7 +199,7 @@
               </Select>
             </FormItem>
             <FormItem>
-              <Button type="primary" @click="submitUserInfo('form2Validate')">提交</Button>
+              <Button type="primary" @click="submitResumeInfo('form2Validate')">提交</Button>
               <Button @click="jobIntention = !jobIntention" style="margin-left: 8px">取消</Button>
             </FormItem>
           </Form>
@@ -270,7 +270,7 @@ export default {
         ],
         phone: [
           { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { type: 'phone', message: '手机号码格式不正确', trigger: 'blur' }
+          // { type: 'phone', message: '手机号码格式不正确', trigger: 'blur' }
         ],
         mail: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
@@ -284,11 +284,12 @@ export default {
         workCharacter: '',
         expectPlace: '',
         expectJob: '',
+        expectwork:'',
         expectSalary: '',
       },
       rule2Validate: {
         workCharacter: [
-          { required: true, type: 'array', min: 1, message: '至少选择一项', trigger: 'change' }
+          { required: true, message: '请选择工作性质', trigger: 'change' }
         ],
         expectPlace: [
           { required: true, message: '请输入期望地点', trigger: 'blur' }
@@ -308,6 +309,7 @@ export default {
     };
   },
   watch: {
+    
   },
   components: {},
   computed: {},
@@ -319,17 +321,18 @@ export default {
       }).then(res => {
         if (res.code == 200) {
           this.form2Validate = res.result;
-          this.userInfo = !this.userInfo
         }
+        this.userInfo = !this.userInfo
       });
     },
     // 提交用户信息
     submitUserInfo (name) {
       this.$refs[name].validate((valid) => {
-        if (valid) { //form1Validate
+        if (valid) {
+          console.log(this.form1Validate)
           API.updateJobIntention({
             userId: sessionStorage.getItem('userId'),
-            userInfo: form1Validate
+            userInfo: this.form1Validate
           }).then(res => {
             if (res.code == 200) {
               this.userInfo = !this.userInfo;
@@ -353,15 +356,16 @@ export default {
       });
     },
     // 提交用户简历信息
-    submitUserInfo (name) {
+    submitResumeInfo (name) {
       this.$refs[name].validate((valid) => {
-        if (valid) { //form2Validate
+        if (valid) {
+          console.log(this.form2Validate)
           API.updateUserInfo({
             userId: sessionStorage.getItem('userId'),
-            userInfo: form2Validate
+            jobIntention: this.form2Validate
           }).then(res => {
             if (res.code == 200) {
-              this.userInfo = !this.userInfo;
+              this.jobIntention = !this.jobIntention;
               this.$Message.success('Success!');
             }
           });
