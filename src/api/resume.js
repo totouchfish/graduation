@@ -20,10 +20,15 @@ export function queryUserInfoById(arg) {
   export function updateJobIntention(arg) {
     return request.post('/resume/updateJobIntention', arg)
   }
-  // 这是什么接口
+  //显示用户信息
   export function resumeIntention(arg) {
     return request.post('/resume/queryJobIntention', arg)
   }
+  //显示用户职位意向
+  export function resumeInfo(arg) {
+    return request.post('/resume/queryUserInfo', arg)
+  }
+
 
 
 

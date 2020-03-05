@@ -8,10 +8,10 @@
           <div class="login_title">大学生招聘网站{{userType == 1 ?'用户':userType == 2 ? '企业':'管理员'}}登录</div>
           <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="70" class="login_content">
             <FormItem label="用户名" prop="userName">
-              <Input prefix="ios-contact" size="large" v-model="formValidate.userName"></Input>
+              <Input prefix="ios-contact" size="large" v-model="formValidate.userName"/>
             </FormItem>
             <FormItem label="密码" prop="password" style="margin-top:40px;">
-              <Input prefix="ios-key" userType="password" size="large" v-model="formValidate.password"></Input>
+              <Input prefix="ios-key" userType="password" size="large" v-model="formValidate.password"/>
             </FormItem>
             <FormItem>
               <Button userType="primary" @click="submit('formValidate')" class="login_button">登&emsp;录</Button>
@@ -34,8 +34,8 @@ export default {
     return {
       userType: sessionStorage.getItem('userType') || 1,
       formValidate: {
-        userName: '1',
-        password: '1'
+        userName: '',
+        password: ''
       },
       ruleValidate: {
         userName: [
@@ -54,17 +54,17 @@ export default {
     submit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          // API.collection({
-          //   userName: this.formValidate.userName,
-          //   password: this.formValidate.password,
-          //   userType: this.userType
-          // }).then(res => {
-          //   if (res.code == 200) {
+          API.login({
+            userName: this.formValidate.userName,
+            userPwd: this.formValidate.password,
+            userType: this.userType
+          }).then(res => {
+            if (res.code == 200) {
               this.$router.push('home');
               this.$Message.success('Success!');
               sessionStorage.setItem('userType',this.userType);
-          //   }
-          // });
+            }
+          });
         } else {
           this.$Message.error('Fail!');
         }

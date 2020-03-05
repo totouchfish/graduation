@@ -13,5 +13,5 @@ export function collection(arg) {
  * @param {*} arg 
  */
 export function login(arg) {
-  return request.post('/login/login', arg)
+  return request.post('/jobSeeker/login', arg)
 }
