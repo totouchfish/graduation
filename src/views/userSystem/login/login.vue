@@ -34,8 +34,8 @@ export default {
     return {
       userType: sessionStorage.getItem('userType') || 1,
       formValidate: {
-        userName: '1',
-        password: '1'
+        userName: 'kong',
+        password: '123456'
       },
       ruleValidate: {
         userName: [
@@ -54,17 +54,18 @@ export default {
     submit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          // API.login({
-          //   userName: this.formValidate.userName,
-          //   userPwd: this.formValidate.password,
-          //   userType: this.userType
-          // }).then(res => {
-          //   if (res.code == 200) {
+          API.login({
+            userName: this.formValidate.userName,
+            userPwd: this.formValidate.password,
+            userType: this.userType
+          }).then(res => {
+            if (res.code == 200) {
               this.$router.push('home');
               this.$Message.success('登录成功！');
               sessionStorage.setItem('userType',this.userType);
-          //   }
-          // });
+              sessionStorage.setItem('userId',res.result);
+            }
+          });
         } else {
           this.$Message.error('Fail!');
         }

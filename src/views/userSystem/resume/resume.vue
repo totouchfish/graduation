@@ -162,7 +162,7 @@
             </Row>
             </Col>
 
-            <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;"  @click="editResumeInfo">
+            <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;"  @click="editJobIntention">
               <svg-icon icon-class="edit"/>&nbsp;编辑</span></Col>
           </Row>
         </div>
@@ -180,10 +180,10 @@
               <Input v-model="form2Validate.expectPlace"></Input>
             </FormItem>
             <FormItem label="期望行业" prop="expectJob">
-              <Input v-model="form2Validate.expectwork"></Input>
+              <Input v-model="form2Validate.expectJob"></Input>
             </FormItem>
-            <FormItem label="期望职业" prop="expectJob">
-              <Input v-model="form2Validate.expectwork"></Input>
+            <FormItem label="期望职业" prop="expectPost">
+              <Input v-model="form2Validate.expectPost"></Input>
             </FormItem>
             <FormItem label="税前月薪" prop="expectSalary">
               <Select v-model="form2Validate.expectSalary">
@@ -199,7 +199,7 @@
               </Select>
             </FormItem>
             <FormItem>
-              <Button type="primary" @click="submitUserInfo('form2Validate')">提交</Button>
+              <Button type="primary" @click="submitJobIntention('form2Validate')">提交</Button>
               <Button @click="jobIntention = !jobIntention" style="margin-left: 8px">取消</Button>
             </FormItem>
           </Form>
@@ -284,6 +284,7 @@ export default {
         workCharacter: '',
         expectPlace: '',
         expectJob: '',
+        expectPost:'',
         expectSalary: '',
       },
       rule2Validate: {
@@ -296,7 +297,7 @@ export default {
         expectJob: [
           { required: true, message: '请选择期望行业', trigger: 'change' }
         ],
-        expectwork: [
+        expectPost: [
           { required: true, message: '请选择期望职业', trigger: 'change' }
         ],
         expectSalary: [
@@ -314,21 +315,22 @@ export default {
   methods: {
     // 点击编辑按钮，获取用户信息
     editUserInfo () {
-      API.queryJobIntentionById({
-        userId: sessionStorage.getItem('userId')
+      API.queryUserInfoById({
+        id:1,
+        //userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
-          this.form2Validate = res.result;
-          this.userInfo = !this.userInfo
+          this.form1Validate = res.result;
         }
+        this.userInfo = !this.userInfo
       });
     },
     // 提交用户信息
     submitUserInfo (name) {
       this.$refs[name].validate((valid) => {
         if (valid) { //form1Validate
-          API.updateJobIntention({
-            userId: sessionStorage.getItem('userId'),
+          API.updateUserInfo({
+            //userId: sessionStorage.getItem('userId'),
             userInfo: form1Validate
           }).then(res => {
             if (res.code == 200) {
@@ -342,9 +344,10 @@ export default {
       })
     },
     // 获取用户简历信息
-    editResumeInfo () {
-      API.queryUserInfoById({
-        userId: sessionStorage.getItem('userId')
+    editJobIntention () {
+      API.queryJobIntentionById({
+        //userId: sessionStorage.getItem('userId')
+        id:1,
       }).then(res => {
         if (res.code == 200) {
           this.form2Validate = res.result;
@@ -353,11 +356,11 @@ export default {
       });
     },
     // 提交用户简历信息
-    submitUserInfo (name) {
+    submitJobIntention (name) {
       this.$refs[name].validate((valid) => {
         if (valid) { //form2Validate
-          API.updateUserInfo({
-            userId: sessionStorage.getItem('userId'),
+          API.updateJobIntention({
+           // userId: sessionStorage.getItem('userId'),
             userInfo: form2Validate
           }).then(res => {
             if (res.code == 200) {
