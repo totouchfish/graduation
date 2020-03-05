@@ -380,24 +380,24 @@ export default {
     //   })
     // },
     initData () {
-      // API.resumeInfo({
-      //   userId: '1',
-      // }).then(res => {
-      //   if (res.code == 200) {
-      //     let _data = res.result;
-      //     this.resumeInfo = _data;
-      //     console.log(_data);
-      //   }
-      // });
-      // API.resumeIntention({
-      //   userId: '1',
-      // }).then(res => {
-      //   if (res.code == 200) {
-      //     let _data = res.result;
-      //     this.resumeIntention = _data;
-      //     console.log(_data);
-      //   }
-      // });
+      API.resumeInfo({
+        userId: '1',
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          this.resumeInfo = _data;
+          console.log(_data);
+        }
+      });
+      API.resumeIntention({
+        userId: '1',
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          this.resumeIntention = _data;
+          console.log(_data);
+        }
+      });
     }
   },
   created () {
