@@ -25,10 +25,18 @@ export function queryUserInfoById(arg) {
     return request.post('/resume/queryJobIntention', arg)
   }
   //显示用户职位意向
-  export function resumeInfo(arg) {
+  export function queryUserInfo(arg) {
     return request.post('/resume/queryUserInfo', arg)
   }
 
+  // 获取全国所有省份
+  export function getProvince(arg) {
+    return request.post('/china/province', arg)
+  }
+  //显示用户职位意向
+  export function getCity(arg) {
+    return request.post('/china/city', arg)
+  }
 
 
 

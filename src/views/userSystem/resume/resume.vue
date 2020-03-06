@@ -33,6 +33,7 @@
             <Col span="2" offset="4"><span class="edit" @click="editUserInfo">
               <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
           </Row>
+          
         </div>
         <Row v-show="userInfo" class="userInfo_edit">
           <Col>
@@ -66,18 +67,14 @@
                 <Col span="7">
                 <FormItem prop="birthProvince">
                   <Select v-model="form1Validate.birthProvince" placeholder="请选择户口所在省份" style="widt：30%;">
-                    <Option value="beijing">北京</Option>
-                    <Option value="shanghai">上海</Option>
-                    <Option value="shenzhen">深圳</Option>
+                    <Option v-for="(item,index) in provinceData" :key="index" :value="item.id">{{item.name}}</Option>
                   </Select>
                 </FormItem>
                 </Col>
                 <Col span="7" offset="1">
                 <FormItem prop="birthCity">
                   <Select v-model="form1Validate.birthCity" placeholder="请选择户口所在城市" style="widt：30%;">
-                    <Option value="beijing">北京</Option>
-                    <Option value="shanghai">上海</Option>
-                    <Option value="shenzhen">深圳</Option>
+                    <Option v-for="(item,index) in cityData1" :key="index" :value="item.id">{{item.name}}</Option>
                   </Select>
                 </FormItem>
                 </Col>
@@ -88,27 +85,21 @@
                 <Col span="8">
                 <FormItem prop="liveProvince">
                   <Select v-model="form1Validate.liveProvince" placeholder="请选择现居住省份">
-                    <Option value="beijing">New York</Option>
-                    <Option value="shanghai">London</Option>
-                    <Option value="shenzhen">Sydney</Option>
+                    <Option v-for="(item,index) in provinceData" :key="index" :value="item.id">{{item.name}}</Option>
                   </Select>
                 </FormItem>
                 </Col>
                 <Col span="7" offset="1">
                 <FormItem prop="liveCity">
                   <Select v-model="form1Validate.liveCity" placeholder="请选择现居住城市">
-                    <Option value="beijing">New York</Option>
-                    <Option value="shanghai">London</Option>
-                    <Option value="shenzhen">Sydney</Option>
+                    <Option v-for="(item,index) in cityData2" :key="index" :value="item.id">{{item.name}}</Option>
                   </Select>
                 </FormItem>
                 </Col>
                 <Col span="7" offset="1">
                 <FormItem prop="liveCounty">
                   <Select v-model="form1Validate.liveCounty" placeholder="请选择现居住县区">
-                    <Option value="beijing">New York</Option>
-                    <Option value="shanghai">London</Option>
-                    <Option value="shenzhen">Sydney</Option>
+                    <Option v-for="(item,index) in countyData" :key="index" :value="item.id">{{item.name}}</Option>
                   </Select>
                 </FormItem>
                 </Col>
@@ -162,19 +153,19 @@
             </Row>
             </Col>
 
-            <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;"  @click="editJobIntention">
-              <svg-icon icon-class="edit"/>&nbsp;编辑</span></Col>
+            <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editResumeInfo">
+              <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
           </Row>
         </div>
         <Row v-show="jobIntention" class="userInfo_edit">
           <Col>
           <Form ref="form2Validate" :model="form2Validate" label-position="left" :rules="rule2Validate" :label-width="100">
             <FormItem label="工作性质" prop="workCharacter">
-              <Checkbox-group :model.sync="form2Validate.workCharacter">
-                <Checkbox value="1">全职</Checkbox>
-                <Checkbox value="2">兼职</Checkbox>
-                <Checkbox value="3">实习</Checkbox>
-              </Checkbox-group>
+              <RadioGroup v-model="form2Validate.workCharacter">
+                <Radio label="1">全职</Radio>
+                <Radio label="2">兼职</Radio>
+                <Radio label="3">实习</Radio>
+              </RadioGroup>
             </FormItem>
             <FormItem label="期望地点" prop="expectPlace">
               <Input v-model="form2Validate.expectPlace"></Input>
@@ -199,7 +190,7 @@
               </Select>
             </FormItem>
             <FormItem>
-              <Button type="primary" @click="submitJobIntention('form2Validate')">提交</Button>
+              <Button type="primary" @click="submitResumeInfo('form2Validate')">提交</Button>
               <Button @click="jobIntention = !jobIntention" style="margin-left: 8px">取消</Button>
             </FormItem>
           </Form>
@@ -226,7 +217,12 @@ export default {
       jobIntention: false,
       projectExp: false,
       educationExp: false,
+      provinceData:[],
+      cityData1:[],
+      cityData2:[],
+      countyData:[],
       form1Validate: {
+        id:'',
         name: '',
         gender: '',
         birthDate: '',
@@ -254,23 +250,23 @@ export default {
           { required: true, type: 'date', message: '请选择日期', trigger: 'change' }
         ],
         birthProvince: [
-          { required: true, type: 'string', message: '请选择户口所省份', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择户口所省份', trigger: 'change' }
         ],
         birthCity: [
-          { required: true, type: 'string', message: '请选择户口所城市', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择户口所城市', trigger: 'change' }
         ],
         liveProvince: [
-          { required: true, type: 'string', message: '请选择现居住省份', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择现居住省份', trigger: 'change' }
         ],
         liveCity: [
-          { required: true, type: 'string', message: '请选择现居住城市', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择现居住城市', trigger: 'change' }
         ],
         liveCounty: [
-          { required: true, type: 'string', message: '请选择现居住县区', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择现居住县区', trigger: 'change' }
         ],
         phone: [
           { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { type: 'phone', message: '手机号码格式不正确', trigger: 'blur' }
+          // { type: 'phone', message: '手机号码格式不正确', trigger: 'blur' }
         ],
         mail: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
@@ -281,15 +277,16 @@ export default {
         ],
       },
       form2Validate: {
+        id:'',
         workCharacter: '',
         expectPlace: '',
         expectJob: '',
-        expectPost:'',
+        expectwork:'',
         expectSalary: '',
       },
       rule2Validate: {
         workCharacter: [
-          { required: true, type: 'array', min: 1, message: '至少选择一项', trigger: 'change' }
+          { required: true, message: '请选择工作性质', trigger: 'change' }
         ],
         expectPlace: [
           { required: true, message: '请输入期望地点', trigger: 'blur' }
@@ -309,18 +306,68 @@ export default {
     };
   },
   watch: {
+    'form1Validate.birthProvince':function(val){
+      // 如果是四个直辖市,第二级选择为对应区
+      if(val == 110000) val = 110100;
+      if(val == 120000) val = 120100;
+      if(val == 310000) val = 310100;
+      if(val == 500000) val = 500100;
+      if(val){
+        this.getCity(val, 1);
+      }
+    },
+    'form1Validate.liveProvince':function(val){
+      if(val){
+        this.getCity(val, 2);
+      }
+    },
+    'form1Validate.liveCity':function(val){
+      if(val){
+        this.getCounty(val);
+      }
+    }
   },
   components: {},
   computed: {},
   methods: {
+    // 获取全国各省
+    getProvince () {
+      API.getProvince().then(res => {
+        if (res.code == 200) {
+          this.provinceData = res.result;
+        }
+      });
+    },
+    // 获取对应省份下的各市
+    getCity (val, type) {
+      API.getCity({
+        pid: val,
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          type == 1 ? this.cityData1 = _data : this.cityData2 = _data;
+        }
+      });
+    },
+    // 获取对应市下的各个区县
+    getCounty (val) {
+      API.getCity({
+        pid: val,
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          this.countyData = res.result;
+        }
+      });
+    },
     // 点击编辑按钮，获取用户信息
     editUserInfo () {
       API.queryUserInfoById({
-        id:1,
-        //userId: sessionStorage.getItem('userId')
+        userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
-          this.form1Validate = res.result;
+          let _data = res.result;
+          this.form1Validate = _data;
         }
         this.userInfo = !this.userInfo
       });
@@ -328,10 +375,11 @@ export default {
     // 提交用户信息
     submitUserInfo (name) {
       this.$refs[name].validate((valid) => {
-        if (valid) { //form1Validate
-          API.updateUserInfo({
-            //userId: sessionStorage.getItem('userId'),
-            userInfo: form1Validate
+        if (valid) {
+          console.log(this.form1Validate)
+          API.updateJobIntention({
+            userId: sessionStorage.getItem('userId'),
+            userInfo: this.form1Validate
           }).then(res => {
             if (res.code == 200) {
               this.userInfo = !this.userInfo;
@@ -344,10 +392,10 @@ export default {
       })
     },
     // 获取用户简历信息
-    editJobIntention () {
+    editResumeInfo () {
       API.queryJobIntentionById({
-        //userId: sessionStorage.getItem('userId')
-        id:1,
+        userId: sessionStorage.getItem('userId')
+       
       }).then(res => {
         if (res.code == 200) {
           this.form2Validate = res.result;
@@ -356,15 +404,16 @@ export default {
       });
     },
     // 提交用户简历信息
-    submitJobIntention (name) {
+    submitResumeInfo (name) {
       this.$refs[name].validate((valid) => {
-        if (valid) { //form2Validate
-          API.updateJobIntention({
-           // userId: sessionStorage.getItem('userId'),
-            userInfo: form2Validate
+        if (valid) {
+          console.log(this.form2Validate)
+          API.updateUserInfo({
+            userId: sessionStorage.getItem('userId'),
+            jobIntention: this.form2Validate
           }).then(res => {
             if (res.code == 200) {
-              this.userInfo = !this.userInfo;
+              this.jobIntention = !this.jobIntention;
               this.$Message.success('Success!');
             }
           });
@@ -373,38 +422,40 @@ export default {
         }
       })
     },
-    // handleSubmit (name) {
-    //   this.$refs[name].validate((valid) => {
-    //     if (valid) {
-    //       this.$Message.success('Success!');
-    //     } else {
-    //       this.$Message.error('Fail!');
-    //     }
-    //   })
-    // },
     initData () {
-      API.resumeInfo({
-        userId: '1',
+      API.queryUserInfo({
+        userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
+          // 200 代表此用户已经填写过用户信息，
+          // 显示展示数据的div
+          // this.userInfo = false;
           let _data = res.result;
           this.resumeInfo = _data;
           console.log(_data);
+        } else {
+          // 900 代表用户还没录入过信息
+          // 显示数据填写的div
+          // this.userInfo = true;
         }
       });
       API.resumeIntention({
-        userId: '1',
+        userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
           this.resumeIntention = _data;
+          // this.jobIntention = false;
           console.log(_data);
+        }else {
+          // tthis.jobIntention = true;
         }
       });
     }
   },
   created () {
     this.initData();
+    this.getProvince();
   }
 };
 </script>

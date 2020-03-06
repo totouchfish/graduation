@@ -56,7 +56,7 @@
             <MenuItem name="home">
             <Icon type="ios-navigate" />管理员首页
             </MenuItem>
-            <MenuItem name="searchJob">
+            <!-- <MenuItem name="searchJob">
             <Icon type="md-briefcase" />行业
             </MenuItem>
             <MenuItem name="resume">
@@ -67,7 +67,7 @@
             </MenuItem>
             <MenuItem name="collection">
             <Icon type="md-heart" />职位收藏
-            </MenuItem>
+            </MenuItem> -->
             <MenuItem name="personal">
             <Icon type="ios-keypad" />个人中心
             </MenuItem>
