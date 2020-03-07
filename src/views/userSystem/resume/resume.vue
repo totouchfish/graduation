@@ -7,12 +7,17 @@
         </div>
       </Header>
       <Content class="content">
-        <div class="resumeUserInfo" v-bind="resumeInfo">
-            <div style="margin:20px;font-size:18px;">个人信息 </div> 
-            
-          <Row  v-show="!userInfo" class="userInfo_show">
-              <Col span="4" style="width:135px;">
-              <img src="@/assets/images/man.jpg" class="manImage">
+        <div class="resumeUserInfo">
+          <div style="margin:20px;font-size:18px;">个人信息</div>
+          <Row v-show="!userInfo" class="userInfo_show">
+            <Col span="4" style="width:135px;">
+            <img src="@/assets/images/man.jpg" class="manImage">
+            </Col>
+            <Col span="14">
+            <Row>
+              <Col span="14" style="padding-top:5px;">
+              <span style="font-size:24px;padding-right:20px;">{{resumeInfo.name}}</span>
+              <span>更新时间:</span>&emsp;<span>2020-02-16 17:07</span>
               </Col>
               <Col span="14">
               <Row>
@@ -35,101 +40,100 @@
             <Col span="2" offset="4"><span class="edit" @click="editUserInfo">
               <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
           </Row>
-          
+          <Row v-show="userInfo" class="userInfo_edit">
+            <Col>
+            <Form ref="form1Validate" :model="form1Validate" label-position="left" :rules="rule1Validate" :label-width="100">
+              <Row>
+                <Col span="10">
+                <FormItem label="姓名" prop="name">
+                  <Input v-model="form1Validate.name" style="width:194px;"></Input>
+                </FormItem>
+                <FormItem label="性别" prop="gender">
+                  <RadioGroup v-model="form1Validate.gender">
+                    <Radio label="1">男</Radio>
+                    <Radio label="2">女</Radio>
+                  </RadioGroup>
+                </FormItem>
+                <FormItem label="出生年月" prop="birthDate">
+                  <DatePicker type="date" v-model="form1Validate.birthDate"></DatePicker>
+                </FormItem>
+                <FormItem label="参加工作时间" prop="workDate">
+                  <DatePicker type="date" v-model="form1Validate.workDate"></DatePicker>
+                </FormItem>
+                </Col>
+                <Col span="6" offset="8">
+                <span>选择文件</span>
+                <img src="@/assets/images/man.jpg" style="width:100px;height:100px;">
+                <p>只支持JPG格式,大小不要超过500k 建议使用一寸证件照70*100像素</p>
+                </Col>
+              </Row>
+              <FormItem label="户口所在地" prop="address">
+                <Row>
+                  <Col span="7">
+                  <FormItem prop="birthProvince">
+                    <Select v-model="form1Validate.birthProvince" placeholder="请选择户口所在省份" style="widt：30%;">
+                      <Option v-for="(item,index) in provinceData" :key="index" :value="item.id">{{item.name}}</Option>
+                    </Select>
+                  </FormItem>
+                  </Col>
+                  <Col span="7" offset="1">
+                  <FormItem prop="birthCity">
+                    <Select v-model="form1Validate.birthCity" placeholder="请选择户口所在城市" style="widt：30%;">
+                      <Option v-for="(item,index) in cityData1" :key="index" :value="item.id">{{item.name}}</Option>
+                    </Select>
+                  </FormItem>
+                  </Col>
+                </Row>
+              </FormItem>
+              <FormItem label="现居住城市">
+                <Row>
+                  <Col span="8">
+                  <FormItem prop="liveProvince">
+                    <Select v-model="form1Validate.liveProvince" placeholder="请选择现居住省份">
+                      <Option v-for="(item,index) in provinceData" :key="index" :value="item.id">{{item.name}}</Option>
+                    </Select>
+                  </FormItem>
+                  </Col>
+                  <Col span="7" offset="1">
+                  <FormItem prop="liveCity">
+                    <Select v-model="form1Validate.liveCity" placeholder="请选择现居住城市">
+                      <Option v-for="(item,index) in cityData2" :key="index" :value="item.id">{{item.name}}</Option>
+                    </Select>
+                  </FormItem>
+                  </Col>
+                  <Col span="7" offset="1">
+                  <FormItem prop="liveCounty">
+                    <Select v-model="form1Validate.liveCounty" placeholder="请选择现居住县区">
+                      <Option v-for="(item,index) in countyData" :key="index" :value="item.id">{{item.name}}</Option>
+                    </Select>
+                  </FormItem>
+                  </Col>
+                </Row>
+              </FormItem>
+              <FormItem label="联系方式" prop="phone">
+                <Input v-model="form1Validate.phone"></Input>
+              </FormItem>
+              <FormItem label="电子邮箱" prop="mail">
+                <Input v-model="form1Validate.mail"></Input>
+              </FormItem>
+              <FormItem label="政治面貌" prop="identity">
+                <Select v-model="form1Validate.identity">
+                  <Option value="1">中共党员(含预备党员)</Option>
+                  <Option value="2">团员</Option>
+                  <Option value="3">民主党派</Option>
+                  <Option value="4">无党派人士</Option>
+                </Select>
+              </FormItem>
+              <FormItem>
+                <Button type="primary" @click="submitUserInfo('form1Validate')">提交</Button>
+                <Button @click="userInfo = !userInfo;form1Validate = [];" style="margin-left: 8px">取消</Button>
+              </FormItem>
+            </Form>
+            </Col>
+            <!-- <Col span="2" offset="4"><span class="edit"><svg-icon icon-class="edit" />&nbsp;新增</span></Col> -->
+          </Row>
         </div>
-        <Row v-show="userInfo" class="userInfo_edit">
-          <Col>
-          <Form ref="form1Validate" :model="form1Validate" label-position="left" :rules="rule1Validate" :label-width="100">
-            <Row>
-              <Col span="10">
-              <FormItem label="姓名" prop="name">
-                <Input v-model="form1Validate.name" style="width:194px;"></Input>
-              </FormItem>
-              <FormItem label="性别" prop="gender">
-                <RadioGroup v-model="form1Validate.gender">
-                  <Radio label="male">男</Radio>
-                  <Radio label="female">女</Radio>
-                </RadioGroup>
-              </FormItem>
-              <FormItem label="出生年月" prop="birthDate">
-                <DatePicker type="date" v-model="form1Validate.birthDate"></DatePicker>
-              </FormItem>
-              <FormItem label="参加工作时间" prop="workDate">
-                <DatePicker type="date" v-model="form1Validate.workDate"></DatePicker>
-              </FormItem>
-              </Col>
-              <Col span="6" offset="8">
-              <span>选择文件</span>
-              <img src="@/assets/images/man.jpg" style="width:100px;height:100px;">
-              <p>只支持JPG格式,大小不要超过500k 建议使用一寸证件照70*100像素</p>
-              </Col>
-            </Row>
-            <FormItem label="户口所在地" prop="address">
-              <Row>
-                <Col span="7">
-                <FormItem prop="birthProvince">
-                  <Select v-model="form1Validate.birthProvince" placeholder="请选择户口所在省份" style="widt：30%;">
-                    <Option v-for="(item,index) in provinceData" :key="index" :value="item.id">{{item.name}}</Option>
-                  </Select>
-                </FormItem>
-                </Col>
-                <Col span="7" offset="1">
-                <FormItem prop="birthCity">
-                  <Select v-model="form1Validate.birthCity" placeholder="请选择户口所在城市" style="widt：30%;">
-                    <Option v-for="(item,index) in cityData1" :key="index" :value="item.id">{{item.name}}</Option>
-                  </Select>
-                </FormItem>
-                </Col>
-              </Row>
-            </FormItem>
-            <FormItem label="现居住城市">
-              <Row>
-                <Col span="8">
-                <FormItem prop="liveProvince">
-                  <Select v-model="form1Validate.liveProvince" placeholder="请选择现居住省份">
-                    <Option v-for="(item,index) in provinceData" :key="index" :value="item.id">{{item.name}}</Option>
-                  </Select>
-                </FormItem>
-                </Col>
-                <Col span="7" offset="1">
-                <FormItem prop="liveCity">
-                  <Select v-model="form1Validate.liveCity" placeholder="请选择现居住城市">
-                    <Option v-for="(item,index) in cityData2" :key="index" :value="item.id">{{item.name}}</Option>
-                  </Select>
-                </FormItem>
-                </Col>
-                <Col span="7" offset="1">
-                <FormItem prop="liveCounty">
-                  <Select v-model="form1Validate.liveCounty" placeholder="请选择现居住县区">
-                    <Option v-for="(item,index) in countyData" :key="index" :value="item.id">{{item.name}}</Option>
-                  </Select>
-                </FormItem>
-                </Col>
-              </Row>
-            </FormItem>
-            <FormItem label="联系方式" prop="phone">
-              <Input v-model="form1Validate.phone"></Input>
-            </FormItem>
-            <FormItem label="电子邮箱" prop="mail">
-              <Input v-model="form1Validate.mail"></Input>
-            </FormItem>
-            <FormItem label="政治面貌" prop="identity">
-              <Select v-model="form1Validate.identity">
-                <Option value="1">中共党员(含预备党员)</Option>
-                <Option value="2">团员</Option>
-                <Option value="3">民主党派</Option>
-                <Option value="4">无党派人士</Option>
-              </Select>
-            </FormItem>
-            <FormItem>
-              <Button type="primary" @click="submitUserInfo('form1Validate')">提交</Button>
-              <Button @click="userInfo = !userInfo" style="margin-left: 8px">取消</Button>
-            </FormItem>
-          </Form>
-          </Col>
-          <!-- <Col span="2" offset="4"><span class="edit"><svg-icon icon-class="edit" />&nbsp;新增</span></Col> -->
-        </Row>
-        <div class="resumeUserInfo" v-bind="resumeIntention">
+        <div class="resumeUserInfo">
           <div style="margin:20px 0 0 20px;font-size:18px;">求职意向</div>
           <Row v-show="!jobIntention">
             <Col span="20" style="padding-top:5px;">
@@ -158,59 +162,188 @@
             <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editResumeInfo">
               <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
           </Row>
+          <Row v-show="jobIntention" class="userInfo_edit">
+            <Col>
+            <Form ref="form2Validate" :model="form2Validate" label-position="left" :rules="rule2Validate" :label-width="100">
+              <FormItem label="工作性质" prop="workCharacter">
+                <RadioGroup v-model="form2Validate.workCharacter">
+                  <Radio label="1">全职</Radio>
+                  <Radio label="2">兼职</Radio>
+                  <Radio label="3">实习</Radio>
+                </RadioGroup>
+              </FormItem>
+              <FormItem label="期望地点" prop="expectPlace">
+                <Input v-model="form2Validate.expectPlace"></Input>
+              </FormItem>
+              <FormItem label="期望行业" prop="expectJob">
+                <Input v-model="form2Validate.expectJob"></Input>
+              </FormItem>
+              <FormItem label="期望职业" prop="expectPost">
+                <Input v-model="form2Validate.expectPost"></Input>
+              </FormItem>
+              <FormItem label="税前月薪" prop="expectSalary">
+                <Select v-model="form2Validate.expectSalary">
+                  <Option value="1">1000元/月以下</Option>
+                  <Option value="2">1000-2000元/月</Option>
+                  <Option value="3">2001-4000元/月</Option>
+                  <Option value="4">4001-6000元/月</Option>
+                  <Option value="5">6001-8000元/月</Option>
+                  <Option value="6">8001-10000元/月</Option>
+                  <Option value="7">10001-15000元/月</Option>
+                  <Option value="8">15001-20000元/月</Option>
+                  <Option value="9">20000元/月以上</Option>
+                </Select>
+              </FormItem>
+              <FormItem>
+                <Button type="primary" @click="submitResumeInfo('form2Validate')">提交</Button>
+                <Button @click="jobIntention = !jobIntention;form2Validate = [];" style="margin-left: 8px">取消</Button>
+              </FormItem>
+            </Form>
+            </Col>
+          </Row>
+
         </div>
-        <Row v-show="jobIntention" class="userInfo_edit">
-          <Col>
-          <Form ref="form2Validate" :model="form2Validate" label-position="left" :rules="rule2Validate" :label-width="100">
-            <FormItem label="工作性质" prop="workCharacter">
-              <RadioGroup v-model="form2Validate.workCharacter">
-                <Radio label="1">全职</Radio>
-                <Radio label="2">兼职</Radio>
-                <Radio label="3">实习</Radio>
-              </RadioGroup>
-            </FormItem>
-            <FormItem label="期望地点" prop="expectPlace">
-              <Input v-model="form2Validate.expectPlace"></Input>
-            </FormItem>
-            <FormItem label="期望行业" prop="expectJob">
-              <Input v-model="form2Validate.expectJob"></Input>
-            </FormItem>
-            <FormItem label="期望职业" prop="expectPost">
-              <Input v-model="form2Validate.expectPost"></Input>
-            </FormItem>
-            <FormItem label="税前月薪" prop="expectSalary">
-              <Select v-model="form2Validate.expectSalary">
-                <Option value="1">1000元/月以下</Option>
-                <Option value="2">1000-2000元/月</Option>
-                <Option value="3">2001-4000元/月</Option>
-                <Option value="4">4001-6000元/月</Option>
-                <Option value="5">6001-8000元/月</Option>
-                <Option value="6">8001-10000元/月</Option>
-                <Option value="7">10001-15000元/月</Option>
-                <Option value="8">15001-20000元/月</Option>
-                <Option value="9">20000元/月以上</Option>
-              </Select>
-            </FormItem>
-            <FormItem>
-              <Button type="primary" @click="submitResumeInfo('form2Validate')">提交</Button>
-              <Button @click="jobIntention = !jobIntention" style="margin-left: 8px">取消</Button>
-            </FormItem>
-          </Form>
-          </Col>
-        </Row>
-        <div style="margin:20px 0 0 20px;font-size:18px;">项目经验</div>
-        <Row v-show="!projectExp"></Row>
-        <Row v-show="projectExp"></Row>
-        <div style="margin:20px 0 0 20px;font-size:18px;">教育经历</div>
-        <Row v-show="!educationExp"></Row>
-        <Row v-show="educationExp"></Row>
+        <div class="resumeUserInfo">
+          <div style="margin:20px 0 0 20px;font-size:18px;">项目经验</div>
+          <Row v-show="!projectExp">
+            <Col span="20">
+            <Card v-for="(item, index) in projectExpData" :key="index" class="projectItem">
+              <Row>
+                <Col span="21">
+                <span>项目名称：</span>
+                <p>{{item.projectName}}</p>
+                </Col>
+                <Col span="2" offset="1">
+                <span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editProjectExp(item)">
+                  <svg-icon icon-class="edit" />&nbsp;编辑</span>
+                </Col>
+              </Row>
+              <Row>
+                <span>项目日期：</span>
+                <p>{{item.startDate}} - {{item.endDate}}</p>
+              </Row>
+              <Row>
+                <span>项目描述：</span>
+                <p>{{item.projectDesc}}</p>
+              </Row>
+              <Row>
+                <span>个人职责：</span>
+                <p>{{item.personalWork}}</p>
+              </Row>
+            </Card>
+            </Col>
+            <Col span="4">
+            <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="editProjectExp()">
+              <svg-icon icon-class="edit" />&nbsp;添加项目经验</span></Col>
+          </Row>
+          <Row v-show="projectExp" class="userInfo_edit">
+            <Col>
+            <Form ref="form3Validate" :model="form3Validate" label-position="left" :rules="rule3Validate" :label-width="100">
+              <FormItem label="项目名称：" prop="projectName">
+                <Input v-model="form3Validate.projectName"></Input>
+              </FormItem>
+              <FormItem label="项目时间：" prop="projectTime">
+                <DatePicker v-model="form3Validate.projectTime" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
+              </FormItem>
+              <FormItem label="项目描述：" prop="projectDesc">
+                <Input type="textarea" :autosize="true" v-model="form3Validate.projectDesc"></Input>
+              </FormItem>
+              <FormItem label="个人职责：" prop="personalWork">
+                <Input type="textarea" :autosize="true" v-model="form3Validate.personalWork"></Input>
+              </FormItem>
+              <FormItem label="所属公司：" prop="companyName">
+                <Input v-model="form3Validate.companyName"></Input>
+              </FormItem>
+              <FormItem>
+                <Button type="primary" @click="submitProjectExp('form3Validate')">提交</Button>
+                <Button @click="projectExp = !projectExp;form3Validate = [];" style="margin-left: 8px">取消</Button>
+              </FormItem>
+            </Form>
+            </Col>
+            <Col>
+
+            </Col>
+          </Row>
+        </div>
+        <div class="resumeUserInfo">
+          <div style="margin:20px 0 0 20px;font-size:18px;">教育经历</div>
+          <Row v-show="!educationExp">
+            <Col span="20">
+            <Card v-for="(item, index) in educationExpData" :key="index" class="projectItem">
+              <Row>
+                <Col span="6">
+                  <span>{{item.schoolName}}</span>
+                </Col>
+                <Col span="7">
+                  <span>{{item.major}}</span>
+                </Col>
+                <Col span="3">
+                  <span>{{item.degree}}</span>
+                </Col>
+                <Col span="6">
+                  <span>{{item.startDate}} - {{item.endDate}}</span>
+                </Col>
+                <Col span="2">
+                  <span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editEducationExp(item)">
+                    <svg-icon icon-class="edit" />&nbsp;编辑</span>
+                </Col>
+              </Row>
+            </Card>
+            </Col>
+            <Col span="4">
+            <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="editEducationExp()">
+              <svg-icon icon-class="edit" />&nbsp;添加教育经历</span></Col>
+          </Row>
+          <Row v-show="educationExp" class="userInfo_edit">
+            <Col>
+            <Form ref="form4Validate" :model="form4Validate" label-position="left" :rules="rule4Validate" :label-width="100">
+              <FormItem label="学校名称：" prop="schoolName">
+                <Input v-model="form4Validate.schoolName"></Input>
+              </FormItem>
+              <FormItem label="就读时间：" prop="studyDate">
+                <DatePicker v-model="form4Validate.studyDate" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
+              </FormItem>
+              <FormItem label="所学专业：" prop="major">
+                <Input type="textarea" :autosize="true" v-model="form4Validate.major"></Input>
+              </FormItem>
+              <FormItem label="是否统招：" prop="isUnified">
+                <RadioGroup v-model="form4Validate.isUnified">
+                    <Radio label="1">是</Radio>
+                    <Radio label="0">否</Radio>
+                  </RadioGroup>
+              </FormItem>
+              <FormItem label="学历：" prop="degree">
+                <Select v-model="form4Validate.degree">
+                  <Option value="1">高中</Option>
+                  <Option value="2">中专</Option>
+                  <Option value="3">大专</Option>
+                  <Option value="4">本科</Option>
+                  <Option value="5">硕士</Option>
+                  <Option value="6">博士</Option>
+                  <Option value="9">其他</Option>
+                </Select>
+              </FormItem>
+              <FormItem>
+                <Button type="primary" @click="submitEducationExp('form4Validate')">提交</Button>
+                <Button @click="educationExp = !educationExp;form4Validate = [];" style="margin-left: 8px">取消</Button>
+              </FormItem>
+            </Form>
+            </Col>
+            <Col>
+            </Col>
+          </Row>
+        </div>
+        <!-- <Row v-show="!educationExp"></Row>
+        <Row v-show="educationExp"></Row> -->
       </Content>
     </Layout>
   </div>
 </template>
 
 <script>
-import * as API from "@/api/resume.js";
+import * as API from "@/api/resume";
+import tool from "../../../utils/formatDate";
+
 export default {
   name: "index",
   data () {
@@ -219,12 +352,12 @@ export default {
       jobIntention: false,
       projectExp: false,
       educationExp: false,
-      provinceData:[],
-      cityData1:[],
-      cityData2:[],
-      countyData:[],
+      provinceData: [],
+      cityData1: [],
+      cityData2: [],
+      countyData: [],
       form1Validate: {
-        id:'',
+        id: '',
         name: '',
         gender: '',
         birthDate: '',
@@ -279,11 +412,11 @@ export default {
         ],
       },
       form2Validate: {
-        id:'',
+        id: '',
         workCharacter: '',
         expectPlace: '',
         expectJob: '',
-        expectwork:'',
+        expectwork: '',
         expectSalary: '',
       },
       rule2Validate: {
@@ -294,37 +427,151 @@ export default {
           { required: true, message: '请输入期望地点', trigger: 'blur' }
         ],
         expectJob: [
-          { required: true, message: '请选择期望行业', trigger: 'change' }
+          { required: true, message: '请输入期望行业', trigger: 'blur' }
         ],
         expectPost: [
-          { required: true, message: '请选择期望职业', trigger: 'change' }
+          { required: true, message: '请输入期望职业', trigger: 'blur' }
         ],
         expectSalary: [
           { required: true, message: '请选择税前月薪', trigger: 'change' }
         ]
       },
+      form3Validate: {
+        id: '',
+        projectName: '',
+        projectTime: [new Date(), new Date()],
+        projectDesc: '',
+        personalWork: '',
+        companyName: '',
+      },
+      rule3Validate: {
+        projectName: [
+          { required: true, message: '请输入项目名称', trigger: 'blur' }
+        ],
+        projectTime: [
+          { required: true, type: 'array', min: 1, message: '请选择日期', trigger: 'change' }
+        ],
+        projectDesc: [
+          { required: true, message: '请输入项目描述', trigger: 'blur' }
+        ],
+        personalWork: [
+          { required: true, message: '请输入个人职责', trigger: 'blur' }
+        ],
+        companyName: [
+          { required: true, message: '请输入所属公司', trigger: 'blur' }
+        ]
+      },
+      form4Validate: {
+        id: '',
+        schoolName: '',
+        studyDate: [new Date(), new Date()],
+        major: '',
+        isUnified:'',
+        degree: '',
+      },
+      rule4Validate: {
+        schoolName: [
+          { required: true, message: '请输入学校名称', trigger: 'blur' }
+        ],
+        studyDate: [
+          { required: true, type: 'array', min: 1, message: '请选择日期', trigger: 'change' }
+        ],
+        major: [
+          { required: true, message: '请输入所学专业', trigger: 'blur' }
+        ],
+        isUnified: [
+          { required: true, message: '请选择是否统招', trigger: 'change' }
+        ],
+        degree: [
+          { required: true, message: '请选学历', trigger: 'change' }
+        ]
+      },
       resumeInfo: [],
-      resumeIntention: []
+      resumeIntention: [],
+      projectExpData: [
+        {
+          id: "1",
+          projectName: 'XXX项目1',
+          startDate: tool.formatDate2(new Date()),
+          endDate: tool.formatDate2(new Date()),
+          projectTime: [new Date(), new Date()],
+          projectDesc: '项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述',
+          personalWork: '个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责',
+          companyName: "XX"
+        },
+        {
+          id: "2",
+          projectName: 'XXX项目2',
+          startDate: tool.formatDate2(new Date()),
+          endDate: tool.formatDate2(new Date()),
+          projectTime: [new Date(), new Date()],
+          projectDesc: '项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述',
+          personalWork: '个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责',
+          companyName: "XX"
+        },
+        {
+          id: "3",
+          projectName: 'XXX项目3',
+          startDate: tool.formatDate2(new Date()),
+          endDate: tool.formatDate2(new Date()),
+          projectTime: [new Date(), new Date()],
+          projectDesc: '项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述',
+          personalWork: '个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责',
+          degree: "XX"
+        }
+      ],
+      educationExpData: [
+        {
+          id: "1",
+          schoolName: 'XXX学校1',
+          startDate: tool.formatDate2(new Date()),
+          endDate: tool.formatDate2(new Date()),
+          studyDate: [new Date(), new Date()],
+          major: '计算机技术与科学',
+          isUnified: '1',
+          degree: '1'
+        },
+        {
+          id: "2",
+          schoolName: 'XXX学校2',
+          startDate: tool.formatDate2(new Date()),
+          endDate: tool.formatDate2(new Date()),
+          studyDate: [new Date(), new Date()],
+          major: '计算机技术与科学',
+          isUnified: '1',
+          degree: '1'
+        },
+        {
+          id: "3",
+          schoolName: 'XXX学校3',
+          startDate: tool.formatDate2(new Date()),
+          endDate: tool.formatDate2(new Date()),
+          studyDate: [new Date(), new Date()],
+          major: '计算机技术与科学',
+          isUnified: '1',
+          degree: '1'
+        }
+      ]
     };
   },
   watch: {
-    'form1Validate.birthProvince':function(val){
+    'form1Validate.birthProvince': function (val) {
       // 如果是四个直辖市,第二级选择为对应区
-      if(val == 110000) val = 110100;
-      if(val == 120000) val = 120100;
-      if(val == 310000) val = 310100;
-      if(val == 500000) val = 500100;
-      if(val){
+      if (val == 110000) val = 110100;
+      if (val == 120000) val = 120100;
+      if (val == 310000) val = 310100;
+      if (val == 500000) val = 500100;
+      if (val) {
         this.getCity(val, 1);
       }
     },
-    'form1Validate.liveProvince':function(val){
-      if(val){
+    'form1Validate.liveProvince': function (val) {
+      if (val) {
         this.getCity(val, 2);
       }
     },
-    'form1Validate.liveCity':function(val){
-      if(val){
+    'form1Validate.liveCity': function (val) {
+      if (val) {
         this.getCounty(val);
       }
     }
@@ -424,6 +671,53 @@ export default {
         }
       })
     },
+    // 获取用户项目经验
+    editProjectExp (item) {
+      this.projectExp = !this.projectExp;
+      if (item) {
+        this.form3Validate = item;
+      }
+    },
+    submitProjectExp (name) {
+      // console.log(this.form3Validate)
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          console.log(this.form3Validate)
+          // API.updateUserInfo({
+          //   userId: sessionStorage.getItem('userId'),
+          //   jobIntention: this.form3Validate
+          // }).then(res => {
+          //   if (res.code == 200) {
+          //     this.jobIntention = !this.jobIntention;
+          //     this.$Message.success('Success!');
+          //   }
+          // });
+        } else {
+          this.$Message.error('Fail!');
+        }
+      })
+    },
+    editEducationExp (id) {
+      this.educationExp = !this.educationExp;
+    },
+    submitEducationExp (name) {
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          console.log(this.form4Validate)
+          API.updateUserInfo({
+            userId: sessionStorage.getItem('userId'),
+            jobIntention: this.form4Validate
+          }).then(res => {
+            if (res.code == 200) {
+              this.jobIntention = !this.jobIntention;
+              this.$Message.success('Success!');
+            }
+          });
+        } else {
+          this.$Message.error('Fail!');
+        }
+      })
+    },
     initData () {
       API.queryUserInfo({
         userId: sessionStorage.getItem('userId')
@@ -454,8 +748,8 @@ export default {
     }
   },
   created () {
-    this.initData();
-    this.getProvince();
+    // this.initData();
+    // this.getProvince();
   }
 };
 </script>
@@ -513,5 +807,16 @@ span {
 }
 .edit:hover {
   color: #1787fb;
+}
+.projectItem {
+  width: 113%;
+  margin: 10px 0 20px 20px;
+  /* background-color: #eee; */
+  /* padding: 10px 0 10px 20px; */
+}
+.projectItem p {
+  display: inline-block;
+  width: 83%;
+  vertical-align: top;
 }
 </style>

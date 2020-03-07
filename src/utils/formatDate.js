@@ -71,6 +71,7 @@ function translateTime1(value) {
 
 var tool = {
   formatDate: formatDate,
+  formatDate2: formatDate2,
   formatTime: formatTime,
   translateTime: translateTime,
   translateTime1: translateTime1
