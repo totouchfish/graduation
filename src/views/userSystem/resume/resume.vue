@@ -19,17 +19,24 @@
               <span style="font-size:24px;padding-right:20px;">{{resumeInfo.name}}</span>
               <span>更新时间:</span>&emsp;<span>2020-02-16 17:07</span>
               </Col>
-            </Row>
-            <Row>
-              <Col class="addressInfo"><span style="padding-left:0;">{{resumeInfo.gender}}</span>|<span>{{resumeInfo.birthDate}}岁</span>|<span>{{resumeInfo.birthAddress}}</span>|<span>{{resumeInfo.workDate}}年经验</span></Col>
-            </Row>
-            <Row>
-              <Col class="contactInfo">
-              <svg-icon icon-class="phone" /><span>{{resumeInfo.phone}}</span>
-              <svg-icon icon-class="email" style="margin:0 20px 0 25px;" /><span>{{resumeInfo.mail}}</span>
+              <Col span="14">
+              <Row>
+                <Col span="14" style="padding-top:5px;">
+                <span style="font-size:24px;padding-right:20px;">{{resumeInfo.name}}</span>
+                <span>更新时间:</span>&emsp;<span>2020-02-16 17:07</span>
+                </Col>
+              </Row>
+              <Row>
+                <Col class="addressInfo"><span style="padding-left:0;">{{resumeInfo.gender}}</span>|<span>{{resumeInfo.birthDate}}岁</span>|<span>{{resumeInfo.birthAddress}}</span>|<span>{{resumeInfo.workDate}}年经验</span></Col>
+              </Row>
+              <Row>
+                <Col class="contactInfo">
+                <svg-icon icon-class="phone" /><span>{{resumeInfo.phone}}</span>
+                <svg-icon icon-class="email" style="margin:0 20px 0 25px;" /><span>{{resumeInfo.mail}}</span>
+                </Col>
+              </Row>
               </Col>
-            </Row>
-            </Col>
+            
             <Col span="2" offset="4"><span class="edit" @click="editUserInfo">
               <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
           </Row>
@@ -619,7 +626,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           console.log(this.form1Validate)
-          API.updateJobIntention({
+          API.updateUserInfo({
             userId: sessionStorage.getItem('userId'),
             userInfo: this.form1Validate
           }).then(res => {
@@ -633,24 +640,24 @@ export default {
         }
       })
     },
-    // 获取用户简历信息
+    // 获取求职意向信息
     editResumeInfo () {
-      // API.queryJobIntentionById({
-      //   userId: sessionStorage.getItem('userId')
-
-      // }).then(res => {
-      //   if (res.code == 200) {
-      //     this.form2Validate = res.result;
-      this.jobIntention = !this.jobIntention
-      //   }
-      // });
+      API.queryJobIntentionById({
+        userId: sessionStorage.getItem('userId')
+       
+      }).then(res => {
+        if (res.code == 200) {
+          this.form2Validate = res.result; 
+        }
+        this.jobIntention = !this.jobIntention
+      });
     },
     // 提交用户简历信息
     submitResumeInfo (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
           console.log(this.form2Validate)
-          API.updateUserInfo({
+          API.updateJobIntention({
             userId: sessionStorage.getItem('userId'),
             jobIntention: this.form2Validate
           }).then(res => {
@@ -718,26 +725,24 @@ export default {
         if (res.code == 200) {
           // 200 代表此用户已经填写过用户信息，
           // 显示展示数据的div
-          // this.userInfo = false;
+          this.userInfo = false;
           let _data = res.result;
           this.resumeInfo = _data;
-          console.log(_data);
         } else {
           // 900 代表用户还没录入过信息
           // 显示数据填写的div
-          // this.userInfo = true;
+           this.userInfo = true;
         }
       });
-      API.resumeIntention({
+      API.queryJobIntention({
         userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
           this.resumeIntention = _data;
-          // this.jobIntention = false;
-          console.log(_data);
-        } else {
-          // tthis.jobIntention = true;
+          this.jobIntention = false;
+        }else {
+          this.jobIntention = true;
         }
       });
     }
