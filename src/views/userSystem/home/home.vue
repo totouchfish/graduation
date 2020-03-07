@@ -15,7 +15,7 @@
               <Button class="searchButton" v-on:click="search()">搜索</Button>
               <div style="font-size:17px;margin-top:13px;color:#999">
                 热门搜索:
-                <span class="hotSearch" v-for="(item,index) in hotSearch" :key="index" :title="item" @click="hotSearch(item)">{{item}}</span>
+                <span class="hotSearch" v-for="(item,index) in hotSearch" :key="index" :title="item" @click="hotSearchTouch(item)">{{item}}</span>
               </div>
             </div>
           </Header>
@@ -148,7 +148,7 @@ export default {
   },
 
   methods: {
-    hotSearch(item){
+    hotSearchTouch(item){
         API.queryPositionInfoByTrade({
           trade:this.item
         }).then(res => {
