@@ -2,14 +2,14 @@
   <div>
     <div class="header">
       <ul>
-        <li @click="searchJob('1')"><a href="#">投递成功</a></li>
-        <li @click="searchJob('2')"><a href="#">被查看</a></li>
-        <li @click="searchJob('3')"><a href="#">有意向</a></li>
-        <li @click="searchJob('4')"><a href="#">邀请面试</a></li>
-        <li @click="searchJob('5')"><a href="#">不合适</a></li>
-      </ul>
-    </div>
-    <Content class="container">
+        <li @click="searchJob(1)"><span :class="itemType == 1 ? 'blueFont' : ''">投递成功</span></li>
+        <li @click="searchJob(2)"><span :class="itemType == 2 ? 'blueFont' : ''">被查看</span></li>
+        <li @click="searchJob(3)"><span :class="itemType == 3 ? 'blueFont' : ''">有意向</span></li>
+        <li @click="searchJob(4)"><span :class="itemType == 4 ? 'blueFont' : ''">邀请面试</span></li>
+        <li @click="searchJob(5)"><span :class="itemType == 5 ? 'blueFont' : ''">不合适</span></li>
+      </ul> 
+     </div> 
+     <Content class="container">
       <div v-for="(item, index) in jobLists" :key="index">
         <div class="js">
           <div class="ji js-item">
@@ -42,8 +42,8 @@ export default {
   },
   data () {
     return {
-      itemType:1,
-      jobLists:[]
+      itemType: 1,
+      jobLists: []
     };
   },
   components: {},
@@ -52,23 +52,20 @@ export default {
   },
 
   methods: {
-    searchJob (item) {
-         this.itemType=item;
-         API.progress({
-            userId:sessionStorage.getItem("userId"),
-            type: item
-          }).then(res => {
-            if (res.code == 200) {
-                this.jobLists=res.result;
-      
-            }
-          })
-    },
-    initData () {
+    searchJob (type) {
+      this.itemType = type;
+      API.progress({
+        userId: sessionStorage.getItem("userId"),
+        type: type
+      }).then(res => {
+        if (res.code == 200) {
+          this.jobLists = res.result;
+        }
+      })
     }
   },
   created () {
-   
+    this.searchJob('1');
   }
 };
 </script>
@@ -95,16 +92,20 @@ export default {
 .header li:last-child {
   border-right: 0;
 }
-.header a {
+.header span {
   line-height: 48px;
   font-size: 16px;
   color: #666;
   cursor: pointer;
   position: relative;
   display: block;
+  user-select:none;
 }
-.header a:hover {
+.header span:hover {
   color: #2d8cf0;
+}
+.blueFont {
+  color: #2d8cf0 !important;
 }
 .container {
   width: 1000px;
