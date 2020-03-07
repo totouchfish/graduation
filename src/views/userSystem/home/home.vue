@@ -150,7 +150,7 @@ export default {
   methods: {
     hotSearchTouch(item){
         API.queryPositionInfoByTrade({
-          trade:this.item
+          trade:item
         }).then(res => {
           if (res.code == 200) {
             let _data = res.result;

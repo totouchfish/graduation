@@ -21,12 +21,12 @@ export function queryUserInfoById(arg) {
     return request.post('/resume/updateJobIntention', arg)
   }
   //显示用户信息
-  export function resumeIntention(arg) {
-    return request.post('/resume/queryJobIntention', arg)
-  }
-  //显示用户职位意向
   export function queryUserInfo(arg) {
     return request.post('/resume/queryUserInfo', arg)
+  }
+  //显示用户职位意向
+  export function queryJobIntention(arg) {
+    return request.post('/resume/queryJobIntention', arg)
   }
 
   // 获取全国所有省份
