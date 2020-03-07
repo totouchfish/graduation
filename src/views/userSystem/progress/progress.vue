@@ -15,12 +15,12 @@
           <div class="ji js-item">
             <div class="ji-item clearfix">
               <div class="ji-item-info fl">
-                <a class="ji-item-info-jobName" href="" target="_blank">{{item.jobName}}</a>
+                <a class="ji-item-info-jobName" href="" target="_blank">{{item.pname}}</a>
                 <p>{{item.salary}}</p>
-                <a class="ji-item-info-companyName" href="" target="_blank">{{item.companyName}}</a>
+                <a class="ji-item-info-companyName" href="" target="_blank">{{item.company}}</a>
               </div>
               <div class="ji-item-status fr">
-                <p>{{item.status}}</p>
+                <p>{{itemType==1?'投递成功':itemType==2?'已查看':itemType==3?'面试':'不适合'}}</p>
                 <div><span>{{item.time}}</span></div>
               </div>
             </div>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import * as API from "@/api/home.js";
+import * as API from "@/api/resume.js";
 
 export default {
   name: "index",
@@ -42,52 +42,8 @@ export default {
   },
   data () {
     return {
-      jobLists:[
-        {
-          jobName: '2020届java开发工程师',
-          salary: '10K-15K',
-          companyName: '北京思特奇信息技术股份有限公司',
-          status: '成功投递',
-          time: '2020-02-26'
-        },
-        {
-          jobName: '2020届java开发工程师',
-          salary: '10K-15K',
-          companyName: '北京思特奇信息技术股份有限公司',
-          status: '成功投递',
-          time: '2020-02-26'
-        },{
-          jobName: '2020届java开发工程师',
-          salary: '10K-15K',
-          companyName: '北京思特奇信息技术股份有限公司',
-          status: '成功投递',
-          time: '2020-02-26'
-        },{
-          jobName: '2020届java开发工程师',
-          salary: '10K-15K',
-          companyName: '北京思特奇信息技术股份有限公司',
-          status: '成功投递',
-          time: '2020-02-26'
-        },{
-          jobName: '2020届java开发工程师',
-          salary: '10K-15K',
-          companyName: '北京思特奇信息技术股份有限公司',
-          status: '成功投递',
-          time: '2020-02-26'
-        },{
-          jobName: '2020届java开发工程师',
-          salary: '10K-15K',
-          companyName: '北京思特奇信息技术股份有限公司',
-          status: '成功投递',
-          time: '2020-02-26'
-        },{
-          jobName: '2020届java开发工程师',
-          salary: '10K-15K',
-          companyName: '北京思特奇信息技术股份有限公司',
-          status: '成功投递',
-          time: '2020-02-26'
-        }
-      ]
+      itemType:1,
+      jobLists:[]
     };
   },
   components: {},
@@ -96,15 +52,23 @@ export default {
   },
 
   methods: {
-    search (item) {
+    searchJob (item) {
+         this.itemType=item;
+         API.progress({
+            userId:sessionStorage.getItem("userId"),
+            type: item
+          }).then(res => {
+            if (res.code == 200) {
+                this.jobLists=res.result;
+      
+            }
+          })
     },
     initData () {
-     
     }
   },
   created () {
-    // this.initData();
-    // var d = data.data;return [['地区', d.name].join(': '), ['确诊', d.DIAGNOSIS].join(': '), ['疑似', d.SUSPECT].join(': '), ['治愈', d.CURE===-1 ? '待公布':d.CURE].join(': '), ['死亡', d.DEAD===-1 ? '待公布':d.DEAD].join(': ')].join('<br/>')
+   
   }
 };
 </script>

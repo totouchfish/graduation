@@ -38,5 +38,8 @@ export function queryUserInfoById(arg) {
     return request.post('/china/city', arg)
   }
 
-
+// 简历投递进展
+export function progress(arg) {
+  return request.post('/resume/progress', arg)
+}
 
