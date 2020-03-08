@@ -19,7 +19,17 @@ function formatDate2(value) {
   MM = MM < 10 ? "0" + MM : MM;
   let d = date.getDate();
   d = d < 10 ? "0" + d : d;
-  return y + "-" + MM + "-" + d + " ";
+  return y + "-" + MM + "-" + d;
+}
+
+function formatDate3(value) {
+  let date = new Date(value);
+  let y = date.getFullYear();
+  let MM = date.getMonth() + 1;
+  MM = MM < 10 ? "0" + MM : MM;
+  let d = date.getDate();
+  d = d < 10 ? "0" + d : d;
+  return y + "/" + MM + "/" + d;
 }
 
 function formatTime(value) {
@@ -69,12 +79,30 @@ function translateTime1(value) {
 
 }
 
+// 获取年数
+function getYears(year) {
+  // var date = formatDate3(year);
+  year = new Date(year);
+  debugger
+  let d = new Date();
+  let age =
+    d.getFullYear() -
+    year.getFullYear() -
+    (d.getMonth() < year.getMonth() ||
+      (d.getMonth() == year.getMonth() &&
+        d.getDate() < year.getDate()) ?
+      1 :
+      0);
+  return age;
+}
+
 var tool = {
   formatDate: formatDate,
   formatDate2: formatDate2,
   formatTime: formatTime,
   translateTime: translateTime,
-  translateTime1: translateTime1
+  translateTime1: translateTime1,
+  getYears: getYears
 }
 
 export default tool

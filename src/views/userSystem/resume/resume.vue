@@ -141,19 +141,19 @@
               <Col style="padding-top:5px;font-size:14px;line-height:2;">
               <Row>
                 <Col span="3">工作性质：</Col>
-                <Col span="6">{{resumeIntention.workCharacter}}</Col>
+                <Col span="6">{{resumeInfo.workCharacter}}</Col>
                 <Col span="3" offset="4">期望地点：</Col>
-                <Col span="6">{{resumeIntention.expectPlace}}</Col>
+                <Col span="6">{{resumeInfo.expectPlace}}</Col>
               </Row>
               <Row>
                 <Col span="3">期望行业：</Col>
-                <Col span="6">{{resumeIntention.expectJob}}</Col>
+                <Col span="6">{{resumeInfo.expectJob}}</Col>
                 <Col span="3" offset="4">税前月薪：</Col>
-                <Col span="6">{{resumeIntention.expectSalary}}</Col>
+                <Col span="6">{{resumeInfo.expectSalary}}</Col>
               </Row>
               <Row>
                 <Col span="3">期望职业：</Col>
-                <Col span="6">{{resumeIntention.expectPost}}</Col>
+                <Col span="6">{{resumeInfo.expectPost}}</Col>
               </Row>
               </Col>
             </Row>
@@ -272,20 +272,20 @@
             <Card v-for="(item, index) in educationExpData" :key="index" class="projectItem">
               <Row>
                 <Col span="6">
-                  <span>{{item.schoolName}}</span>
+                <span>{{item.schoolName}}</span>
                 </Col>
                 <Col span="7">
-                  <span>{{item.major}}</span>
+                <span>{{item.major}}</span>
                 </Col>
                 <Col span="3">
-                  <span>{{item.degree}}</span>
+                <span>{{item.degree}}</span>
                 </Col>
                 <Col span="6">
-                  <span>{{item.startDate}} - {{item.endDate}}</span>
+                <span>{{item.startDate}} - {{item.endDate}}</span>
                 </Col>
                 <Col span="2">
-                  <span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editEducationExp(item)">
-                    <svg-icon icon-class="edit" />&nbsp;编辑</span>
+                <span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editEducationExp(item)">
+                  <svg-icon icon-class="edit" />&nbsp;编辑</span>
                 </Col>
               </Row>
             </Card>
@@ -308,9 +308,9 @@
               </FormItem>
               <FormItem label="是否统招：" prop="isUnified">
                 <RadioGroup v-model="form4Validate.isUnified">
-                    <Radio label="1">是</Radio>
-                    <Radio label="0">否</Radio>
-                  </RadioGroup>
+                  <Radio label="1">是</Radio>
+                  <Radio label="0">否</Radio>
+                </RadioGroup>
               </FormItem>
               <FormItem label="学历：" prop="degree">
                 <Select v-model="form4Validate.degree">
@@ -466,7 +466,7 @@ export default {
         schoolName: '',
         studyDate: [new Date(), new Date()],
         major: '',
-        isUnified:'',
+        isUnified: '',
         degree: '',
       },
       rule4Validate: {
@@ -626,10 +626,16 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           console.log(this.form1Validate)
-          API.updateJobIntention({
-            userId: sessionStorage.getItem('userId'),
-            userInfo: this.form1Validate
-          }).then(res => {
+          let _data = this.form1Validate;
+          _data.id = sessionStorage.getItem('userId')
+          // _data.birthDate = tool.formatDate2(_data.birthDate);
+          // _data.workDate = tool.formatDate2(_data.workDate);
+          API.updateUserInfo(_data
+            //   {
+            //   // userId: sessionStorage.getItem('userId'),
+            //   userInfo: _data
+            // }
+          ).then(res => {
             if (res.code == 200) {
               this.userInfo = !this.userInfo;
               this.$Message.success('Success!');
@@ -719,20 +725,24 @@ export default {
       })
     },
     initData () {
-      API.queryUserInfo({
+      // 获取用户简历所有数据
+      API.queryResume({
         userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
           // 200 代表此用户已经填写过用户信息，
           // 显示展示数据的div
-          // this.userInfo = false;
-          let _data = res.result;
+          this.userInfo = false;
+          let _data = res.result[0];
+          _data.gender == 1 ? _data.gender = '男' : _data.gender == 2 ? '女' : '无'
+          // _data.birthDate = tool.getYears(_data.birthDate);
+          // _data.workDate = tool.getYears(_data.workDate);
           this.resumeInfo = _data;
-          console.log(_data);
+          // console.log(_data);
         } else {
           // 900 代表用户还没录入过信息
           // 显示数据填写的div
-          // this.userInfo = true;
+          this.userInfo = true;
         }
       });
       API.queryJobIntention({
@@ -750,8 +760,8 @@ export default {
     }
   },
   created () {
-    // this.initData();
-    // this.getProvince();
+    this.initData();
+    this.getProvince();
   }
 };
 </script>
