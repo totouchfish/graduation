@@ -3,7 +3,14 @@
     <Layout class="layout">
       <Header>
         <div class="header">
-          <span>我的简历</span>
+          <Row>
+            <Col>
+              <span>我的简历</span>
+            </Col>
+            <Col>
+              <span></span>
+            </Col>
+          </Row>
         </div>
       </Header>
       <Content class="content">
@@ -604,15 +611,15 @@ export default {
     },
     // 点击编辑按钮，获取用户信息
     editUserInfo () {
-      API.queryUserInfoById({
-        userId: sessionStorage.getItem('userId')
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          this.form1Validate = _data;
-        }
+      // API.queryUserInfoById({
+      //   userId: sessionStorage.getItem('userId')
+      // }).then(res => {
+      //   if (res.code == 200) {
+      //     let _data = res.result;
+      //     this.form1Validate = _data;
+      //   }
         this.userInfo = !this.userInfo
-      });
+      // });
     },
     // 提交用户信息
     submitUserInfo (name) {
