@@ -43,11 +43,11 @@
             <MenuItem name="resumeHanlde">
             <Icon type="md-briefcase" />简历管理 <!-- 查看简历  -->
             </MenuItem>
-            <MenuItem name="recruitment">
-            <Icon type="ios-paper" />招聘管理 <!-- 发布招聘信息  -->
-            </MenuItem>
             <MenuItem name="interview">
             <Icon type="md-heart" />面试管理 <!-- 查看面试人员、面试通知  -->
+            </MenuItem>
+            <MenuItem name="recruitment">
+            <Icon type="ios-paper" />招聘管理 <!-- 发布招聘信息  -->
             </MenuItem>
             <MenuItem name="certification">
             <Icon type="ios-keypad" />企业认证 <!-- 企业资质认证  -->
