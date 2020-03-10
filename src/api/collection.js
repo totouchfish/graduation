@@ -8,6 +8,10 @@ export function collection(arg) {
     return request.post('/collection/queryCollectPosition', arg)
   }
 
+//投递简历 申请职位
+export function acceptPosition(arg) {
+  return request.post('/resume/deliverResume', arg)
+}
   /**
  * 登录接口
  * @param {*} arg 

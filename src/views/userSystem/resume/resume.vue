@@ -21,7 +21,7 @@
               </Col>
             </Row>
             <Row>
-              <Col class="addressInfo"><span style="padding-left:0;">{{resumeInfo.gender}}</span>|<span>{{resumeInfo.birthDate}}岁</span>|<span>{{resumeInfo.birthAddress}}</span>|<span>{{resumeInfo.workDate}}年经验</span></Col>
+              <Col class="addressInfo"><span style="padding-left:0;">{{resumeInfo.gender}}</span>|<span>{{resumeInfo.birthDate}}岁</span>|<span>{{resumeInfo.birthProvince}}{{resumeInfo.birthCity}}</span></span>|<span>{{resumeInfo.workDate}}年经验</span></Col>
             </Row>
             <Row>
               <Col class="contactInfo">
@@ -152,7 +152,7 @@
             </Row>
             </Col>
 
-            <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editResumeInfo">
+            <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editIntentionInfo">
               <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
           </Row>
           <Row v-show="jobIntention" class="userInfo_edit">
@@ -188,7 +188,7 @@
                 </Select>
               </FormItem>
               <FormItem>
-                <Button type="primary" @click="submitResumeInfo('form2Validate')">提交</Button>
+                <Button type="primary" @click="submitIntentionInfo('form2Validate')">提交</Button>
                 <Button @click="jobIntention = !jobIntention;form2Validate = [];" style="margin-left: 8px">取消</Button>
               </FormItem>
             </Form>
@@ -481,70 +481,8 @@ export default {
       },
       resumeInfo: [],
       resumeIntention: [],
-      projectExpData: [
-        {
-          id: "1",
-          projectName: 'XXX项目1',
-          startDate: tool.formatDate2(new Date()),
-          endDate: tool.formatDate2(new Date()),
-          projectTime: [new Date(), new Date()],
-          projectDesc: '项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述',
-          personalWork: '个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责',
-          companyName: "XX"
-        },
-        {
-          id: "2",
-          projectName: 'XXX项目2',
-          startDate: tool.formatDate2(new Date()),
-          endDate: tool.formatDate2(new Date()),
-          projectTime: [new Date(), new Date()],
-          projectDesc: '项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述',
-          personalWork: '个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责',
-          companyName: "XX"
-        },
-        {
-          id: "3",
-          projectName: 'XXX项目3',
-          startDate: tool.formatDate2(new Date()),
-          endDate: tool.formatDate2(new Date()),
-          projectTime: [new Date(), new Date()],
-          projectDesc: '项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述',
-          personalWork: '个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责',
-          degree: "XX"
-        }
-      ],
-      educationExpData: [
-        {
-          id: "1",
-          schoolName: 'XXX学校1',
-          startDate: tool.formatDate2(new Date()),
-          endDate: tool.formatDate2(new Date()),
-          studyDate: [new Date(), new Date()],
-          major: '计算机技术与科学',
-          isUnified: '1',
-          degree: '1'
-        },
-        {
-          id: "2",
-          schoolName: 'XXX学校2',
-          startDate: tool.formatDate2(new Date()),
-          endDate: tool.formatDate2(new Date()),
-          studyDate: [new Date(), new Date()],
-          major: '计算机技术与科学',
-          isUnified: '1',
-          degree: '1'
-        },
-        {
-          id: "3",
-          schoolName: 'XXX学校3',
-          startDate: tool.formatDate2(new Date()),
-          endDate: tool.formatDate2(new Date()),
-          studyDate: [new Date(), new Date()],
-          major: '计算机技术与科学',
-          isUnified: '1',
-          degree: '1'
-        }
-      ]
+      projectExpData: [],
+      educationExpData: []
     };
   },
   watch: {
@@ -618,17 +556,9 @@ export default {
     submitUserInfo (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          console.log(this.form1Validate)
           let _data = this.form1Validate;
-          _data.id = sessionStorage.getItem('userId')
-          // _data.birthDate = tool.formatDate2(_data.birthDate);
-          // _data.workDate = tool.formatDate2(_data.workDate);
-          API.updateUserInfo(_data
-            //   {
-            //   // userId: sessionStorage.getItem('userId'),
-            //   userInfo: _data
-            // }
-          ).then(res => {
+          _data.id = sessionStorage.getItem('userId')   
+          API.updateUserInfo(_data).then(res => {
             if (res.code == 200) {
               this.userInfo = !this.userInfo;
               this.$Message.success('Success!');
@@ -639,27 +569,25 @@ export default {
         }
       })
     },
-    // 获取用户简历信息
-    editResumeInfo () {
-      // API.queryJobIntentionById({
-      //   userId: sessionStorage.getItem('userId')
+    // 获取简历求职意向信息
+    editIntentionInfo () {
+      API.queryJobIntentionById({
+        userId: sessionStorage.getItem('userId')
 
-      // }).then(res => {
-      //   if (res.code == 200) {
-      //     this.form2Validate = res.result;
-      this.jobIntention = !this.jobIntention
-      //   }
-      // });
+      }).then(res => {
+        if (res.code == 200) {
+          this.form2Validate = res.result; 
+         }
+         this.jobIntention = !this.jobIntention
+       });
     },
-    // 提交用户简历信息
-    submitResumeInfo (name) {
+    // 提交简历求职意向信息
+    submitIntentionInfo (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          console.log(this.form2Validate)
-          API.updateUserInfo({
-            userId: sessionStorage.getItem('userId'),
-            jobIntention: this.form2Validate
-          }).then(res => {
+          let _data = this.form2Validate;
+          _data.id = sessionStorage.getItem('userId')   
+          API.updateJobIntention(_data).then(res => {
             if (res.code == 200) {
               this.jobIntention = !this.jobIntention;
               this.$Message.success('Success!');
@@ -723,33 +651,31 @@ export default {
         userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
-          // 200 代表此用户已经填写过用户信息，
-          // 显示展示数据的div
           this.userInfo = false;
-          let _data = res.result[0];
+          let _data = res.result;
           _data.gender == 1 ? _data.gender = '男' : _data.gender == 2 ? '女' : '无'
-          // _data.birthDate = tool.getYears(_data.birthDate);
-          // _data.workDate = tool.getYears(_data.workDate);
           this.resumeInfo = _data;
-          // console.log(_data);
+          this.projectExpData=_data.projects;
+          this.educationExpData=_data.educations;
+          sessionStorage.setItem("resumeId",_data.id);
         } else {
           // 900 代表用户还没录入过信息
           // 显示数据填写的div
           this.userInfo = true;
         }
       });
-      API.queryJobIntention({
-        userId: sessionStorage.getItem('userId')
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          this.resumeIntention = _data;
-          // this.jobIntention = false;
-          console.log(_data);
-        } else {
-          // tthis.jobIntention = true;
-        }
-      });
+      // API.queryJobIntention({
+      //   userId: sessionStorage.getItem('userId')
+      // }).then(res => {
+      //   if (res.code == 200) {
+      //     let _data = res.result;
+      //     this.resumeIntention = _data;
+      //     // this.jobIntention = false;
+      //     console.log(_data);
+      //   } else {
+      //     // tthis.jobIntention = true;
+      //   }
+      // });
     }
   },
   created () {

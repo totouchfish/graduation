@@ -22,9 +22,10 @@
             </div>
             <div class="coleBtn">
                 <div class="a-job-apply-button">
-                  <button class="a-button a--bordered a--filled" type="button">申请 </button><!---->
+                                                                                       
+                  <button class="a-button a--bordered a--filled" type="button" @click="acceptPosition(item)">申请 </button>
                 </div>
-                <a class="btn_a btn_a3" style="display: block;" href="" target="_blank">删除</a>
+                <a class="btn_a btn_a3" style="display: block;" href="" target="_blank" @click="delCollection(item)">删除</a>
             </div>
           </li>
         </ul>
@@ -38,7 +39,9 @@
 </template>
 
 <script>
+
 import * as API from "@/api/collection.js";
+
 export default {
   name: "index",
   props: {
@@ -53,13 +56,27 @@ export default {
   watch: {},
 
   methods: {
+    acceptPosition(item){
+      console.log(item)
+        API.acceptPosition({
+         pid:item.pid,
+         rid:sessionStorage.getItem('resumeId'),
+         userId:sessionStorage.getItem('userId')
+      }).then(res => {
+        if (res.code == 200) {
+          this.$Message.success('Success!');        
+        }
+      });
+    },
     initData () {
       API.collection({
-        // userId:sessionStorage.getItem('userId')
+         userId:sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
-          this.collectionData = _data;          
+          this.collectionData = _data;  
+          sessionStorage.setItem("positionId",_data.pid);
+          console.log(_data.pid);      
         }
       });
     }
