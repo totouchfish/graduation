@@ -9,7 +9,9 @@ function formatDate(value) {
   h = h < 10 ? ('0' + h) : h;
   let m = date.getMinutes();
   m = m < 10 ? ('0' + m) : m;
-  return y + "-" + MM + "-" + d + " " + h + " : " + m;
+  let s = date.getSeconds();
+  s = s < 10 ? ('0' + s) : s;
+  return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
 }
 
 function formatDate2(value) {
@@ -79,18 +81,17 @@ function translateTime1(value) {
 
 }
 
-// 获取年数
-function getYears(year) {
-  // var date = formatDate3(year);
-  year = new Date(year);
-  debugger
+// 判断用户的年龄
+function getAge(birth) {
+  let birthdays = formatDate(birth);
+  birthdays = new Date(birthdays.replace(/-/g, "/"));
   let d = new Date();
   let age =
     d.getFullYear() -
-    year.getFullYear() -
-    (d.getMonth() < year.getMonth() ||
-      (d.getMonth() == year.getMonth() &&
-        d.getDate() < year.getDate()) ?
+    birthdays.getFullYear() -
+    (d.getMonth() < birthdays.getMonth() ||
+      (d.getMonth() == birthdays.getMonth() &&
+        d.getDate() < birthdays.getDate()) ?
       1 :
       0);
   return age;
@@ -102,7 +103,7 @@ var tool = {
   formatTime: formatTime,
   translateTime: translateTime,
   translateTime1: translateTime1,
-  getYears: getYears
+  getAge: getAge
 }
 
 export default tool

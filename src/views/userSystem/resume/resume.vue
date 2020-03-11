@@ -4,11 +4,11 @@
       <Header>
         <div class="header">
           <Row>
-            <Col>
-              <span>我的简历</span>
+            <Col span="4">
+            <span>我的简历</span>
             </Col>
-            <Col>
-              <span></span>
+            <Col span="6" offset="14">
+            <span>预览、下载</span>
             </Col>
           </Row>
         </div>
@@ -445,7 +445,7 @@ export default {
         projectDesc: '',
         personalWork: '',
         companyName: '',
-        resumeId:''
+        resumeId: ''
       },
       rule3Validate: {
         projectName: [
@@ -469,9 +469,9 @@ export default {
         schoolName: '',
         studyDate: [new Date(), new Date()],
         major: '',
-        isUnified: '',
+        isUnified: '1',
         degree: '',
-        resumeId:''
+        resumeId: ''
       },
       rule4Validate: {
         schoolName: [
@@ -557,7 +557,7 @@ export default {
         userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
-          let _data = res.result; 
+          let _data = res.result;
           // select组件的value类型是number类型,接口返回的是string类型，所以需要转换一下
           _data.birthProvince = Number(_data.birthProvince);
           _data.birthCity = Number(_data.birthCity);
@@ -567,19 +567,20 @@ export default {
           this.form1Validate = _data;
           console.log(this.form1Validate);
         }
-         
+
         this.userInfo = !this.userInfo;
-       });
+      });
     },
     // 提交用户信息
     submitUserInfo (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
           let _data = this.form1Validate;
-          _data.id = sessionStorage.getItem('userId')   
+          _data.id = sessionStorage.getItem('userId')
           API.updateUserInfo(_data).then(res => {
             if (res.code == 200) {
               this.userInfo = !this.userInfo;
+              this.initData();
               this.$Message.success('Success!');
             }
           });
@@ -595,17 +596,17 @@ export default {
 
       }).then(res => {
         if (res.code == 200) {
-          this.form2Validate = res.result; 
-         }
-         this.jobIntention = !this.jobIntention
-       });
+          this.form2Validate = res.result;
+        }
+        this.jobIntention = !this.jobIntention
+      });
     },
     // 提交简历求职意向信息
     submitIntentionInfo (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
           let _data = this.form2Validate;
-          _data.id = sessionStorage.getItem('userId')   
+          _data.id = sessionStorage.getItem('userId')
           API.updateJobIntention(_data).then(res => {
             if (res.code == 200) {
               this.jobIntention = !this.jobIntention;
@@ -618,8 +619,8 @@ export default {
       })
     },
     //添加项目经验
-    addProjectExp(){
-        this.projectExp = !this.projectExp;
+    addProjectExp () {
+      this.projectExp = !this.projectExp;
     },
     // 获取用户项目经验
     editProjectExp (item) {
@@ -628,30 +629,30 @@ export default {
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result[0];
-          _data.projectDate = [_data.startTime,_data.endTime];//瞎子怎么转换的
+          _data.projectDate = [_data.startTime, _data.endTime];//瞎子怎么转换的
           // 不是转换，projectDate是一个数组，把start和end拼进去就可以了 不是我给你的不是一床数字，咋改成日期的，组件自己改的不用你操心昂还有你看着
-          this.form3Validate = _data; 
+          this.form3Validate = _data;
           // debugger破电脑，卡屎了哼，会了不，知道怎么处理时间了不不知道？
           this.projectExp = !this.projectExp;
-         }else{
-           this.$Message.error('error呀')
-         }
-       });
+        } else {
+          this.$Message.error('error呀')
+        }
+      });
     },
     submitProjectExp (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
           this.form3Validate.startTime = tool.formatDate2(this.form3Validate.projectDate[0]);
-          this.form3Validate.endTime = tool.formatDate2(this.form3Validate.projectDate[1]);         
-          let _data = this.form3Validate;   
-          _data.resumeId=this.resumeInfo.id;
+          this.form3Validate.endTime = tool.formatDate2(this.form3Validate.projectDate[1]);
+          let _data = this.form3Validate;
+          _data.resumeId = this.resumeInfo.id;
           API.submitProject(_data).then(res => {
 
-            if (res.code == 200) {    
-              this.projectExp = !this.projectExp;         
+            if (res.code == 200) {
+              this.projectExp = !this.projectExp;
               this.$Message.success('Success!');
             }
-            
+
           });
         } else {
           this.$Message.error('Fail!');
@@ -659,76 +660,88 @@ export default {
       })
     },
     //添加项目经验
-    addEducationExp(){
-        this.educationExp = !this.educationExp;
+    addEducationExp () {
+      this.form4Validate = [];
+      this.educationExp = !this.educationExp;
     },
     //通过教育背景项id获取教育背景信息
-    editEducationExp (item) {     
+    editEducationExp (item) {
       API.queryEducationById({
         eduId: item.eduId,
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result[0];
-          _data.studyDate = [_data.startDate,_data.endDate];
-          _data.isUnified=Number(_data.isUnified);
           // 不是转换，projectDate是一个数组，把start和end拼进去就可以了
-          this.form4Validate = _data; 
+          _data.studyDate = [_data.startDate, _data.endDate];
+          _data.isUnified = String(_data.isUnified);
+          // 我研究一下
+          this.form4Validate = _data;
+          console.log(this.form4Validate);
           this.educationExp = !this.educationExp;
-         }else{
-           this.$Message.error('error呀')
-         }
-       });
-    }, 
+        } else {
+          this.$Message.error('error呀')
+        }
+      });
+    },
     submitEducationExp (name) {
-       this.$refs[name].validate((valid) => {
+      this.$refs[name].validate((valid) => {
         if (valid) {
           this.form4Validate.startDate = tool.formatDate2(this.form4Validate.studyDate[0]);
-          this.form4Validate.endDate = tool.formatDate2(this.form4Validate.studyDate[1]);         
-          let _data = this.form4Validate;   
-          _data.resumeId=this.resumeInfo.id;
+          this.form4Validate.endDate = tool.formatDate2(this.form4Validate.studyDate[1]);
+          let _data = this.form4Validate;
+          _data.resumeId = this.resumeInfo.id;
           API.submitEducation(_data).then(res => {
 
-            if (res.code == 200) {    
-              this.educationExp = !this.educationExp;        
+            if (res.code == 200) {
+              this.educationExp = !this.educationExp;
               this.$Message.success('Success!');
             }
-            
+
           });
         } else {
           this.$Message.error('Fail!');
         }
       })
     },
+
     initData () {
       // 获取用户简历所有数据
       API.queryResume({
         userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
-          this.userInfo = false;
           let _data = res.result;
-          let _projectData=res.result.projects
+          // 个人信息
+          _data.gender == 1 ? _data.gender = '男' : _data.gender == 2 ? _data.gender='女' : '无';
+          _data.birthDate = tool.getAge(_data.birthDate);
+          _data.workDate = tool.getAge(_data.workDate);
+          // 求职意向
+          this.resumeInfo = _data;
+          // 项目经历
+          let _projectData = res.result.projects
           _projectData.forEach(item => {
             item.startTime = tool.formatDate2(item.startTime);
             item.endTime = tool.formatDate2(item.endTime)
           });
-          let _studyData=res.result.educations
+          // 教育经历
+          let _studyData = res.result.educations
           _studyData.forEach(item => {
             item.startDate = tool.formatDate2(item.startDate);
             item.endDate = tool.formatDate2(item.endDate)
           });
-          _data.gender == 1 ? _data.gender = '男' : _data.gender == 2 ? '女' : '无'
-          this.resumeInfo = _data;
-          this.projectExpData=_data.projects;
-          this.educationExpData=_data.educations;
-          sessionStorage.setItem("resumeId",_data.id);
+          this.projectExpData = _data.projects;
+          this.educationExpData = _data.educations;
+          // 什么的id存储？
+          sessionStorage.setItem("resumeId", _data.id);
+          // 隐藏数据填写的div
+          this.userInfo = false;
         } else {
           // 900 代表用户还没录入过信息
           // 显示数据填写的div
           this.userInfo = true;
         }
       });
-      
+
     }
   },
   created () {
