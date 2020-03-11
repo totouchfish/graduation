@@ -21,6 +21,11 @@ export default {
       component: () => import('@/views/companySystem/recruitment/recruitment')//懒加载
     },
     {
+      path: '/add_recruitment',
+      name: 'add_recruitment',
+      component: () => import('@/views/companySystem/recruitment/add_recruitment')//懒加载
+    },
+    {
       path: '/interview',
       name: 'interview',
       component: () => import('@/views/companySystem/interview/interview')//懒加载
@@ -29,6 +34,11 @@ export default {
       path: '/certification',
       name: 'certification',
       component: () => import('@/views/companySystem/certification/certification')//懒加载
-    }
+    },
+    // {
+    //   path: '/certification',
+    //   name: 'certification',
+    //   component: () => import('@/views/companySystem/certification/certification')//懒加载
+    // }
   ]
 }

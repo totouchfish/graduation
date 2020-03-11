@@ -7,8 +7,8 @@
         <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
       </li>
       <li class="liStyle">
-        <label for="">岗位：</label>
-        <Input v-model="search.jobName" placeholder="请输入岗位名称" style="width: 160px"></Input>
+        <label for="">职位：</label>
+        <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
       </li>
       <li class="liStyle">
         <span>状态：</span>
@@ -77,7 +77,7 @@ export default {
         //   align: "center"
         // },
         {
-          title: "应聘岗位",
+          title: "应聘职位",
           key: "job",
           align: "center"
         },
@@ -203,6 +203,9 @@ export default {
   width: 1000px;
   height: 100vh;
   overflow-y: hidden;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 0.5em;
 }
 .paging {
   float: right;

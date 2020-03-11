@@ -9,8 +9,8 @@
             <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
           </li>
           <li class="liStyle">
-            <label for="">岗位：</label>
-            <Input v-model="search.jobName" placeholder="请输入岗位名称" style="width: 160px"></Input>
+            <label for="">职位：</label>
+            <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
           </li>
           <!-- <li class="liStyle">
             <span>状态：</span>
@@ -36,8 +36,8 @@
             <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
           </li>
           <li class="liStyle">
-            <label for="">岗位：</label>
-            <Input v-model="search.jobName" placeholder="请输入岗位名称" style="width: 160px"></Input>
+            <label for="">职位：</label>
+            <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
           </li>
           <!-- <li class="liStyle">
             <span>状态：</span>
@@ -63,8 +63,8 @@
             <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
           </li>
           <li class="liStyle">
-            <label for="">岗位：</label>
-            <Input v-model="search.jobName" placeholder="请输入岗位名称" style="width: 160px"></Input>
+            <label for="">职位：</label>
+            <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
           </li>
           <!-- <li class="liStyle">
             <span>状态：</span>
@@ -106,14 +106,14 @@ export default {
         {
           type: "index",
           title: "序号",
-          width: 80,
+          width: 60,
           align: "center",
-          // render: (h, params) => {
-          //   return h(
-          //     "span",
-          //     (params.index + 1) + (this.currentPage - 1) * 10
-          //   );
-          // }
+          render: (h, params) => {
+            return h(
+              "span",
+              (params.index + 1) + (this.currentPage - 1) * 10
+            );
+          }
         },
         {
           title: "姓名",
@@ -123,7 +123,8 @@ export default {
         {
           title: "性别",
           key: "gender",
-          align: "center"
+          align: "center",
+          width: 60
         },
         {
           title: "年龄",
@@ -136,7 +137,7 @@ export default {
         //   align: "center"
         // },
         {
-          title: "应聘岗位",
+          title: "应聘职位",
           key: "job",
           align: "center"
         },
@@ -148,12 +149,14 @@ export default {
         {
           title: "申请日期",
           key: "applyDate",
-          align: "center"
+          sortable: "true",
+          align: "center",
+          width: 110
         },
         {
           title: "操作",
           key: "action",
-          width: 300,
+          width: 200,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -216,14 +219,14 @@ export default {
         {
           type: "index",
           title: "序号",
-          width: 80,
+          width: 60,
           align: "center",
-          // render: (h, params) => {
-          //   return h(
-          //     "span",
-          //     (params.index + 1) + (this.currentPage - 1) * 10
-          //   );
-          // }
+          render: (h, params) => {
+            return h(
+              "span",
+              (params.index + 1) + (this.currentPage - 1) * 10
+            );
+          }
         },
         {
           title: "姓名",
@@ -233,7 +236,8 @@ export default {
         {
           title: "性别",
           key: "gender",
-          align: "center"
+          align: "center",
+          width: 60
         },
         {
           title: "年龄",
@@ -246,7 +250,7 @@ export default {
         //   align: "center"
         // },
         {
-          title: "应聘岗位",
+          title: "应聘职位",
           key: "job",
           align: "center"
         },
@@ -258,12 +262,14 @@ export default {
         {
           title: "申请日期",
           key: "applyDate",
-          align: "center"
+          sortable: "true",
+          align: "center",
+          width: 110
         },
         {
           title: "操作",
           key: "action",
-          width: 300,
+          width: 200,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -326,14 +332,14 @@ export default {
         {
           type: "index",
           title: "序号",
-          width: 80,
+          width: 60,
           align: "center",
-          // render: (h, params) => {
-          //   return h(
-          //     "span",
-          //     (params.index + 1) + (this.currentPage - 1) * 10
-          //   );
-          // }
+          render: (h, params) => {
+            return h(
+              "span",
+              (params.index + 1) + (this.currentPage - 1) * 10
+            );
+          }
         },
         {
           title: "姓名",
@@ -343,7 +349,8 @@ export default {
         {
           title: "性别",
           key: "gender",
-          align: "center"
+          align: "center",
+          width: 60
         },
         {
           title: "年龄",
@@ -356,7 +363,7 @@ export default {
         //   align: "center"
         // },
         {
-          title: "应聘岗位",
+          title: "应聘职位",
           key: "job",
           align: "center"
         },
@@ -369,12 +376,13 @@ export default {
           title: "申请日期",
           key: "applyDate",
           sortable: "true",
-          align: "center"
+          align: "center",
+          width: 110
         },
         {
           title: "操作",
           key: "action",
-          width: 300,
+          width: 200,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -428,14 +436,14 @@ export default {
           gender: '男',
           age: '32',
           job: '前端开发工程师',
-          applyDate: '2020-03-06'
+          applyDate: '2020-03-07'
         },
         {
           name: 'test3',
           gender: '男',
           age: '32',
           job: '前端开发工程师',
-          applyDate: '2020-03-06'
+          applyDate: '2020-02-06'
         }
       ],
       checkData: [
@@ -444,21 +452,21 @@ export default {
           gender: '男',
           age: '32',
           job: '前端开发工程师',
-          applyDate: '2020-03-06'
+          applyDate: '2020-02-06'
         },
         {
           name: 'test2',
           gender: '男',
           age: '32',
           job: '前端开发工程师',
-          applyDate: '2020-03-06'
+          applyDate: '2020-03-08'
         },
         {
           name: 'test3',
           gender: '男',
           age: '32',
           job: '前端开发工程师',
-          applyDate: '2020-03-06'
+          applyDate: '2020-01-06'
         }
       ],
       deleteData: [
@@ -467,21 +475,21 @@ export default {
           gender: '男',
           age: '32',
           job: '前端开发工程师',
-          applyDate: '2020-03-06'
+          applyDate: '2020-03-05'
         },
         {
           name: 'test2',
           gender: '男',
           age: '32',
           job: '前端开发工程师',
-          applyDate: '2020-03-06'
+          applyDate: '2020-03-09'
         },
         {
           name: 'test3',
           gender: '男',
           age: '32',
           job: '前端开发工程师',
-          applyDate: '2020-03-06'
+          applyDate: '2020-06-06'
         }
       ]
     };
@@ -504,6 +512,9 @@ export default {
   width: 1000px;
   height: 100vh;
   overflow-y: hidden;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 0.5em;
 }
 .paging {
   float: right;

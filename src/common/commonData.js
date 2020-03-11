@@ -319,7 +319,7 @@ const testData = [{
       choose: false
     },
     {
-      name: "政府机关／非盈利机构",
+      name: "政府机关/非盈利机构",
       code: "type06",
       choose: false
     },
