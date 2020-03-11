@@ -99,6 +99,7 @@ export default {
   cursor: pointer;
   position: relative;
   display: block;
+  /* 禁止选中文字 */
   user-select:none;
 }
 .header span:hover {

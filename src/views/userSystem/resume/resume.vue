@@ -67,7 +67,7 @@
                 <p>只支持JPG格式,大小不要超过500k 建议使用一寸证件照70*100像素</p>
                 </Col>
               </Row>
-              <FormItem label="户口所在地" prop="address">
+              <FormItem label="户口所在地" prop="none">
                 <Row>
                   <Col span="7">
                   <FormItem prop="birthProvince">
@@ -85,7 +85,7 @@
                   </Col>
                 </Row>
               </FormItem>
-              <FormItem label="现居住城市">
+              <FormItem label="现居住城市" prop="none">
                 <Row>
                   <Col span="8">
                   <FormItem prop="liveProvince">
@@ -183,15 +183,15 @@
               </FormItem>
               <FormItem label="税前月薪" prop="expectSalary">
                 <Select v-model="form2Validate.expectSalary">
-                  <Option value="1">1000元/月以下</Option>
-                  <Option value="2">1000-2000元/月</Option>
-                  <Option value="3">2001-4000元/月</Option>
-                  <Option value="4">4001-6000元/月</Option>
-                  <Option value="5">6001-8000元/月</Option>
-                  <Option value="6">8001-10000元/月</Option>
-                  <Option value="7">10001-15000元/月</Option>
-                  <Option value="8">15001-20000元/月</Option>
-                  <Option value="9">20000元/月以上</Option>
+                  <Option value="1">1k元/月以下</Option>
+                  <Option value="2">1k-2k元/月</Option>
+                  <Option value="3">2k-4k元/月</Option>
+                  <Option value="4">4k-6k元/月</Option>
+                  <Option value="5">6k-8k元/月</Option>
+                  <Option value="6">8k-10k元/月</Option>
+                  <Option value="7">10k-15k元/月</Option>
+                  <Option value="8">15k-20k元/月</Option>
+                  <Option value="9">20k元/月以上</Option>
                 </Select>
               </FormItem>
               <FormItem>
@@ -410,6 +410,9 @@ export default {
         identity: [
           { required: true, message: '请选择政治面貌', trigger: 'change' }
         ],
+        none:[
+          {required: true, message: '.'}
+        ]
       },
       form2Validate: {
         id: '',

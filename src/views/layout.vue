@@ -83,7 +83,7 @@
       </Header>
       <Content class="content">
         <div style="margin-top:20px;">
-          <router-view />
+          <router-view/>
         </div>
       </Content>
     </Layout>
@@ -130,6 +130,8 @@ export default {
   overflow: hidden;
 }
 .ivu-menu-light {
+  /* 禁止选中文字 */
+  user-select:none;
   /* background-color: red; */
   background: linear-gradient(top, #f5dea8, #d1b267);
   background: -ms-linear-gradient(top, #f5dea8, #d1b267);

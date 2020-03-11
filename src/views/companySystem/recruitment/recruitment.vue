@@ -1,8 +1,45 @@
 <template>
   <!-- 简历管理页面 -->
   <div class="main">
-    <Table :columns="column" :data="selectData"></Table>
-    <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
+    <ul class="fillIn clear">
+      <li class="liStyle">
+        <label for="">职位：</label>
+        <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
+      </li>
+      <li class="liStyle">
+        <label for="">学历：</label>
+        <Select v-model="search.degree" style="width: 120px">
+          <Option value="0">全部</Option>
+          <Option value="1">高中</Option>
+          <Option value="2">中专</Option>
+          <Option value="3">大专</Option>
+          <Option value="4">本科</Option>
+          <Option value="5">硕士</Option>
+          <Option value="6">博士</Option>
+          <Option value="9">其他</Option>
+        </Select>
+      </li>
+      <li class="liStyle">
+        <span>状态：</span>
+        <Select v-model="search.status" style="width: 120px">
+          <Option value="0">全部</Option>
+          <Option value="1">已邀请</Option>
+          <Option value="2">已录取</Option>
+          <Option value="3">未录取</Option>
+          <Option value="4">二次面试</Option>
+        </Select>
+      </li>
+      <li class="liStyle">
+        <Button icon="ios-search" type="primary" @click="searchData()">搜 索</Button>
+      </li>
+    </ul>
+    <div>
+      <Button icon="ios-add" class="add_button" type="primary" @click="addData()">新增职位</Button>
+    </div>
+    <div style="margin-top:60px;">
+      <Table :columns="column" :data="selectData"></Table>
+      <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
+    </div>
   </div>
 </template>
 <script>
@@ -10,8 +47,13 @@ export default {
   data () {
     return {
       userType: sessionStorage.getItem('userType') || 1,
-      total:10,
-      currentPage:1,
+      total: 10,
+      currentPage: 1,
+      search: {
+        jobName: '',
+        degree: '0',
+        status: '0'
+      },
       column: [
         {
           type: "index",
@@ -126,37 +168,46 @@ export default {
           }
         }
       ],
-      selectData:[
+      selectData: [
         {
-          jobName:'前端开发工程师',
-          salary:'6k-8k/月',
-          degree:'本科',
-          address:'天津-河东区-融资服务中心',
-          releaseDate:'2020-03-06',
-          status:"招聘中"
+          jobName: '前端开发工程师',
+          salary: '6k-8k/月',
+          degree: '本科',
+          address: '天津-河东区-融资服务中心',
+          releaseDate: '2020-03-06',
+          status: "招聘中"
         },
         {
-          jobName:'前端开发工程师',
-          salary:'7w-8w/年',
-          degree:'本科',
-          address:'天津-河东区-融资服务中心',
-          releaseDate:'2020-03-06',
-          status:"招聘中"
+          jobName: '前端开发工程师',
+          salary: '7w-8w/年',
+          degree: '本科',
+          address: '天津-河东区-融资服务中心',
+          releaseDate: '2020-03-06',
+          status: "招聘中"
         },
         {
-          jobName:'前端开发工程师',
-          salary:'6k-8k/月',
-          degree:'本科',
-          address:'天津-河东区-融资服务中心',
-          releaseDate:'2020-03-06',
-          status:"停止招聘"
+          jobName: '前端开发工程师',
+          salary: '6k-8k/月',
+          degree: '本科',
+          address: '天津-河东区-融资服务中心',
+          releaseDate: '2020-03-06',
+          status: "停止招聘"
         }
       ]
     };
   },
   methods: {
-    changepage(val){
+    changepage (val) {
       this.currentPage = val;
+    },
+    searchData(){},
+    addData(){
+      this.$router.push({
+        name:'add_recruitment',
+        // params:{
+        //   id:'1'
+        // }
+      })
     }
   }
 }
@@ -166,9 +217,32 @@ export default {
   width: 1000px;
   height: 100vh;
   overflow-y: hidden;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 0.5em;
 }
-.paging{
+.paging {
   float: right;
   margin-top: 10px;
+}
+.fillIn {
+  list-style-type: none;
+  margin-bottom: 30px;
+}
+.liStyle {
+  float: left;
+  margin: 20px 20px 0 0;
+}
+.clear {
+  zoom: 1;
+}
+.clear:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.add_button{
+  float: right;
+  margin-top: -20px;
 }
 </style>
