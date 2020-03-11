@@ -12,6 +12,11 @@ export function collection(arg) {
 export function acceptPosition(arg) {
   return request.post('/resume/deliverResume', arg)
 }
+
+//删除收藏
+export function delCollection(arg) {
+  return request.post('/collection/delCollectPosition', arg)
+}
   /**
  * 登录接口
  * @param {*} arg 

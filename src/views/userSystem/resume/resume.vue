@@ -220,7 +220,7 @@
               </Row>
               <Row>
                 <span>项目日期：</span>
-                <p>{{item.startDate}} - {{item.endDate}}</p>
+                <p>{{item.startTime}} - {{item.endTime}}</p>
               </Row>
               <Row>
                 <span>项目描述：</span>
@@ -233,7 +233,7 @@
             </Card>
             </Col>
             <Col span="4">
-            <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="editProjectExp()">
+            <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="addProjectExp()">
               <svg-icon icon-class="edit" />&nbsp;添加项目经验</span></Col>
           </Row>
           <Row v-show="projectExp" class="userInfo_edit">
@@ -242,8 +242,8 @@
               <FormItem label="项目名称：" prop="projectName">
                 <Input v-model="form3Validate.projectName"></Input>
               </FormItem>
-              <FormItem label="项目时间：" prop="projectTime">
-                <DatePicker v-model="form3Validate.projectTime" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
+              <FormItem label="项目时间：" prop="projectDate">
+                <DatePicker v-model="form3Validate.projectDate" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
               </FormItem>
               <FormItem label="项目描述：" prop="projectDesc">
                 <Input type="textarea" :autosize="true" v-model="form3Validate.projectDesc"></Input>
@@ -291,7 +291,7 @@
             </Card>
             </Col>
             <Col span="4">
-            <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="editEducationExp()">
+            <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="addEducationExp()">
               <svg-icon icon-class="edit" />&nbsp;添加教育经历</span></Col>
           </Row>
           <Row v-show="educationExp" class="userInfo_edit">
@@ -437,18 +437,21 @@ export default {
         ]
       },
       form3Validate: {
-        id: '',
+        proId: '',
         projectName: '',
-        projectTime: [new Date(), new Date()],
+        projectDate: [new Date(), new Date()],
+        startTime: '',
+        endTime: '',
         projectDesc: '',
         personalWork: '',
         companyName: '',
+        resumeId:''
       },
       rule3Validate: {
         projectName: [
           { required: true, message: '请输入项目名称', trigger: 'blur' }
         ],
-        projectTime: [
+        projectDate: [
           { required: true, type: 'array', min: 1, message: '请选择日期', trigger: 'change' }
         ],
         projectDesc: [
@@ -462,12 +465,13 @@ export default {
         ]
       },
       form4Validate: {
-        id: '',
+        eduId: '',
         schoolName: '',
         studyDate: [new Date(), new Date()],
         major: '',
         isUnified: '',
         degree: '',
+        resumeId:''
       },
       rule4Validate: {
         schoolName: [
@@ -549,15 +553,23 @@ export default {
     },
     // 点击编辑按钮，获取用户信息
     editUserInfo () {
-      // API.queryUserInfoById({
-      //   userId: sessionStorage.getItem('userId')
-      // }).then(res => {
-      //   if (res.code == 200) {
-      //     let _data = res.result;
-      //     this.form1Validate = _data;
-      //   }
-        this.userInfo = !this.userInfo
-      // });
+      API.queryUserInfoById({
+        userId: sessionStorage.getItem('userId')
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result; 
+          // select组件的value类型是number类型,接口返回的是string类型，所以需要转换一下
+          _data.birthProvince = Number(_data.birthProvince);
+          _data.birthCity = Number(_data.birthCity);
+          _data.liveProvince = Number(_data.liveProvince);
+          _data.liveCity = Number(_data.liveCity);
+          _data.liveCounty = Number(_data.liveCounty);
+          this.form1Validate = _data;
+          console.log(this.form1Validate);
+        }
+         
+        this.userInfo = !this.userInfo;
+       });
     },
     // 提交用户信息
     submitUserInfo (name) {
@@ -605,47 +617,82 @@ export default {
         }
       })
     },
+    //添加项目经验
+    addProjectExp(){
+        this.projectExp = !this.projectExp;
+    },
     // 获取用户项目经验
     editProjectExp (item) {
-      this.projectExp = !this.projectExp;
-      if (item) {
-        this.form3Validate = item;
-      }
+      API.queryProjectById({
+        proId: item.proId,
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result[0];
+          _data.projectDate = [_data.startTime,_data.endTime];//瞎子怎么转换的
+          // 不是转换，projectDate是一个数组，把start和end拼进去就可以了 不是我给你的不是一床数字，咋改成日期的，组件自己改的不用你操心昂还有你看着
+          this.form3Validate = _data; 
+          // debugger破电脑，卡屎了哼，会了不，知道怎么处理时间了不不知道？
+          this.projectExp = !this.projectExp;
+         }else{
+           this.$Message.error('error呀')
+         }
+       });
     },
     submitProjectExp (name) {
-      // console.log(this.form3Validate)
       this.$refs[name].validate((valid) => {
         if (valid) {
-          console.log(this.form3Validate)
-          // API.updateUserInfo({
-          //   userId: sessionStorage.getItem('userId'),
-          //   jobIntention: this.form3Validate
-          // }).then(res => {
-          //   if (res.code == 200) {
-          //     this.jobIntention = !this.jobIntention;
-          //     this.$Message.success('Success!');
-          //   }
-          // });
+          this.form3Validate.startTime = tool.formatDate2(this.form3Validate.projectDate[0]);
+          this.form3Validate.endTime = tool.formatDate2(this.form3Validate.projectDate[1]);         
+          let _data = this.form3Validate;   
+          _data.resumeId=this.resumeInfo.id;
+          API.submitProject(_data).then(res => {
+
+            if (res.code == 200) {    
+              this.projectExp = !this.projectExp;         
+              this.$Message.success('Success!');
+            }
+            
+          });
         } else {
           this.$Message.error('Fail!');
         }
       })
     },
-    editEducationExp (id) {
-      this.educationExp = !this.educationExp;
+    //添加项目经验
+    addEducationExp(){
+        this.educationExp = !this.educationExp;
     },
+    //通过教育背景项id获取教育背景信息
+    editEducationExp (item) {     
+      API.queryEducationById({
+        eduId: item.eduId,
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result[0];
+          _data.studyDate = [_data.startDate,_data.endDate];
+          _data.isUnified=Number(_data.isUnified);
+          // 不是转换，projectDate是一个数组，把start和end拼进去就可以了
+          this.form4Validate = _data; 
+          this.educationExp = !this.educationExp;
+         }else{
+           this.$Message.error('error呀')
+         }
+       });
+    }, 
     submitEducationExp (name) {
-      this.$refs[name].validate((valid) => {
+       this.$refs[name].validate((valid) => {
         if (valid) {
-          console.log(this.form4Validate)
-          API.updateUserInfo({
-            userId: sessionStorage.getItem('userId'),
-            jobIntention: this.form4Validate
-          }).then(res => {
-            if (res.code == 200) {
-              this.jobIntention = !this.jobIntention;
+          this.form4Validate.startDate = tool.formatDate2(this.form4Validate.studyDate[0]);
+          this.form4Validate.endDate = tool.formatDate2(this.form4Validate.studyDate[1]);         
+          let _data = this.form4Validate;   
+          _data.resumeId=this.resumeInfo.id;
+          API.submitEducation(_data).then(res => {
+
+            if (res.code == 200) {    
+              this.educationExp = !this.educationExp;        
               this.$Message.success('Success!');
             }
+            
           });
         } else {
           this.$Message.error('Fail!');
@@ -660,6 +707,16 @@ export default {
         if (res.code == 200) {
           this.userInfo = false;
           let _data = res.result;
+          let _projectData=res.result.projects
+          _projectData.forEach(item => {
+            item.startTime = tool.formatDate2(item.startTime);
+            item.endTime = tool.formatDate2(item.endTime)
+          });
+          let _studyData=res.result.educations
+          _studyData.forEach(item => {
+            item.startDate = tool.formatDate2(item.startDate);
+            item.endDate = tool.formatDate2(item.endDate)
+          });
           _data.gender == 1 ? _data.gender = '男' : _data.gender == 2 ? '女' : '无'
           this.resumeInfo = _data;
           this.projectExpData=_data.projects;
@@ -671,18 +728,7 @@ export default {
           this.userInfo = true;
         }
       });
-      // API.queryJobIntention({
-      //   userId: sessionStorage.getItem('userId')
-      // }).then(res => {
-      //   if (res.code == 200) {
-      //     let _data = res.result;
-      //     this.resumeIntention = _data;
-      //     // this.jobIntention = false;
-      //     console.log(_data);
-      //   } else {
-      //     // tthis.jobIntention = true;
-      //   }
-      // });
+      
     }
   },
   created () {
