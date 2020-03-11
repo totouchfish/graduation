@@ -28,7 +28,7 @@
               </Col>
             </Row>
             <Row>
-              <Col class="addressInfo"><span style="padding-left:0;">{{resumeInfo.gender}}</span>|<span>{{resumeInfo.birthDate}}岁</span>|<span>{{resumeInfo.birthAddress}}</span>|<span>{{resumeInfo.workDate}}年经验</span></Col>
+              <Col class="addressInfo"><span style="padding-left:0;">{{resumeInfo.gender}}</span>|<span>{{resumeInfo.birthDate}}岁</span>|<span>{{resumeInfo.birthProvince}}{{resumeInfo.birthCity}}</span></span>|<span>{{resumeInfo.workDate}}年经验</span></Col>
             </Row>
             <Row>
               <Col class="contactInfo">
@@ -159,7 +159,7 @@
             </Row>
             </Col>
 
-            <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editResumeInfo">
+            <Col span="2" offset="1"><span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editIntentionInfo">
               <svg-icon icon-class="edit" />&nbsp;编辑</span></Col>
           </Row>
           <Row v-show="jobIntention" class="userInfo_edit">
@@ -195,7 +195,7 @@
                 </Select>
               </FormItem>
               <FormItem>
-                <Button type="primary" @click="submitResumeInfo('form2Validate')">提交</Button>
+                <Button type="primary" @click="submitIntentionInfo('form2Validate')">提交</Button>
                 <Button @click="jobIntention = !jobIntention;form2Validate = [];" style="margin-left: 8px">取消</Button>
               </FormItem>
             </Form>
@@ -220,7 +220,7 @@
               </Row>
               <Row>
                 <span>项目日期：</span>
-                <p>{{item.startDate}} - {{item.endDate}}</p>
+                <p>{{item.startTime}} - {{item.endTime}}</p>
               </Row>
               <Row>
                 <span>项目描述：</span>
@@ -233,7 +233,7 @@
             </Card>
             </Col>
             <Col span="4">
-            <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="editProjectExp()">
+            <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="addProjectExp()">
               <svg-icon icon-class="edit" />&nbsp;添加项目经验</span></Col>
           </Row>
           <Row v-show="projectExp" class="userInfo_edit">
@@ -242,8 +242,8 @@
               <FormItem label="项目名称：" prop="projectName">
                 <Input v-model="form3Validate.projectName"></Input>
               </FormItem>
-              <FormItem label="项目时间：" prop="projectTime">
-                <DatePicker v-model="form3Validate.projectTime" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
+              <FormItem label="项目时间：" prop="projectDate">
+                <DatePicker v-model="form3Validate.projectDate" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
               </FormItem>
               <FormItem label="项目描述：" prop="projectDesc">
                 <Input type="textarea" :autosize="true" v-model="form3Validate.projectDesc"></Input>
@@ -291,7 +291,7 @@
             </Card>
             </Col>
             <Col span="4">
-            <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="editEducationExp()">
+            <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="addEducationExp()">
               <svg-icon icon-class="edit" />&nbsp;添加教育经历</span></Col>
           </Row>
           <Row v-show="educationExp" class="userInfo_edit">
@@ -440,18 +440,21 @@ export default {
         ]
       },
       form3Validate: {
-        id: '',
+        proId: '',
         projectName: '',
-        projectTime: [new Date(), new Date()],
+        projectDate: [new Date(), new Date()],
+        startTime: '',
+        endTime: '',
         projectDesc: '',
         personalWork: '',
         companyName: '',
+        resumeId:''
       },
       rule3Validate: {
         projectName: [
           { required: true, message: '请输入项目名称', trigger: 'blur' }
         ],
-        projectTime: [
+        projectDate: [
           { required: true, type: 'array', min: 1, message: '请选择日期', trigger: 'change' }
         ],
         projectDesc: [
@@ -465,12 +468,13 @@ export default {
         ]
       },
       form4Validate: {
-        id: '',
+        eduId: '',
         schoolName: '',
         studyDate: [new Date(), new Date()],
         major: '',
         isUnified: '',
         degree: '',
+        resumeId:''
       },
       rule4Validate: {
         schoolName: [
@@ -491,70 +495,8 @@ export default {
       },
       resumeInfo: [],
       resumeIntention: [],
-      projectExpData: [
-        {
-          id: "1",
-          projectName: 'XXX项目1',
-          startDate: tool.formatDate2(new Date()),
-          endDate: tool.formatDate2(new Date()),
-          projectTime: [new Date(), new Date()],
-          projectDesc: '项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述',
-          personalWork: '个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责',
-          companyName: "XX"
-        },
-        {
-          id: "2",
-          projectName: 'XXX项目2',
-          startDate: tool.formatDate2(new Date()),
-          endDate: tool.formatDate2(new Date()),
-          projectTime: [new Date(), new Date()],
-          projectDesc: '项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述',
-          personalWork: '个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责',
-          companyName: "XX"
-        },
-        {
-          id: "3",
-          projectName: 'XXX项目3',
-          startDate: tool.formatDate2(new Date()),
-          endDate: tool.formatDate2(new Date()),
-          projectTime: [new Date(), new Date()],
-          projectDesc: '项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述项目描述',
-          personalWork: '个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责个人职责',
-          degree: "XX"
-        }
-      ],
-      educationExpData: [
-        {
-          id: "1",
-          schoolName: 'XXX学校1',
-          startDate: tool.formatDate2(new Date()),
-          endDate: tool.formatDate2(new Date()),
-          studyDate: [new Date(), new Date()],
-          major: '计算机技术与科学',
-          isUnified: '1',
-          degree: '1'
-        },
-        {
-          id: "2",
-          schoolName: 'XXX学校2',
-          startDate: tool.formatDate2(new Date()),
-          endDate: tool.formatDate2(new Date()),
-          studyDate: [new Date(), new Date()],
-          major: '计算机技术与科学',
-          isUnified: '1',
-          degree: '1'
-        },
-        {
-          id: "3",
-          schoolName: 'XXX学校3',
-          startDate: tool.formatDate2(new Date()),
-          endDate: tool.formatDate2(new Date()),
-          studyDate: [new Date(), new Date()],
-          major: '计算机技术与科学',
-          isUnified: '1',
-          degree: '1'
-        }
-      ]
+      projectExpData: [],
+      educationExpData: []
     };
   },
   watch: {
@@ -614,31 +556,31 @@ export default {
     },
     // 点击编辑按钮，获取用户信息
     editUserInfo () {
-      // API.queryUserInfoById({
-      //   userId: sessionStorage.getItem('userId')
-      // }).then(res => {
-      //   if (res.code == 200) {
-      //     let _data = res.result;
-      //     this.form1Validate = _data;
-      //   }
-        this.userInfo = !this.userInfo
-      // });
+      API.queryUserInfoById({
+        userId: sessionStorage.getItem('userId')
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result; 
+          // select组件的value类型是number类型,接口返回的是string类型，所以需要转换一下
+          _data.birthProvince = Number(_data.birthProvince);
+          _data.birthCity = Number(_data.birthCity);
+          _data.liveProvince = Number(_data.liveProvince);
+          _data.liveCity = Number(_data.liveCity);
+          _data.liveCounty = Number(_data.liveCounty);
+          this.form1Validate = _data;
+          console.log(this.form1Validate);
+        }
+         
+        this.userInfo = !this.userInfo;
+       });
     },
     // 提交用户信息
     submitUserInfo (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          console.log(this.form1Validate)
           let _data = this.form1Validate;
-          _data.id = sessionStorage.getItem('userId')
-          // _data.birthDate = tool.formatDate2(_data.birthDate);
-          // _data.workDate = tool.formatDate2(_data.workDate);
-          API.updateUserInfo(_data
-            //   {
-            //   // userId: sessionStorage.getItem('userId'),
-            //   userInfo: _data
-            // }
-          ).then(res => {
+          _data.id = sessionStorage.getItem('userId')   
+          API.updateUserInfo(_data).then(res => {
             if (res.code == 200) {
               this.userInfo = !this.userInfo;
               this.$Message.success('Success!');
@@ -649,27 +591,25 @@ export default {
         }
       })
     },
-    // 获取用户简历信息
-    editResumeInfo () {
-      // API.queryJobIntentionById({
-      //   userId: sessionStorage.getItem('userId')
+    // 获取简历求职意向信息
+    editIntentionInfo () {
+      API.queryJobIntentionById({
+        userId: sessionStorage.getItem('userId')
 
-      // }).then(res => {
-      //   if (res.code == 200) {
-      //     this.form2Validate = res.result;
-      this.jobIntention = !this.jobIntention
-      //   }
-      // });
+      }).then(res => {
+        if (res.code == 200) {
+          this.form2Validate = res.result; 
+         }
+         this.jobIntention = !this.jobIntention
+       });
     },
-    // 提交用户简历信息
-    submitResumeInfo (name) {
+    // 提交简历求职意向信息
+    submitIntentionInfo (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          console.log(this.form2Validate)
-          API.updateUserInfo({
-            userId: sessionStorage.getItem('userId'),
-            jobIntention: this.form2Validate
-          }).then(res => {
+          let _data = this.form2Validate;
+          _data.id = sessionStorage.getItem('userId')   
+          API.updateJobIntention(_data).then(res => {
             if (res.code == 200) {
               this.jobIntention = !this.jobIntention;
               this.$Message.success('Success!');
@@ -680,47 +620,82 @@ export default {
         }
       })
     },
+    //添加项目经验
+    addProjectExp(){
+        this.projectExp = !this.projectExp;
+    },
     // 获取用户项目经验
     editProjectExp (item) {
-      this.projectExp = !this.projectExp;
-      if (item) {
-        this.form3Validate = item;
-      }
+      API.queryProjectById({
+        proId: item.proId,
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result[0];
+          _data.projectDate = [_data.startTime,_data.endTime];//瞎子怎么转换的
+          // 不是转换，projectDate是一个数组，把start和end拼进去就可以了 不是我给你的不是一床数字，咋改成日期的，组件自己改的不用你操心昂还有你看着
+          this.form3Validate = _data; 
+          // debugger破电脑，卡屎了哼，会了不，知道怎么处理时间了不不知道？
+          this.projectExp = !this.projectExp;
+         }else{
+           this.$Message.error('error呀')
+         }
+       });
     },
     submitProjectExp (name) {
-      // console.log(this.form3Validate)
       this.$refs[name].validate((valid) => {
         if (valid) {
-          console.log(this.form3Validate)
-          // API.updateUserInfo({
-          //   userId: sessionStorage.getItem('userId'),
-          //   jobIntention: this.form3Validate
-          // }).then(res => {
-          //   if (res.code == 200) {
-          //     this.jobIntention = !this.jobIntention;
-          //     this.$Message.success('Success!');
-          //   }
-          // });
+          this.form3Validate.startTime = tool.formatDate2(this.form3Validate.projectDate[0]);
+          this.form3Validate.endTime = tool.formatDate2(this.form3Validate.projectDate[1]);         
+          let _data = this.form3Validate;   
+          _data.resumeId=this.resumeInfo.id;
+          API.submitProject(_data).then(res => {
+
+            if (res.code == 200) {    
+              this.projectExp = !this.projectExp;         
+              this.$Message.success('Success!');
+            }
+            
+          });
         } else {
           this.$Message.error('Fail!');
         }
       })
     },
-    editEducationExp (id) {
-      this.educationExp = !this.educationExp;
+    //添加项目经验
+    addEducationExp(){
+        this.educationExp = !this.educationExp;
     },
+    //通过教育背景项id获取教育背景信息
+    editEducationExp (item) {     
+      API.queryEducationById({
+        eduId: item.eduId,
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result[0];
+          _data.studyDate = [_data.startDate,_data.endDate];
+          _data.isUnified=Number(_data.isUnified);
+          // 不是转换，projectDate是一个数组，把start和end拼进去就可以了
+          this.form4Validate = _data; 
+          this.educationExp = !this.educationExp;
+         }else{
+           this.$Message.error('error呀')
+         }
+       });
+    }, 
     submitEducationExp (name) {
-      this.$refs[name].validate((valid) => {
+       this.$refs[name].validate((valid) => {
         if (valid) {
-          console.log(this.form4Validate)
-          API.updateUserInfo({
-            userId: sessionStorage.getItem('userId'),
-            jobIntention: this.form4Validate
-          }).then(res => {
-            if (res.code == 200) {
-              this.jobIntention = !this.jobIntention;
+          this.form4Validate.startDate = tool.formatDate2(this.form4Validate.studyDate[0]);
+          this.form4Validate.endDate = tool.formatDate2(this.form4Validate.studyDate[1]);         
+          let _data = this.form4Validate;   
+          _data.resumeId=this.resumeInfo.id;
+          API.submitEducation(_data).then(res => {
+
+            if (res.code == 200) {    
+              this.educationExp = !this.educationExp;        
               this.$Message.success('Success!');
             }
+            
           });
         } else {
           this.$Message.error('Fail!');
@@ -733,33 +708,30 @@ export default {
         userId: sessionStorage.getItem('userId')
       }).then(res => {
         if (res.code == 200) {
-          // 200 代表此用户已经填写过用户信息，
-          // 显示展示数据的div
           this.userInfo = false;
-          let _data = res.result[0];
+          let _data = res.result;
+          let _projectData=res.result.projects
+          _projectData.forEach(item => {
+            item.startTime = tool.formatDate2(item.startTime);
+            item.endTime = tool.formatDate2(item.endTime)
+          });
+          let _studyData=res.result.educations
+          _studyData.forEach(item => {
+            item.startDate = tool.formatDate2(item.startDate);
+            item.endDate = tool.formatDate2(item.endDate)
+          });
           _data.gender == 1 ? _data.gender = '男' : _data.gender == 2 ? '女' : '无'
-          // _data.birthDate = tool.getYears(_data.birthDate);
-          // _data.workDate = tool.getYears(_data.workDate);
           this.resumeInfo = _data;
-          // console.log(_data);
+          this.projectExpData=_data.projects;
+          this.educationExpData=_data.educations;
+          sessionStorage.setItem("resumeId",_data.id);
         } else {
           // 900 代表用户还没录入过信息
           // 显示数据填写的div
           this.userInfo = true;
         }
       });
-      API.queryJobIntention({
-        userId: sessionStorage.getItem('userId')
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          this.resumeIntention = _data;
-          // this.jobIntention = false;
-          console.log(_data);
-        } else {
-          // tthis.jobIntention = true;
-        }
-      });
+      
     }
   },
   created () {

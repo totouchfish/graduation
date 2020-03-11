@@ -13,7 +13,7 @@ export function queryUserInfoById(arg) {
   return request.post('/resume/queryUserInfoById', arg)
 }
 // 修改用户信息
-export function updateUserInfo(arg) { //整个？嗯
+export function updateUserInfo(arg) { 
   return request.post('/resume/updateUserInfo', arg)
 }
 // 获取用户职位意向
@@ -37,12 +37,31 @@ export function queryJobIntention(arg) {
 export function getProvince(arg) {
   return request.post('/china/province', arg)
 }
-//显示用户职位意向
+//显示全国所有城市
 export function getCity(arg) {
   return request.post('/china/city', arg)
 }
-
+//投递简历 申请职位
+export function accepPosition(arg) {
+  return request.post('/resume/deliverResume', arg)
+}
 // 简历投递进展
 export function progress(arg) {
   return request.post('/resume/progress', arg)
+}
+//显示项目经验
+export function queryProjectById(arg) {
+  return request.post('/resume/queryProjectById', arg)
+}
+//添加项目经验
+export function submitProject(arg) {
+  return request.post('/resume/submitProject', arg)
+}
+//显示项目经验
+export function queryEducationById(arg) {
+  return request.post('/resume/queryEducationById', arg)
+}
+//添加项目经验
+export function submitEducation(arg) {
+  return request.post('/resume/submitEducation', arg)
 }

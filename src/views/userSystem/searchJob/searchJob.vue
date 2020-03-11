@@ -37,6 +37,7 @@
         <div class="jobType">
           <span v-for="(item,index) in sortTypeLists" :class="item.choose?'choose':''" :key="index" @click="chooseItem(index,sortTypeLists,sortType,'sortType')">{{item.name}}</span>
         </div>
+        
         <ul class="recruitContent">
           <li v-for="(item,index) in recruitData" :key="index" @mouseenter="item.tagShow = true" @mouseleave="item.tagShow = false">
             <div class="float-left paddingtop-20px">
@@ -66,8 +67,10 @@
                 <Tag v-for="(element,indx) in item.tagData" :key="indx" type="border">{{element.name}}</Tag>
               </div>
             </transition>
+            <!-- 等会 -->
           </li>
         </ul>
+        <!-- <Page :total="total1" :current="currentPage1" class="paging" show-elevator @on-change="changepage1()"></Page> -->
       </Content>
     </Layout>
   </div>
@@ -77,6 +80,7 @@
 
 // 引入常用变量
 import commonData from "@/common/commonData.js";
+import * as API from "@/api/home.js";
 
 export default {
   name: "index",
@@ -105,12 +109,19 @@ export default {
       companyTypeLists: commonData.companyTypeLists,
       sortTypeLists: commonData.sortTypeLists,
       recruitData: commonData.recruitData,
+      // 这里是我声明的选中的那些字段对应的变量
       workCity: 0,
       workCharacter: 0,
       workType: 0,
       functionType: 0,
       companyType: 0,
-      sortType: 0
+      sortType: 0,
+      workCityName: '',
+      workCharacterName: '',
+      workTypeName: '',
+      functionTypeName: '',
+      companyTypeName: '',
+      sortTypeName: ''
     };
   },
   watch: {
@@ -129,17 +140,24 @@ export default {
       list[chooseIt].choose = false;
       list[index].choose = true;
       if (string == "workCity") {
+        // 这里是将选中的值绑定到对应的变量上
         this.workCity = index;
+        this.workCityName = list[index].name;
       } else if (string == "functionType") {
         this.functionType = index;
+        this.functionTypeName = list[index].name;
       } else if (string == "workCharacter") {
         this.workCharacter = index;
+        this.workCharacterName = list[index].name;
       } else if (string == "workType") {
         this.workType = index;
+        this.workTypeName = list[index].name;
       } else if (string == "companyType") {
         this.companyType = index;
+        this.companyTypeName = list[index].name;
       } else if (string == "sortType") {
         this.sortType = index;
+        this.sortTypeName = list[index].name;
       }
       sessionStorage.setItem(string, index);
     },
@@ -148,6 +166,25 @@ export default {
     },
     toggleHide () {
       this.tagShow = false;
+    },
+    initData () {
+      // 初始化列表数据
+      API.queryPositionByCondition({
+        // 这里是将变量与你接口的字段绑定，
+        content: this.searchContent,//搜索框
+        workCity: this.workCityName,
+        employType: this.workCharacterName,
+        trade:this.workTypeName,//啥字段
+        functionType: this.functionTypeName,
+        companyType: this.companyTypeName,
+        type: this.sortTypeName,
+        pageSize:10,
+        pageNum:1
+      }).then(res => {
+        if (res.code == 200) {
+          // this.jobLists = res.result;
+        }
+      })
     }
   },
   created () {
@@ -163,13 +200,14 @@ export default {
     }
     if (sessionStorage.getItem("functionType")) {
       this.chooseItem(sessionStorage.getItem("functionType"), this.functionTypeLists, this.functionType, 'functionType');
-    } 
+    }
     if (sessionStorage.getItem("companyType")) {
       this.chooseItem(sessionStorage.getItem("companyType"), this.companyTypeLists, this.companyType, 'companyType');
     }
     if (sessionStorage.getItem("sortType")) {
       this.chooseItem(sessionStorage.getItem("sortType"), this.sortTypeLists, this.sortType, 'sortType');
     }
+    this.initData();
   }
 };
 </script>

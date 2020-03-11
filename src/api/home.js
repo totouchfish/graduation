@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 
-/**教室信息：4个api**/
+/**：4个api**/
 
 /**
- * [findClassroom 教室列表]
- * @params Object 参数
- **/
+ * 首页列表
+ * @param {*} arg 
+ */
 export function homeLists(arg) {
   return request.post('/recruit/queryPositionRecruiter', arg)
 }
@@ -20,17 +20,9 @@ export function queryPositionInfoByTrade(arg) {
 }
 
 /**
- * [updateClassroom 更新教室信息]
- * @params Object 参数
- **/
-export function updateClassroom(arg) {
-  return request.post('/updateClassroom', arg)
-}
-
-/**
- * [deleteClassroom 删除询学员信息]
- * @params Object 参数 id
- **/
-export function deleteClassroom(arg) {
-  return request.post('/deleteClassroom', arg)
+ * 多条件查询
+ * @param {*} arg 
+ */
+export function queryPositionByCondition(arg) {
+  return request.post('/recruit/queryPositionByMore', arg)
 }
