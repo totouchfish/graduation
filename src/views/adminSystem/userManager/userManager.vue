@@ -1,31 +1,31 @@
 <template>
   <!-- 简历管理页面 -->
   <div class="main">
-      <ul class="fillIn clear">
-        <li class="liStyle">
-          <label for="">姓名：</label>
-          <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
-        </li>
-        <li class="liStyle">
-          <label for="">职位：</label>
-          <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
-        </li>
-        <li class="liStyle">
-          <span>状态：</span>
-          <Select v-model="search.status" style="width: 120px">
-            <Option value="0">全部</Option>
-            <Option value="1">已邀请</Option>
-            <Option value="2">已录取</Option>
-            <Option value="3">未录取</Option>
-            <Option value="4">二次面试</Option>
-          </Select>
-        </li>
-        <li class="liStyle">
-          <Button icon="ios-search" class="button" type="primary" @click="searchData()">搜 索</Button>
-        </li>
-      </ul>
-      <Table :columns="column" :data="resumeData"></Table>
-      <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
+    <ul class="fillIn clear">
+      <li class="liStyle">
+        <label for="">姓名：</label>
+        <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
+      </li>
+      <li class="liStyle">
+        <label for="">职位：</label>
+        <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
+      </li>
+      <li class="liStyle">
+        <span>状态：</span>
+        <Select v-model="search.status" style="width: 120px">
+          <Option value="0">全部</Option>
+          <Option value="1">已邀请</Option>
+          <Option value="2">已录取</Option>
+          <Option value="3">未录取</Option>
+          <Option value="4">二次面试</Option>
+        </Select>
+      </li>
+      <li class="liStyle">
+        <Button icon="ios-search" class="button" type="primary" @click="searchData()">搜 索</Button>
+      </li>
+    </ul>
+    <Table :columns="column" :data="resumeData"></Table>
+    <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
   </div>
 </template>
 <script>
@@ -35,10 +35,10 @@ export default {
       userType: sessionStorage.getItem('userType') || 1,
       total: 10,
       currentPage: 1,
-      search: {
-        userName: '',
-        jobName: '',
-        status: '0'
+      search:{
+        userName:'',
+        jobName:'',
+        status:'0'
       },
       column: [
         {
@@ -54,6 +54,11 @@ export default {
           }
         },
         {
+          title: "昵称",
+          key: "name",
+          align: "center"
+        },
+        {
           title: "姓名",
           key: "name",
           align: "center"
@@ -61,14 +66,12 @@ export default {
         {
           title: "性别",
           key: "gender",
-          align: "center",
-          width: 70
+          align: "center"
         },
         {
           title: "年龄",
           key: "age",
-          align: "center",
-          width: 70
+          align: "center"
         },
         // {
         //   title: "状态",
@@ -76,22 +79,15 @@ export default {
         //   align: "center"
         // },
         {
-          title: "应聘职位",
-          key: "job",
-          align: "center"
-        },
-        {
-          title: "申请日期",
+          title: "注册日期",
           key: "applyDate",
           sortable: "true",
-          align: "center",
-          width: 110
+          align: "center"
         },
         {
           title: "状态",
           key: "status",
-          align: "center",
-          width: 110
+          align: "center"
         },
         {
           title: "操作",
@@ -187,54 +183,6 @@ export default {
           job: '前端开发工程师',
           applyDate: '2020-03-06',
           status: '二次面试'
-        },
-        {
-          name: 'test1',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '已邀请'
-        },
-        {
-          name: 'test1',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '已录取'
-        },
-        {
-          name: 'test2',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '未录取'
-        },
-        {
-          name: 'test3',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '二次面试'
-        },
-        {
-          name: 'test1',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '已邀请'
-        },
-        {
-          name: 'test1',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '已录取'
         }
       ]
     };
@@ -248,11 +196,11 @@ export default {
 </script>
 <style scoped>
 .main {
-  width: 1000px;
+  width: 100%;
   height: 100vh;
-  /* overflow-y: hidden; */
+  overflow: hidden;
   background-color: #fff;
-  padding: 15px;
+  padding: 20px 40px 20px 20px;
   border-radius: 0.5em;
 }
 .paging {
@@ -263,7 +211,7 @@ export default {
   list-style-type: none;
   margin-bottom: 30px;
 }
-.liStyle {
+.liStyle{
   float: left;
   margin: 20px 20px 0 0;
 }

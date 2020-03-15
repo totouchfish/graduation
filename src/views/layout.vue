@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
+    <HeaderMenu :type='userType'></HeaderMenu>
     <Layout v-if="userType == 1">
-      <HeaderMenu></HeaderMenu>
       <Header>
         <Menu mode="horizontal" theme="light" active-name="1" @on-select="handleSelected" width="1000px">
           <div class="layout-nav">
@@ -33,24 +33,28 @@
       </Content>
     </Layout>
     <Layout v-if="userType == 2">
-      <HeaderMenu></HeaderMenu>
-      <Header v-if="userType == 2">
+      <!-- <HeaderMenu></HeaderMenu> -->
+      <Header>
         <Menu mode="horizontal" theme="light" active-name="1" @on-select="handleSelected" width="1000px">
           <div class="layout-nav">
             <MenuItem name="chome">
             <Icon type="ios-navigate" />首页
             </MenuItem>
             <MenuItem name="resumeHanlde">
-            <Icon type="md-briefcase" />简历管理 <!-- 查看简历  -->
+            <Icon type="md-briefcase" />简历管理
+            <!-- 查看简历  -->
             </MenuItem>
             <MenuItem name="interview">
-            <Icon type="md-heart" />面试管理 <!-- 查看面试人员、面试通知  -->
+            <Icon type="md-heart" />面试管理
+            <!-- 查看面试人员、面试通知  -->
             </MenuItem>
             <MenuItem name="recruitment">
-            <Icon type="ios-paper" />招聘管理 <!-- 发布招聘信息  -->
+            <Icon type="ios-paper" />招聘管理
+            <!-- 发布招聘信息  -->
             </MenuItem>
             <MenuItem name="certification">
-            <Icon type="ios-keypad" />企业认证 <!-- 企业资质认证  -->
+            <Icon type="ios-keypad" />企业信息
+            <!-- 企业资质认证  -->
             </MenuItem>
           </div>
         </Menu>
@@ -61,30 +65,37 @@
         </div>
       </Content>
     </Layout>
-    <Layout v-if="userType == 3">
-      <HeaderMenu></HeaderMenu>
-      <Header v-if="userType == 3">
-        <Menu mode="horizontal" theme="light" active-name="1" @on-select="handleSelected" width="1000px">
-          <div class="layout-nav">
-            <!-- <MenuItem name="ahome">
-              <Icon type="ios-navigate" />首页
-            </MenuItem> -->
-            <MenuItem name="searchJob">
-              <Icon type="md-briefcase" />企业审核
-            </MenuItem>
-            <MenuItem name="resume">
+    <Layout v-if="userType == 3" style="position: relative;">
+      <!-- <HeaderMenu></HeaderMenu> -->
+      <div class="leftmenu">
+        <Menu width='150px' class="admin-menu" theme="light" active-name="1" @on-select="handleSelected">
+          <MenuItem name="ahome">
+            <Icon type="ios-navigate" />首页
+          </MenuItem>
+          <MenuItem name="companyManager">
+            <Icon type="ios-paper" />系统公告
+          </MenuItem>
+          <Submenu name='none'>
+            <template slot="title">
               <Icon type="ios-paper" />企业管理
+            </template>
+            <MenuItem name="companyUnreviewed">
+              <Icon type="md-briefcase" />未审核
             </MenuItem>
-            <MenuItem name="progress">
-              <Icon type="ios-analytics" />用户管理
+            <MenuItem name="companyReview">
+              <Icon type="md-briefcase" />已审核
             </MenuItem>
-          </div>
+            <!-- <MenuItem name="companyDelete">
+              <Icon type="md-briefcase" />回收站
+            </MenuItem> -->
+          </Submenu>
+          <MenuItem name="userManager">
+          <Icon type="ios-analytics" />用户管理
+          </MenuItem>
         </Menu>
-      </Header>
-      <Content class="content">
-        <div style="margin-top:20px;">
-          <router-view/>
-        </div>
+      </div>
+      <Content class="content_admin">
+        <router-view />
       </Content>
     </Layout>
   </div>
@@ -123,26 +134,45 @@ export default {
 
 <style scoped>
 .layout {
-  border: 1px solid #d7dde4;
   background: #f5f7f9;
   position: relative;
-  border-radius: 4px;
-  overflow: hidden;
+  /* overflow: hidden; */
+  height: 100vh;
 }
 .ivu-menu-light {
   /* 禁止选中文字 */
-  user-select:none;
+  user-select: none;
   /* background-color: red; */
-  background: linear-gradient(top, #f5dea8, #d1b267);
-  background: -ms-linear-gradient(top, #f5dea8, #d1b267);
+  /* background: linear-gradient(top, #616064, #909193); */
+  /* background: -ms-linear-gradient(top, #f5dea8, #d1b267);
   background: -webkit-linear-gradient(top, #f5dea8, #d1b267);
-  background: -moz-linear-gradient(top, #f5dea8, #d1b267);
+  background: -moz-linear-gradient(top, #f5dea8, #d1b267); */
 }
 .content {
-  margin: 0px auto;
+  margin: 0 auto;
+}
+.leftmenu {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+}
+.content_admin {
+  margin: 0 auto;
+  width: calc(100% - 150px);
+  position: absolute;
+  left: 150px;
 }
 .layout-nav {
   width: 675px;
   margin: 0 auto;
+}
+.admin-menu {
+  height: 100vh;
+  width: 100px;
+}
+.ivu-layout-sider {
+  background-color: #fff;
+  flex: 0;
 }
 </style>

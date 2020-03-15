@@ -1,6 +1,6 @@
 <template>
   <Layout class="layout">
-    <div class="title">企业认证</div>
+    <div class="title">企业信息</div>
     <!-- 企业未认证之前展示企业认证表单填写 -->
     <Row class="content">
       <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="110">

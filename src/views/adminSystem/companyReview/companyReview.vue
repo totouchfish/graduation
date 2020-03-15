@@ -3,23 +3,14 @@
   <div class="main">
     <ul class="fillIn clear">
       <li class="liStyle">
-        <label for="">职位：</label>
-        <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
+        <label for="">企业名称：</label>
+        <Input v-model="search.userName" placeholder="请输入企业名称" style="width: 160px"></Input>
       </li>
       <li class="liStyle">
-        <label for="">学历：</label>
-        <Select v-model="search.degree" style="width: 120px">
-          <Option value="0">全部</Option>
-          <Option value="1">高中</Option>
-          <Option value="2">中专</Option>
-          <Option value="3">大专</Option>
-          <Option value="4">本科</Option>
-          <Option value="5">硕士</Option>
-          <Option value="6">博士</Option>
-          <Option value="9">其他</Option>
-        </Select>
+        <label for="">法人名称：</label>
+        <Input v-model="search.jobName" placeholder="请输入法人名称" style="width: 160px"></Input>
       </li>
-      <li class="liStyle">
+      <!-- <li class="liStyle">
         <span>状态：</span>
         <Select v-model="search.status" style="width: 120px">
           <Option value="0">全部</Option>
@@ -28,18 +19,13 @@
           <Option value="3">未录取</Option>
           <Option value="4">二次面试</Option>
         </Select>
-      </li>
+      </li> -->
       <li class="liStyle">
-        <Button icon="ios-search" type="primary" @click="searchData()">搜 索</Button>
+        <Button icon="ios-search" class="button" type="primary" @click="searchData()">搜 索</Button>
       </li>
     </ul>
-    <div>
-      <Button icon="ios-add" class="add_button" type="primary" @click="addData()">新增职位</Button>
-    </div>
-    <div style="margin-top:60px;">
-      <Table :columns="column" :data="selectData"></Table>
-      <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
-    </div>
+    <Table :columns="column" :data="resumeData"></Table>
+    <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
   </div>
 </template>
 <script>
@@ -49,10 +35,10 @@ export default {
       userType: sessionStorage.getItem('userType') || 1,
       total: 10,
       currentPage: 1,
-      search: {
-        jobName: '',
-        degree: '0',
-        status: '0'
+      search:{
+        userName:'',
+        jobName:'',
+        status:'0'
       },
       column: [
         {
@@ -68,49 +54,47 @@ export default {
           }
         },
         {
-          title: "职位",
-          key: "jobName",
+          title: "企业名称",
+          key: "name",
           align: "center"
         },
         {
-          title: "薪资",
-          key: "salary",
-          align: "center",
-          width: 100
+          title: "法代表人名称",
+          key: "gender",
+          align: "center"
         },
         {
-          title: "学历",
-          key: "degree",
-          align: "center",
-          width: 80,
-        },
-        {
-          title: "地点",
-          key: "address",
+          title: "企业联系方式",
+          key: "age",
           align: "center"
         },
         // {
-        //   title: "招聘方式",
-        //   key: "recruitmentWay",
+        //   title: "状态",
+        //   key: "status",
         //   align: "center"
         // },
+        // {
+        //   title: "应聘职位",
+        //   key: "job",
+        //   align: "center",
+        //   minWidth:100
+        // },
         {
-          title: "发布日期",
-          key: "releaseDate",
+          title: "申请日期",
+          key: "applyDate",
           sortable: "true",
-          align: "center",
-          width: 100
+          align: "center"
         },
-        {
-          title: "状态",
-          key: "status",
-          align: "center",
-          width: 100,
-        },
+        // {
+        //   title: "状态",
+        //   key: "status",
+        //   align: "center",
+        //   width: 110
+        // },
         {
           title: "操作",
           key: "action",
-          width: 170,
+          width: 200,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -122,7 +106,7 @@ export default {
                     size: "small"
                   },
                   style: {
-                    marginRight: "5px"
+                    marginRight: "10px"
                   },
                   on: {
                     click: () => {
@@ -148,7 +132,7 @@ export default {
                     }
                   }
                 },
-                "修改"
+                "修改信息"
               ),
               h(
                 "Button",
@@ -169,30 +153,38 @@ export default {
           }
         }
       ],
-      selectData: [
+      resumeData: [
         {
-          jobName: '前端开发工程师',
-          salary: '6k-8k/月',
-          degree: '本科',
-          address: '天津-河东区-融资服务中心',
-          releaseDate: '2020-03-06',
-          status: "招聘中"
+          name: 'test1',
+          gender: '男',
+          age: '32',
+          job: '前端开发工程师',
+          applyDate: '2020-03-06',
+          status: '已邀请'
         },
         {
-          jobName: '前端开发工程师',
-          salary: '7w-8w/年',
-          degree: '本科',
-          address: '天津-河东区-融资服务中心',
-          releaseDate: '2020-03-06',
-          status: "招聘中"
+          name: 'test1',
+          gender: '男',
+          age: '32',
+          job: '前端开发工程师',
+          applyDate: '2020-03-06',
+          status: '已录取'
         },
         {
-          jobName: '前端开发工程师',
-          salary: '6k-8k/月',
-          degree: '本科',
-          address: '天津-河东区-融资服务中心',
-          releaseDate: '2020-03-06',
-          status: "停止招聘"
+          name: 'test2',
+          gender: '男',
+          age: '32',
+          job: '前端开发工程师',
+          applyDate: '2020-03-06',
+          status: '未录取'
+        },
+        {
+          name: 'test3',
+          gender: '男',
+          age: '32',
+          job: '前端开发工程师',
+          applyDate: '2020-03-06',
+          status: '二次面试'
         }
       ]
     };
@@ -201,25 +193,16 @@ export default {
     changepage (val) {
       this.currentPage = val;
     },
-    searchData(){},
-    addData(){
-      this.$router.push({
-        name:'add_recruitment',
-        // params:{
-        //   id:'1'
-        // }
-      })
-    }
   }
 }
 </script>
 <style scoped>
 .main {
-  width: 1000px;
+  width: 100%;
   height: 100vh;
-  overflow-y: hidden;
+  overflow: hidden;
   background-color: #fff;
-  padding: 15px;
+  padding: 20px 40px 20px 20px;
   border-radius: 0.5em;
 }
 .paging {
@@ -230,7 +213,7 @@ export default {
   list-style-type: none;
   margin-bottom: 30px;
 }
-.liStyle {
+.liStyle{
   float: left;
   margin: 20px 20px 0 0;
 }
@@ -241,9 +224,5 @@ export default {
   content: '';
   display: block;
   clear: both;
-}
-.add_button{
-  float: right;
-  margin-top: -20px;
 }
 </style>
