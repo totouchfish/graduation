@@ -4,134 +4,141 @@
     <div class="title">添加发布职位</div>
     <Row class="content">
       <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="85">
-      <FormItem label="职位名称:" prop="jobName">
-        <Input v-model="formValidate.jobName"></Input>
-      </FormItem>
-      <FormItem label="行业名称:" prop="workType">
-        <Select v-model="formValidate.workType">
-          <Option value="1">不限</Option>
-          <Option value="2">互联网/游戏/软件</Option>
-          <Option value="3">电子/通信/硬件</Option>
-          <Option value="4">房地产/建筑/物业</Option>
-          <Option value="5">金融</Option>
-          <Option value="6">消费品</Option>
-          <Option value="7">汽车/机械/制造</Option>
-          <Option value="8">服务/外包/中介</Option>
-          <Option value="9">广告/传媒/教育/文化</Option>
-          <Option value="10">交通/贸易/物流</Option>
-          <Option value="11">制药/医疗</Option>
-          <Option value="12">能源/化工/环保</Option>
-          <Option value="13">政府/农林牧渔</Option>
-        </Select>
-      </FormItem>
-      <FormItem label="职能类型:" prop="functionType">
-        <Select v-model="formValidate.functionType">
-          <Option value="1">不限</Option>
-          <Option value="2">高级管理</Option>
-          <Option value="3">技术</Option>
-          <Option value="4">产品</Option>
-          <Option value="5">运营</Option>
-          <Option value="6">设计</Option>
-          <Option value="7">销售/客服</Option>
-          <Option value="8">市场/公关/广告/会展</Option>
-          <Option value="9">人力/财务/行政</Option>
-          <Option value="10">法务</Option>
-          <Option value="11">金融</Option>
-          <Option value="12">汽车</Option>
-          <Option value="13">房地产/建筑/物业</Option>
-          <Option value="14">生产/制造</Option>
-          <Option value="15">医疗护理/生物制药</Option>
-          <Option value="16">教育/培训</Option>
-          <Option value="17">生活服务</Option>
-          <Option value="18">能源/矿产/环保</Option>
-          <Option value="19">影视/媒体/写作/出版</Option>
-          <Option value="20">咨询/翻译</Option>
-          <Option value="21">项目管理</Option>
-          <Option value="22">采购/贸易</Option>
-          <Option value="23">供应链/物流/运输</Option>
-          <Option value="24">公务员/农林牧渔/其他</Option>
-        </Select>
-      </FormItem>
-      <FormItem label="工作地点:" prop="none">
-        <Row>
-          <Col span="7">
-          <FormItem prop="workProvince">
-            <Select v-model="formValidate.workProvince" placeholder="请选择工作地点所在省份" style="widt:30%;">
-              <Option v-for="(item,index) in provinceData" :key="index" :value="item.id">{{item.name}}</Option>
-            </Select>
-          </FormItem>
-          </Col>
-          <Col span="7" offset="1">
-          <FormItem prop="workCity">
-            <Select v-model="formValidate.workCity" placeholder="请选择工作地点所在城市" style="widt:30%;">
-              <Option v-for="(item,index) in cityData" :key="index" :value="item.id">{{item.name}}</Option>
-            </Select>
-          </FormItem>
-          </Col>
-        </Row>
-      </FormItem>
-      <FormItem label="工作性质:" prop="workCharacter">
-        <Select v-model="formValidate.workCharacter">
-          <Option value="1">不限</Option>
-          <Option value="2">应届</Option>
-          <Option value="3">实习</Option>
-        </Select>
-      </FormItem>
-      <!-- <FormItem label="就读时间:" prop="studyDate">
+        <FormItem label="职位名称:" prop="jobName">
+          <Input v-model="formValidate.jobName"></Input>
+        </FormItem>
+        <FormItem label="职位描述:" prop="workDesc">
+          <Input type="textarea" :rows="4" :autosize="true" v-model="formValidate.workDesc"></Input>
+        </FormItem>
+        <!-- <FormItem label="行业名称:" prop="workType">
+          <Select v-model="formValidate.workType">
+            <Option value="1">不限</Option>
+            <Option value="2">互联网/游戏/软件</Option>
+            <Option value="3">电子/通信/硬件</Option>
+            <Option value="4">房地产/建筑/物业</Option>
+            <Option value="5">金融</Option>
+            <Option value="6">消费品</Option>
+            <Option value="7">汽车/机械/制造</Option>
+            <Option value="8">服务/外包/中介</Option>
+            <Option value="9">广告/传媒/教育/文化</Option>
+            <Option value="10">交通/贸易/物流</Option>
+            <Option value="11">制药/医疗</Option>
+            <Option value="12">能源/化工/环保</Option>
+            <Option value="13">政府/农林牧渔</Option>
+          </Select>
+        </FormItem> -->
+        <FormItem label="职能类型:" prop="functionType">
+          <Select v-model="formValidate.functionType">
+            <Option value="1">不限</Option>
+            <Option value="2">高级管理</Option>
+            <Option value="3">技术</Option>
+            <Option value="4">产品</Option>
+            <Option value="5">运营</Option>
+            <Option value="6">设计</Option>
+            <Option value="7">销售/客服</Option>
+            <Option value="8">市场/公关/广告/会展</Option>
+            <Option value="9">人力/财务/行政</Option>
+            <Option value="10">法务</Option>
+            <Option value="11">金融</Option>
+            <Option value="12">汽车</Option>
+            <Option value="13">房地产/建筑/物业</Option>
+            <Option value="14">生产/制造</Option>
+            <Option value="15">医疗护理/生物制药</Option>
+            <Option value="16">教育/培训</Option>
+            <Option value="17">生活服务</Option>
+            <Option value="18">能源/矿产/环保</Option>
+            <Option value="19">影视/媒体/写作/出版</Option>
+            <Option value="20">咨询/翻译</Option>
+            <Option value="21">项目管理</Option>
+            <Option value="22">采购/贸易</Option>
+            <Option value="23">供应链/物流/运输</Option>
+            <Option value="24">公务员/农林牧渔/其他</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="工作地点:" prop="none">
+          <Row>
+            <Col span="7">
+            <FormItem prop="workProvince">
+              <Select v-model="formValidate.workProvince" placeholder="请选择省份" style="widt:30%;">
+                <Option v-for="(item,index) in provinceData" :key="index" :value="item.id">{{item.name}}</Option>
+              </Select>
+            </FormItem>
+            </Col>
+            <Col span="7" offset="1">
+            <FormItem prop="workCity">
+              <Select v-model="formValidate.workCity" placeholder="请选择城市" style="widt:30%;">
+                <Option v-for="(item,index) in cityData" :key="index" :value="item.id">{{item.name}}</Option>
+              </Select>
+            </FormItem>
+            </Col>
+            <Col span="7" offset="1">
+            <FormItem prop="liveCounty">
+              <Select v-model="formValidate.workCounty" placeholder="请选择区县">
+                <Option v-for="(item,index) in countyData" :key="index" :value="item.id">{{item.name}}</Option>
+              </Select>
+            </FormItem>
+            </Col>
+          </Row>
+        </FormItem>
+        <FormItem label="工作性质:" prop="workCharacter">
+          <Select v-model="formValidate.workCharacter">
+            <Option value="1">不限</Option>
+            <Option value="2">应届</Option>
+            <Option value="3">实习</Option>
+          </Select>
+        </FormItem>
+        <!-- <FormItem label="就读时间:" prop="studyDate">
         <DatePicker v-model="formValidate.studyDate" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
       </FormItem> -->
-      <!-- <FormItem label="所学专业:" prop="major">
-        <Input type="textarea" :autosize="true" v-model="formValidate.major"></Input>
-      </FormItem> -->
-      <!-- <FormItem label="是否统招:" prop="isUnified">
+        <!-- <FormItem label="是否统招:" prop="isUnified">
         <RadioGroup v-model="formValidate.isUnified">
           <Radio label="1">是</Radio>
           <Radio label="0">否</Radio>
         </RadioGroup>
       </FormItem> -->
-      <FormItem label="企业性质:" prop="companyType">
-        <Select v-model="formValidate.companyType">
-          <Option value="1">不限</Option>
-          <Option value="2">外商独资/外企办事处</Option>
-          <Option value="3">中外合营(合资/合作)</Option>
-          <Option value="4">私营/民营企业</Option>
-          <Option value="5">国有企业</Option>
-          <Option value="6">国内上市公司</Option>
-          <Option value="7">政府机关/非盈利机构</Option>
-          <Option value="8">事业单位</Option>
-          <Option value="9">外商独资/外企办事处</Option>
-          <Option value="10">其它</Option>
-        </Select>
-      </FormItem>
-      <FormItem label="学历:" prop="degree">
-        <Select v-model="formValidate.degree">
-          <Option value="1">高中</Option>
-          <Option value="2">中专</Option>
-          <Option value="3">大专</Option>
-          <Option value="4">本科</Option>
-          <Option value="5">硕士</Option>
-          <Option value="6">博士</Option>
-          <Option value="9">其他</Option>
-        </Select>
-      </FormItem>
-      <FormItem label="税前月薪:" prop="salary">
-        <Select v-model="formValidate.salary">
-          <Option value="1">1k/月以下</Option>
-          <Option value="2">1k-2k/月</Option>
-          <Option value="3">2k-4k/月</Option>
-          <Option value="4">4k-6k/月</Option>
-          <Option value="5">6k-8k/月</Option>
-          <Option value="6">8k-10k/月</Option>
-          <Option value="7">10k-15k/月</Option>
-          <Option value="8">15k-20k/月</Option>
-          <Option value="9">20k/月以上</Option>
-        </Select>
-      </FormItem>
-      <FormItem>
-        <Button type="primary" @click="submit('formValidate')">提交</Button>
-        <Button @click="canel()" style="margin-left: 8px">取消</Button>
-      </FormItem>
-    </Form>
+        <!-- <FormItem label="企业性质:" prop="companyType">
+          <Select v-model="formValidate.companyType">
+            <Option value="1">不限</Option>
+            <Option value="2">外商独资/外企办事处</Option>
+            <Option value="3">中外合营(合资/合作)</Option>
+            <Option value="4">私营/民营企业</Option>
+            <Option value="5">国有企业</Option>
+            <Option value="6">国内上市公司</Option>
+            <Option value="7">政府机关/非盈利机构</Option>
+            <Option value="8">事业单位</Option>
+            <Option value="9">外商独资/外企办事处</Option>
+            <Option value="10">其它</Option>
+          </Select>
+        </FormItem> -->
+        <FormItem label="学历:" prop="degree">
+          <Select v-model="formValidate.degree">
+            <Option value="1">高中</Option>
+            <Option value="2">中专</Option>
+            <Option value="3">大专</Option>
+            <Option value="4">本科</Option>
+            <Option value="5">硕士</Option>
+            <Option value="6">博士</Option>
+            <Option value="9">其他</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="税前月薪:" prop="salary">
+          <Select v-model="formValidate.salary">
+            <Option value="1">1k/月以下</Option>
+            <Option value="2">1k-2k/月</Option>
+            <Option value="3">2k-4k/月</Option>
+            <Option value="4">4k-6k/月</Option>
+            <Option value="5">6k-8k/月</Option>
+            <Option value="6">8k-10k/月</Option>
+            <Option value="7">10k-15k/月</Option>
+            <Option value="8">15k-20k/月</Option>
+            <Option value="9">20k/月以上</Option>
+          </Select>
+        </FormItem>
+        <FormItem>
+          <Button type="primary" @click="submit('formValidate')">提交</Button>
+          <Button @click="canel()" style="margin-left: 8px">取消</Button>
+        </FormItem>
+      </Form>
     </Row>
   </Layout>
 </template>
@@ -146,57 +153,71 @@ export default {
       userType: sessionStorage.getItem('userType') || 1,
       formValidate: {
         jobName: '',
-        functionType:'',
-        workType:'',
-        workProvince:'',
-        workCity:'',
-        workCharacter:'',
-        companyType:'',
-        degree:'',
-        salary:'',
-      }, 
-      provinceData:[],
-      cityData:[],
+        workDesc: '',
+        functionType: '',
+        // workType: '',
+        workProvince: '',
+        workCity: '',
+        workCounty: '',
+        workCharacter: '',
+        // companyType: '',
+        degree: '',
+        salary: '',
+      },
+      provinceData: [],
+      cityData: [],
+      countyData: [],
       ruleValidate: {
         jobName: [
           { required: true, message: '请输入职位名称', trigger: 'blur' }
         ],
-        workType: [
-          { required: true, message: '请选择行业名称', trigger: 'change' }
+        workDesc: [
+          { required: true, message: '请输入职位描述', trigger: 'blur' }
         ],
+        // workType: [
+        //   { required: true, message: '请选择行业名称', trigger: 'change' }
+        // ],
         functionType: [
           { required: true, message: '请选择职能类型', trigger: 'change' }
         ],
         workProvince: [
-          { required: true, message: '请选择工作省份', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择省份', trigger: 'change' }
         ],
         workCity: [
-          { required: true, message: '请选择工作城市', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择城市', trigger: 'change' }
+        ],
+        workCounty: [
+          { required: true, type: 'number', message: '请选择现区县', trigger: 'change' }
         ],
         workCharacter: [
           { required: true, message: '请选择工作性质', trigger: 'change' }
         ],
-        companyType: [
-          { required: true, message: '请选择企业性质', trigger: 'change' }
-        ],
+        // companyType: [
+        //   { required: true, message: '请选择企业性质', trigger: 'change' }
+        // ],
         degree: [
           { required: true, message: '请选择学历', trigger: 'change' }
         ],
         salary: [
           { required: true, message: '请选择税前月薪', trigger: 'change' }
         ],
-        none:[
-          {required: true, message: '.'}
+        none: [
+          { required: true, message: '.' }
         ]
       },
     };
   },
-  watch:{
+  watch: {
     'formValidate.workProvince': function (val) {
       if (val) {
         this.getCity(val);
       }
     },
+    'formValidate.workCity': function (val) {
+      if (val) {
+        this.getCounty(val);
+      }
+    }
   },
   methods: {
     // 获取全国各省
@@ -215,6 +236,17 @@ export default {
         if (res.code == 200) {
           let _data = res.result;
           this.cityData = _data;
+        }
+      });
+    },
+    // 获取对应市下的各个区县
+    getCounty (val) {
+      API.getCity({
+        pid: val,
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          this.countyData = _data;
         }
       });
     },
@@ -237,10 +269,14 @@ export default {
         }
       })
     },
-    canel(){
+    canel () {
       this.formValidate = [];
-      this.$router.push({name:'recruitment'});
+      this.$router.push({ name: 'recruitment' });
     }
+  },
+  created () {
+    // 获取全国各省
+    this.getProvince()
   }
 }
 </script>
@@ -257,11 +293,12 @@ export default {
   padding-left: 10px;
   font-size: 18px;
   height: 24px;
+  margin-top: 10px;
   margin-bottom: 20px;
 }
 .content {
   width: 90%;
-  margin: auto;
+  margin: 0 auto;
   /* background-color: #f8f8f8; */
   /* padding: 20px 15px; */
 }

@@ -1,4 +1,4 @@
-import Login from '@/views/userSystem/login/login.vue'
+import Login from '@/views/login/login.vue'
 export default {
   path: '/login',
   name: 'login',
@@ -8,7 +8,7 @@ export default {
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/userSystem/login/login')//懒加载
+      component: () => import('@/views/login/login')//懒加载
     }
   ]
 }

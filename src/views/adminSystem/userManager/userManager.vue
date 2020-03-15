@@ -1,48 +1,45 @@
 <template>
-  <!-- 面试管理页面 -->
+  <!-- 简历管理页面 -->
   <div class="main">
     <ul class="fillIn clear">
       <li class="liStyle">
         <label for="">姓名：</label>
-        <Input v-model="userName" placeholder="请输入姓名" style="width: 160px"></Input>
+        <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
       </li>
       <li class="liStyle">
         <label for="">职位：</label>
-        <Input v-model="jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
+        <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
       </li>
       <li class="liStyle">
         <span>状态：</span>
-        <Select v-model="status" style="width: 120px">
-          <Option value="10">全部</Option>
-          <Option value="4">未邀请</Option>
-          <Option value="5">已邀请</Option>
-          <Option value="6">未录取</Option>
-          <Option value="7">已录取</Option>
+        <Select v-model="search.status" style="width: 120px">
+          <Option value="0">全部</Option>
+          <Option value="1">已邀请</Option>
+          <Option value="2">已录取</Option>
+          <Option value="3">未录取</Option>
+          <Option value="4">二次面试</Option>
         </Select>
       </li>
       <li class="liStyle">
         <Button icon="ios-search" class="button" type="primary" @click="searchData()">搜 索</Button>
       </li>
     </ul>
-    <Table :columns="column" :data="interviewData"></Table>
+    <Table :columns="column" :data="resumeData"></Table>
     <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
   </div>
 </template>
 <script>
-
-import * as API from "@/api/resumeHanlde.js";
-import tool from "../../../utils/formatDate";
-
 export default {
   data () {
     return {
       userType: sessionStorage.getItem('userType') || 1,
       total: 10,
       currentPage: 1,
-      userName:'',
-      jobName:'',
-      status:'10',
-     
+      search:{
+        userName:'',
+        jobName:'',
+        status:'0'
+      },
       column: [
         {
           type: "index",
@@ -57,39 +54,40 @@ export default {
           }
         },
         {
+          title: "昵称",
+          key: "name",
+          align: "center"
+        },
+        {
           title: "姓名",
           key: "name",
-          align: "center",
-          width: 180
+          align: "center"
         },
         {
           title: "性别",
           key: "gender",
-          align: "center",
-          width: 70
+          align: "center"
         },
         {
           title: "年龄",
           key: "age",
-          align: "center",
-          width: 70
-        },
-        {
-          title: "应聘职位",
-          key: "job",
           align: "center"
         },
+        // {
+        //   title: "状态",
+        //   key: "status",
+        //   align: "center"
+        // },
         {
-          title: "申请日期",
+          title: "注册日期",
           key: "applyDate",
-          align: "center",
-          width: 150
+          sortable: "true",
+          align: "center"
         },
         {
           title: "状态",
           key: "status",
-          align: "center",
-          width: 110
+          align: "center"
         },
         {
           title: "操作",
@@ -133,54 +131,76 @@ export default {
                   }
                 },
                 "修改状态"
-              ),             
+              ),
+              // h(
+              //   "Button",
+              //   {
+              //     props: {
+              //       type: "error",
+              //       size: "small"
+              //     },
+              //     on: {
+              //       click: () => {
+              //         this.handleDelete(params.row.id);
+              //       }
+              //     }
+              //   },
+              //   "删除"
+              // )
             ]);
           }
         }
       ],
-      interviewData: []
+      resumeData: [
+        {
+          name: 'test1',
+          gender: '男',
+          age: '32',
+          job: '前端开发工程师',
+          applyDate: '2020-03-06',
+          status: '已邀请'
+        },
+        {
+          name: 'test1',
+          gender: '男',
+          age: '32',
+          job: '前端开发工程师',
+          applyDate: '2020-03-06',
+          status: '已录取'
+        },
+        {
+          name: 'test2',
+          gender: '男',
+          age: '32',
+          job: '前端开发工程师',
+          applyDate: '2020-03-06',
+          status: '未录取'
+        },
+        {
+          name: 'test3',
+          gender: '男',
+          age: '32',
+          job: '前端开发工程师',
+          applyDate: '2020-03-06',
+          status: '二次面试'
+        }
+      ]
     };
   },
   methods: {
     changepage (val) {
       this.currentPage = val;
     },
-    searchData(){
-      this.currentPage = 1;
-      this.initData();
-    },
-    initData () {
-      this.interviewData = [];
-      API.queryInterview({
-        publicId:"4",
-        pname: this.jobName ,
-        rname: this.userName,
-        state: this.status       
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          _data.forEach(item => {
-            item.gender == '1' ? item.gender = '男' : item.gender = '女';
-            item.age = tool.getAge(item.birthday);
-            item.applyDate=tool.formatDate2(item.applyDate)
-          });
-          this.interviewData=_data;
-        }
-      });
-    }
-  },
-  created () {
-    this.initData();
   }
 }
 </script>
 <style scoped>
 .main {
-  width: 1000px;
+  width: 100%;
   height: 100vh;
-  overflow-y: hidden;
+  overflow: hidden;
   background-color: #fff;
-  padding: 15px;
+  padding: 20px 40px 20px 20px;
   border-radius: 0.5em;
 }
 .paging {

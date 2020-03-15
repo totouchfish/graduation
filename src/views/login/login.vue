@@ -54,18 +54,19 @@ export default {
     submit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          API.login({
-            userName: this.formValidate.userName,
-            userPwd: this.formValidate.password,
-            userType: this.userType
-          }).then(res => {
-            if (res.code == 200) {
+          // API.login({
+          //   userName: this.formValidate.userName,
+          //   userPwd: this.formValidate.password,
+          //   userType: this.userType
+          // }).then(res => {
+          //   if (res.code == 200) {
               this.$router.push(this.userType == 1 ? 'home' : this.userType == 2 ? 'chome' : 'ahome');
               this.$Message.success('登录成功！');
               sessionStorage.setItem('userType',this.userType);
-              sessionStorage.setItem('userId',res.result);
-            }
-          });
+              sessionStorage.setItem('userName',this.formValidate.userName);
+              // sessionStorage.setItem('userId',res.result);
+          //   }
+          // });
         } else {
           this.$Message.error('Fail!');
         }
@@ -81,7 +82,7 @@ export default {
   height: 100vh;
   overflow: hidden;
   background-color: antiquewhite;
-  background-image: url(../../../assets/images/login_bg.png);
+  background-image: url(../../assets/images/login_bg.png);
   background-size: 100% 100%;
 }
 .login_center_box {

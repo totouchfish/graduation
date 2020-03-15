@@ -114,7 +114,7 @@ export default {
       ],
       searchContent: "",
       hotSearchIt: "",
-      userName: "麻辣老王头",
+      userName: sessionStorage.getItem('userName'),
       nowTime:
         new Date().getHours() < 12
           ? "上午好"

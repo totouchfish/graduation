@@ -2,12 +2,12 @@ import request from '@/utils/request'
 
 /**
  * 筛选简历
- * @param {*} arg 
+ * @param {*} arg
  */
 export function searchDeliver(arg) {
     return request.post('/resumeHandle/searchDeliver', arg)
   }
-  
+
   //添加审核
   export function verifyResume(arg) {
     return request.post('/resumeHandle/verifyResume', arg)

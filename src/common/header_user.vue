@@ -1,19 +1,12 @@
 <template>
-  <div class="headerWrapper">
+  <div :class="userType == '1'?'headerWrapper1':userType == '2'?'headerWrapper2':'headerWrapper3'">
     <div class="leftBar">
-        <img src="@/assets/images/title.png" class="titlePhoto">
+      <img src="@/assets/images/title.png" class="titlePhoto">
     </div>
     <div class="rightBar">
       <div class="userName">
-        <span
-          class="left"
-          @click="show"
-        >{{userName}}</span>
-        <div
-          class="about"
-          v-show="showOn"
-          v-on:mouseleave="hide"
-        >
+        <span class="left" @click="show">{{userName}}</span>
+        <div class="about" v-show="showOn" v-on:mouseleave="hide">
           <div @click="reset">修改密码</div>
           <div @click="quit">退出</div>
         </div>
@@ -26,46 +19,65 @@
 export default {
   name: "CommonHeader",
   props: {
-    userName: {
-      type: String,
-      default: "王二麻子"
-    }
+    // userName: {
+    //   type: String,
+    //   default: "王二麻子"
+    // },
   },
-  data() {
+  data () {
     return {
-      showOn: false
+      showOn: false,
+      userName: sessionStorage.getItem('userName'),
+      userType: sessionStorage.getItem('userType'),
     };
   },
-  mounted() {},
+  mounted () { },
   methods: {
-    show() {
+    show () {
       this.showOn = !this.showOn;
     },
-    hide() {
+    hide () {
       this.showOn = !this.showOn;
     },
-    reset() {
+    reset () {
       // this.$router.push("/resetPassword/reset");
     },
-    quit() {
+    quit () {
       this.$router.push("/login");
       // this.$router.push("/resetPassword/reset");
+    },
+    photo () {
+      let type = sessionStorage.getItem('userType');
+      type == '1' ? this.imageUrl = '@/assets/images/userTitle.jpg' : type == '2' ? this.imageUrl = '@/assets/images/companyTitle.jpg' : this.imageUrl = '@/assets/images/adminTitle.jpg'
     }
+  },
+  created () {
+    // 
   }
 };
 </script>
 
 <style scoped>
-.headerWrapper {
+.headerWrapper1 {
   width: 100%;
   height: 120px;
   position: relative;
-  /* background: #7198ff; */
-  /* background: url("../assets/images/title_bg.jpg") no-repeat center;  */
-
-  background: url("../assets/images/background_title.jpg") no-repeat;
+  background: url('../assets/images/userTitle.jpg') no-repeat;
   background-size: 100% 100%;
-  /* background-image: "@/assets/images/title_bg.jpg" */
+}
+.headerWrapper2 {
+  width: 100%;
+  height: 120px;
+  position: relative;
+  background: url('../assets/images/companyTitle.jpg') no-repeat;
+  background-size: 100% 100%;
+}
+.headerWrapper3 {
+  width: 100%;
+  height: 120px;
+  position: relative;
+  background: url('../assets/images/adminTitle.jpg') no-repeat;
+  background-size: 100% 100%;
 }
 .leftBar {
   width: 301px;
@@ -118,7 +130,7 @@ export default {
 .about div:hover {
   background-color: #cccccc;
 }
-.titlePhoto{
+.titlePhoto {
   width: 540px;
   height: 70px;
 }
