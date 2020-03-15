@@ -4,11 +4,11 @@
     <ul class="fillIn clear">
       <li class="liStyle">
         <label for="">职位：</label>
-        <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
+        <Input v-model="jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
       </li>
       <li class="liStyle">
         <label for="">学历：</label>
-        <Select v-model="search.degree" style="width: 120px">
+        <Select v-model="degree" style="width: 120px">
           <Option value="0">全部</Option>
           <Option value="1">高中</Option>
           <Option value="2">中专</Option>
@@ -21,12 +21,10 @@
       </li>
       <li class="liStyle">
         <span>状态：</span>
-        <Select v-model="search.status" style="width: 120px">
+        <Select v-model="status" style="width: 120px">
           <Option value="0">全部</Option>
-          <Option value="1">已邀请</Option>
-          <Option value="2">已录取</Option>
-          <Option value="3">未录取</Option>
-          <Option value="4">二次面试</Option>
+          <Option value="1">招聘中</Option>
+          <Option value="2">停止招聘</Option>
         </Select>
       </li>
       <li class="liStyle">
@@ -43,17 +41,21 @@
   </div>
 </template>
 <script>
+
+import * as API from "@/api/position.js";
+import tool from "../../../utils/formatDate";
+
 export default {
   data () {
     return {
       userType: sessionStorage.getItem('userType') || 1,
       total: 10,
       currentPage: 1,
-      search: {
-        jobName: '',
-        degree: '0',
-        status: '0'
-      },
+
+      jobName: '',
+      degree: '0',
+      status: '0',
+
       column: [
         {
           type: "index",
@@ -69,7 +71,7 @@ export default {
         },
         {
           title: "职位",
-          key: "jobName",
+          key: "p_name",
           align: "center"
         },
         {
@@ -82,27 +84,22 @@ export default {
           title: "学历",
           key: "degree",
           align: "center",
-          width: 80,
+          width: 100,
         },
         {
           title: "地点",
           key: "address",
           align: "center"
         },
-        // {
-        //   title: "招聘方式",
-        //   key: "recruitmentWay",
-        //   align: "center"
-        // },
         {
           title: "发布日期",
-          key: "releaseDate",
+          key: "publicTime",
           align: "center",
           width: 100
         },
         {
           title: "状态",
-          key: "status",
+          key: "state",
           align: "center",
           width: 100,
         },
@@ -168,47 +165,44 @@ export default {
           }
         }
       ],
-      selectData: [
-        {
-          jobName: '前端开发工程师',
-          salary: '6k-8k/月',
-          degree: '本科',
-          address: '天津-河东区-融资服务中心',
-          releaseDate: '2020-03-06',
-          status: "招聘中"
-        },
-        {
-          jobName: '前端开发工程师',
-          salary: '7w-8w/年',
-          degree: '本科',
-          address: '天津-河东区-融资服务中心',
-          releaseDate: '2020-03-06',
-          status: "招聘中"
-        },
-        {
-          jobName: '前端开发工程师',
-          salary: '6k-8k/月',
-          degree: '本科',
-          address: '天津-河东区-融资服务中心',
-          releaseDate: '2020-03-06',
-          status: "停止招聘"
-        }
-      ]
+      selectData: []
     };
   },
   methods: {
     changepage (val) {
       this.currentPage = val;
     },
-    searchData(){},
-    addData(){
+    searchData () { },
+    addData () {
       this.$router.push({
-        name:'add_recruitment',
+        name: 'add_recruitment',
         // params:{
         //   id:'1'
         // }
       })
+    },
+    initData () {
+      API.queryPersonalPosition({
+        pageNum:1,
+        pageSize:10,
+        publicId: "4",
+        pname:this.jobName,
+        degree:this.degree,
+        state: this.status
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          _data.forEach(item => {
+            item.state == '1' ? item.state = '招聘中' : item.state = '停止招聘';
+            item.publicTime = tool.formatDate2(item.publicTime)
+          });
+          this.selectData = _data;
+        }
+      });
     }
+  },
+  created () {
+    this.initData();
   }
 }
 </script>
@@ -241,7 +235,7 @@ export default {
   display: block;
   clear: both;
 }
-.add_button{
+.add_button {
   float: right;
   margin-top: -20px;
 }

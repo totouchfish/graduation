@@ -1,9 +1,8 @@
 <template>
   <Layout class="layout">
-    <div class="title">企业认证</div>
-    <!-- 企业未认证之前展示企业认证表单填写 -->
+    <div class="title">企业信息</div>   
     <Row class="content">
-      <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="110">
+      <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="135">
         <FormItem label="企业全称:" prop="companyName">
           <Input v-model="formValidate.companyName"></Input>
         </FormItem>

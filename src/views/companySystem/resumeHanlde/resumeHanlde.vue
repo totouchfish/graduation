@@ -1,27 +1,17 @@
 <template>
   <!-- 简历管理页面 -->
   <div class="main">
-    <Tabs>
-      <TabPane label="简历筛选">
+    <Tabs @on-click="browseNotice">
+      <TabPane label="简历筛选" name="1">
         <ul class="fillIn clear">
           <li class="liStyle">
             <label for="">姓名：</label>
-            <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
+            <Input v-model="userName" placeholder="请输入姓名" style="width: 160px"></Input>
           </li>
           <li class="liStyle">
             <label for="">职位：</label>
-            <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
+            <Input v-model="jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
           </li>
-          <!-- <li class="liStyle">
-            <span>状态：</span>
-            <Select v-model="search.status" style="width: 120px">
-              <Option value="0">全部</Option>
-              <Option value="1">已邀请</Option>
-              <Option value="2">已录取</Option>
-              <Option value="3">未录取</Option>
-              <Option value="4">二次面试</Option>
-            </Select>
-          </li> -->
           <li class="liStyle">
             <Button icon="ios-search" class="button" type="primary" @click="searchData()">搜 索</Button>
           </li>
@@ -29,26 +19,16 @@
         <Table :columns="column1" :data="selectData"></Table>
         <Page :total="total1" :current="currentPage1" class="paging" show-elevator @on-change="changepage1()"></Page>
       </TabPane>
-      <TabPane label="简历审核">
+      <TabPane label="简历审核" name="2">
         <ul class="fillIn clear">
           <li class="liStyle">
             <label for="">姓名：</label>
-            <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
+            <Input v-model="userName" placeholder="请输入姓名" style="width: 160px"></Input>
           </li>
           <li class="liStyle">
             <label for="">职位：</label>
-            <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
+            <Input v-model="jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
           </li>
-          <!-- <li class="liStyle">
-            <span>状态：</span>
-            <Select v-model="search.status" style="width: 120px">
-              <Option value="0">全部</Option>
-              <Option value="1">已邀请</Option>
-              <Option value="2">已录取</Option>
-              <Option value="3">未录取</Option>
-              <Option value="4">二次面试</Option>
-            </Select>
-          </li> -->
           <li class="liStyle">
             <Button icon="ios-search" class="button" type="primary" @click="searchData()">搜 索</Button>
           </li>
@@ -56,19 +36,19 @@
         <Table :columns="column2" :data="checkData"></Table>
         <Page :total="total2" :current="currentPage2" class="paging" show-elevator @on-change="changepage2()"></Page>
       </TabPane>
-      <TabPane label="回收站">
+      <TabPane label="回收站" name="3">
         <ul class="fillIn clear">
           <li class="liStyle">
             <label for="">姓名：</label>
-            <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
+            <Input v-model="userName" placeholder="请输入姓名" style="width: 160px"></Input>
           </li>
           <li class="liStyle">
             <label for="">职位：</label>
-            <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
+            <Input v-model="jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
           </li>
           <!-- <li class="liStyle">
             <span>状态：</span>
-            <Select v-model="search.status" style="width: 120px">
+            <Select v-model="status" style="width: 120px">
               <Option value="0">全部</Option>
               <Option value="1">已邀请</Option>
               <Option value="2">已录取</Option>
@@ -87,15 +67,17 @@
   </div>
 </template>
 <script>
+import * as API from "@/api/resumeHanlde.js";
+import tool from "../../../utils/formatDate";
+
 export default {
   data () {
     return {
       userType: sessionStorage.getItem('userType') || 1,
-      search:{
-        userName:'',
-        jobName:'',
-        status:'0'
-      },
+      userName: '',
+      jobName: '',
+      status: '1',
+      type: '1',
       total1: 10,
       total2: 10,
       total3: 10,
@@ -131,27 +113,18 @@ export default {
           key: "age",
           align: "center"
         },
-        // {
-        //   title: "状态",
-        //   key: "status",
-        //   align: "center"
-        // },
         {
           title: "应聘职位",
           key: "job",
           align: "center"
         },
-        // {
-        //   title: "状态",
-        //   key: "status",
-        //   align: "center"
-        // },
+
         {
           title: "申请日期",
           key: "applyDate",
           sortable: "true",
           align: "center",
-          width: 110
+          width: 150
         },
         {
           title: "操作",
@@ -190,7 +163,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.handleShow(params);
+                      this.handleShow(params);//I'm back;do what? 对接口 不会 我发你的那几个 基本的写了没啥是基本的
                     }
                   }
                 },
@@ -244,27 +217,19 @@ export default {
           key: "age",
           align: "center"
         },
-        // {
-        //   title: "状态",
-        //   key: "status",
-        //   align: "center"
-        // },
+
         {
           title: "应聘职位",
           key: "job",
           align: "center"
         },
-        // {
-        //   title: "状态",
-        //   key: "status",
-        //   align: "center"
-        // },
+
         {
           title: "申请日期",
           key: "applyDate",
           sortable: "true",
           align: "center",
-          width: 110
+          width: 150
         },
         {
           title: "操作",
@@ -357,27 +322,17 @@ export default {
           key: "age",
           align: "center"
         },
-        // {
-        //   title: "状态",
-        //   key: "status",
-        //   align: "center"
-        // },
         {
           title: "应聘职位",
           key: "job",
           align: "center"
         },
-        // {
-        //   title: "状态",
-        //   key: "status",
-        //   align: "center"
-        // },
         {
           title: "申请日期",
           key: "applyDate",
           sortable: "true",
           align: "center",
-          width: 110
+          width: 150
         },
         {
           title: "操作",
@@ -423,75 +378,9 @@ export default {
           }
         }
       ],
-      selectData: [
-        {
-          name: 'test1',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06'
-        },
-        {
-          name: 'test2',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-07'
-        },
-        {
-          name: 'test3',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-02-06'
-        }
-      ],
-      checkData: [
-        {
-          name: 'test1',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-02-06'
-        },
-        {
-          name: 'test2',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-08'
-        },
-        {
-          name: 'test3',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-01-06'
-        }
-      ],
-      deleteData: [
-        {
-          name: 'test1',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-05'
-        },
-        {
-          name: 'test2',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-09'
-        },
-        {
-          name: 'test3',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-06-06'
-        }
-      ]
+      selectData: [],
+      checkData: [],
+      deleteData: []
     };
   },
   methods: {
@@ -503,7 +392,34 @@ export default {
     },
     changepage3 (val) {
       this.currentPage1 = val;
+    },
+    browseNotice (type) {
+      this.type = type;
+      this.initData();
+    },
+    searchData(){
+      this.initData();
+    },
+    initData () {
+      API.searchDeliver({
+        publicId: "4",
+        pname: this.jobName,
+        rname: this.userName,
+        state: this.type       
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          _data.forEach(item => {
+            item.gender == '1' ? item.gender = '男' : item.gender = '女';
+            item.age = tool.getAge(item.birthday);
+          });
+          this.type == '1' ? this.selectData = _data : this.type == '2' ? this.checkData = _data : this.deleteData = _data;
+        }
+      });
     }
+  },
+  created () {
+    this.initData();
   }
 }
 </script>
@@ -524,7 +440,7 @@ export default {
   list-style-type: none;
   margin-bottom: 30px;
 }
-.liStyle{
+.liStyle {
   float: left;
   margin: 20px 20px 0 0;
 }
