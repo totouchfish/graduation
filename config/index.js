@@ -1,8 +1,8 @@
 'use strict'
 
 const path = require('path')
-// const devServerUrl = 'http://localhost:7300/mock/5e6f803a58c1d81f50729359/';
-const devServerUrl = 'http://localhost:8080/';
+const devServerUrl = 'http://localhost:7300/mock/5e6f803a58c1d81f50729359';
+// const devServerUrl = 'http://localhost:8080/';
 
 module.exports = {
   dev: {
@@ -10,14 +10,68 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/': {
+      '/resumeHandle': {
         target: devServerUrl, //转发到的地址
-        secure: false,  // 如果是https接口，需要配置这个参数
+        secure: false, // 如果是https接口，需要配置这个参数
         changeOrigin: true, //是否跨域
         ws: false, // 代理websocket
-        // pathRewrite: {
-        //   '^/example': '', // 路径重写
-        // }
+        pathRewrite: {
+          '^/resumeHandle': 'resumeHandle', // 路径重写 pathRewrite 表示的意思是 把^/XX 替换为 /XX，
+        }
+      },
+      '/jobSeeker': {
+        target: devServerUrl, //转发到的地址
+        secure: false, // 如果是https接口，需要配置这个参数
+        changeOrigin: true, //是否跨域
+        ws: false, // 代理websocket
+        pathRewrite: {
+          '^/jobSeeker': 'jobSeeker', // 路径重写 pathRewrite 表示的意思是 把^/XX 替换为 /XX，
+        }
+      },
+      '/collection': {
+        target: devServerUrl, //转发到的地址
+        secure: false, // 如果是https接口，需要配置这个参数
+        changeOrigin: true, //是否跨域
+        ws: false, // 代理websocket
+        pathRewrite: {
+          '^/collection': 'collection', // 路径重写 pathRewrite 表示的意思是 把^/XX 替换为 /XX，
+        }
+      },
+      '/resume': {
+        target: devServerUrl, //转发到的地址
+        secure: false, // 如果是https接口，需要配置这个参数
+        changeOrigin: true, //是否跨域
+        ws: false, // 代理websocket
+        pathRewrite: {
+          '^/resume': 'resume', // 路径重写 pathRewrite 表示的意思是 把^/XX 替换为 /XX，
+        }
+      },
+      '/recruit': {
+        target: devServerUrl, //转发到的地址
+        secure: false, // 如果是https接口，需要配置这个参数
+        changeOrigin: true, //是否跨域
+        ws: false, // 代理websocket
+        pathRewrite: {
+          '^/recruit': 'recruit', // 路径重写 pathRewrite 表示的意思是 把^/XX 替换为 /XX，
+        }
+      },
+      '/post': {
+        target: devServerUrl, //转发到的地址
+        secure: false, // 如果是https接口，需要配置这个参数
+        changeOrigin: true, //是否跨域
+        ws: false, // 代理websocket
+        pathRewrite: {
+          '^/post': 'post', // 路径重写 pathRewrite 表示的意思是 把^/XX 替换为 /XX，
+        }
+      },
+      '/china': {
+        target: devServerUrl, //转发到的地址
+        secure: false, // 如果是https接口，需要配置这个参数
+        changeOrigin: true, //是否跨域
+        ws: false, // 代理websocket
+        pathRewrite: {
+          '^/china': 'china', // 路径重写 pathRewrite 表示的意思是 把^/XX 替换为 /XX，
+        }
       }
     },
 
@@ -29,7 +83,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */

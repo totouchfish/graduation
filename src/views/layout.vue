@@ -72,7 +72,7 @@
           <MenuItem name="ahome">
             <Icon type="ios-navigate" />首页
           </MenuItem>
-          <MenuItem name="companyManager">
+          <MenuItem name="systemNotice">
             <Icon type="ios-paper" />系统公告
           </MenuItem>
           <Submenu name='none'>

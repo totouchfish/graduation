@@ -92,6 +92,7 @@ export default {
           width: 110,
           render: (h, params) => {
             if (params.row.statusFlag) {
+              let interviewStatus = this.interviewStatus.splice(1);
               return h('Select', {
                 props: {
                   value: params.row.status, // 获取选择的下拉框的值

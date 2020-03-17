@@ -3,14 +3,14 @@
   <div class="main">
     <ul class="fillIn clear">
       <li class="liStyle">
+        <label for="">昵称：</label>
+        <Input v-model="search.jobName" placeholder="请输入昵称" style="width: 160px"></Input>
+      </li>
+      <li class="liStyle">
         <label for="">姓名：</label>
         <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
       </li>
-      <li class="liStyle">
-        <label for="">职位：</label>
-        <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
-      </li>
-      <li class="liStyle">
+      <!-- <li class="liStyle">
         <span>状态：</span>
         <Select v-model="search.status" style="width: 120px">
           <Option value="0">全部</Option>
@@ -19,7 +19,7 @@
           <Option value="3">未录取</Option>
           <Option value="4">二次面试</Option>
         </Select>
-      </li>
+      </!-->
       <li class="liStyle">
         <Button icon="ios-search" class="button" type="primary" @click="searchData()">搜 索</Button>
       </li>
@@ -73,22 +73,17 @@ export default {
           key: "age",
           align: "center"
         },
-        // {
-        //   title: "状态",
-        //   key: "status",
-        //   align: "center"
-        // },
         {
           title: "注册日期",
           key: "applyDate",
           sortable: "true",
           align: "center"
         },
-        {
-          title: "状态",
-          key: "status",
-          align: "center"
-        },
+        // {
+        //   title: "状态",
+        //   key: "status",
+        //   align: "center"
+        // },
         {
           title: "操作",
           key: "action",
@@ -100,7 +95,7 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: "success",
+                    type: "primary",
                     size: "small"
                   },
                   style: {
@@ -118,7 +113,7 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: "primary",
+                    type: "error",
                     size: "small"
                   },
                   style: {
@@ -130,7 +125,7 @@ export default {
                     }
                   }
                 },
-                "修改状态"
+                "注销"
               ),
               // h(
               //   "Button",

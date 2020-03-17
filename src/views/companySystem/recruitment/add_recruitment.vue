@@ -8,7 +8,7 @@
           <Input v-model="formValidate.p_name"></Input>
         </FormItem>
         <FormItem label="职位描述:" prop="brief">
-          <Input type="textarea" :rows="4" :autosize="true" v-model="formValidate.brief"></Input>
+          <Input type="textarea" :rows="3" maxlength="999" v-model="formValidate.brief"></Input>
         </FormItem>
         <!-- <FormItem label="行业名称:" prop="workType">
           <Select v-model="formValidate.workType">
