@@ -3,19 +3,18 @@
     <div class="login_center_box">
       <div class="login_center_bottom_box">
         <div class="login_center_bottom_bg_box"></div>
-        <div class="login_type"><span @click="chooseType(1)">用户</span>&emsp;<span @click="chooseType(2)">企业</span>&emsp;<span @click="chooseType(3)">管理员</span></div>
+        <div class="login_type"><span @click="register()">企业注册</span></div>
         <div class="login_center_bottom_word_box">
-          <div class="login_title">大学生招聘网站{{userType == 1 ?'用户':userType == 2 ? '企业':'管理员'}}登录</div>
+          <div class="login_title">用户注册</div>
           <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="70" class="login_content">
             <FormItem label="用户名" prop="userName">
               <Input prefix="ios-contact" size="large" v-model="formValidate.userName" />
             </FormItem>
             <FormItem label="密码" prop="password" style="margin-top:40px;">
-              <Input prefix="ios-key"  type="password" size="large" v-model="formValidate.password" />
+              <Input prefix="ios-key" userType="password" size="large" v-model="formValidate.password" />
             </FormItem>
             <FormItem>
-              <Button userType="primary" @click="submit('formValidate')" class="login_button">登&emsp;录</Button>
-              <div class="login_register">没有账号，<a href="#" @click="register()" class="registerFont">免费注册</a></div>
+              <Button userType="primary" @click="submit('formValidate')" class="login_button">注&emsp;册</Button>
             </FormItem>
           </Form>
         </div>
@@ -49,11 +48,8 @@ export default {
     }
   },
   methods: {
-    chooseType (userType) {
-      this.userType = userType;
-    },
-    register(){
-      this.$router.push(this.userType == 2 ? 'registerC' : 'registerU');
+    register () {
+      this.$router.push('registerC')
     },
     submit (name) {
       this.$refs[name].validate((valid) => {
@@ -118,7 +114,7 @@ export default {
   border-radius: 15px;
 }
 .login_center_bottom_word_box {
-  padding: 60px 57px;
+  padding: 0px 57px;
 }
 .login_center_bottom_word_box input {
   width: 90%;
@@ -138,6 +134,7 @@ export default {
   font-size: 16px;
 }
 .login_type {
+  /* float: right; */
   position: absolute;
   top: 10px;
   right: 15px;
@@ -150,15 +147,6 @@ export default {
   color: #2d8cf0;
   text-decoration: underline;
 }
-.registerFont{
-  cursor: pointer;
-  color: #515a6e;
-  text-decoration: underline;
-}
-.registerFont span:hover {
-  color: #2d8cf0;
-  text-decoration: underline;
-}
 .login_content {
   margin-top: 30px;
 }
@@ -168,10 +156,5 @@ export default {
   width: 120px;
   position: absolute;
   font-size: 17px;
-}
-.login_register{
-  position: absolute;
-  top: 95px;
-  right: -40px;
 }
 </style>
