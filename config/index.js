@@ -3,14 +3,25 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const devServerUrl = 'http://localhost:7300/mock/5e6f803a58c1d81f50729359/';
+// const devServerUrl = 'https://easy-mock.com/mock/5e6ee7a0a174224bb19a4d6e/';
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/mock': {
+        target: devServerUrl, //转发到的地址
+        secure: false,  // 如果是https接口，需要配置这个参数
+        changeOrigin: true, //是否跨域
+        ws: false, // 代理websocket
+        // pathRewrite: {
+        //   '^/example': '', // 路径重写
+        // }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

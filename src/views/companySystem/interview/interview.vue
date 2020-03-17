@@ -13,11 +13,11 @@
       <li class="liStyle">
         <span>状态：</span>
         <Select v-model="status" style="width: 120px">
-          <Option value="10">全部</Option>
-          <Option value="4">未邀请</Option>
+          <Option v-for="(item, index) in interviewStatus" :key="index" :value="item.value">{{item.label}}</Option>
+          <!-- <Option value="4">未邀请</Option>
           <Option value="5">已邀请</Option>
           <Option value="6">未录取</Option>
-          <Option value="7">已录取</Option>
+          <Option value="7">已录取</Option> -->
         </Select>
       </li>
       <li class="liStyle">
@@ -39,10 +39,10 @@ export default {
       userType: sessionStorage.getItem('userType') || 1,
       total: 10,
       currentPage: 1,
-      userName:'',
-      jobName:'',
-      status:'10',
-     
+      userName: '',
+      jobName: '',
+      status: '10',
+
       column: [
         {
           type: "index",
@@ -89,7 +89,34 @@ export default {
           title: "状态",
           key: "status",
           align: "center",
-          width: 110
+          width: 110,
+          render: (h, params) => {
+            if (params.row.statusFlag) {
+              return h('Select', {
+                props: {
+                  value: params.row.status, // 获取选择的下拉框的值
+                  size: 'small',
+                  transfer: true
+                },
+                on: {
+                  'on-change': e => {
+                    params.row.value = e // 改变下拉框赋值
+                  }
+                }
+              }, this.interviewStatus.map((item) => { // this.productTypeList下拉框里的data
+                return h('Option', { // 下拉框的值
+                  props: {
+                    value: item.value,
+                    label: item.label
+                  }
+                })
+              }))
+            } else {
+              return h('span', {
+                domProps: { innerHTML: params.row.statusFont }
+              });
+            }
+          }
         },
         {
           title: "操作",
@@ -120,7 +147,7 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: "primary",
+                    type: params.row.statusFlag? "success" : "primary",
                     size: "small"
                   },
                   style: {
@@ -128,14 +155,35 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.handleShow(params);
+                      this.modifyStatus(params.row);
                     }
                   }
                 },
-                "修改状态"
-              ),             
+                params.row.statusFlag? "确认修改" : "修改状态"
+              ),
             ]);
           }
+        }
+      ],
+      interviewStatus: [
+        {
+          value: '10',
+          label: '全部'
+        },
+        {
+          value: '4',
+          label: '未邀请'
+        },
+        {
+          value: '5',
+          label: '已邀请'
+        },
+        {
+          value: '6',
+          label: '未录取'
+        }, {
+          value: '7',
+          label: '已录取'
         }
       ],
       interviewData: []
@@ -145,26 +193,52 @@ export default {
     changepage (val) {
       this.currentPage = val;
     },
-    searchData(){
+    searchData () {
       this.currentPage = 1;
       this.initData();
+    },
+    modifyStatus (row) {
+      if(row.statusFlag){
+        API.updateInterviewState({
+        publicId: "4",
+        pname: this.jobName,
+        rname: this.userName,
+        state: this.status
+        }).then(res => {
+          // 
+        });
+      }else{
+        row.statusFlag = !row.statusFlag;
+      }
     },
     initData () {
       this.interviewData = [];
       API.queryInterview({
-        publicId:"4",
-        pname: this.jobName ,
+        publicId: "4",
+        pname: this.jobName,
         rname: this.userName,
-        state: this.status       
+        state: this.status
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
           _data.forEach(item => {
+            if (item.status == '10') {
+              item.statusFont = '全部'
+            } else if (item.status == '4') {
+              item.statusFont = '未邀请'
+            } else if (item.status == '5') {
+              item.statusFont = '已邀请'
+            } else if (item.status == '6') {
+              item.statusFont = '未录取'
+            } else if (item.status == '7') {
+              item.statusFont = '已录取'
+            }
             item.gender == '1' ? item.gender = '男' : item.gender = '女';
             item.age = tool.getAge(item.birthday);
-            item.applyDate=tool.formatDate2(item.applyDate)
+            item.applyDate = tool.formatDate2(item.applyDate);
+            item.statusFlag = false;
           });
-          this.interviewData=_data;
+          this.interviewData = _data;
         }
       });
     }
@@ -191,7 +265,7 @@ export default {
   list-style-type: none;
   margin-bottom: 30px;
 }
-.liStyle{
+.liStyle {
   float: left;
   margin: 20px 20px 0 0;
 }
