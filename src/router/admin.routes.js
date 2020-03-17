@@ -11,6 +11,16 @@ export default {
       component: () => import('@/views/adminSystem/home/ahome')//懒加载
     },
     {
+      path: '/systemNotice',
+      name: 'systemNotice',
+      component: () => import('@/views/adminSystem/systemNotice/systemNotice')//懒加载
+    },
+    {
+      path: '/add_systemNotice',
+      name: 'add_systemNotice',
+      component: () => import('@/views/adminSystem/systemNotice/add_systemNotice')//懒加载
+    },
+    {
       path: '/companyReview',
       name: 'companyReview',
       component: () => import('@/views/adminSystem/companyReview/companyReview')//懒加载

@@ -3,46 +3,29 @@
   <div class="main">
     <ul class="fillIn clear">
       <li class="liStyle">
-        <label for="">职位：</label>
-        <Input v-model="jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
+        <label for="">公告内容：</label>
+        <Input v-model="noticeName" placeholder="请输入公告标题" style="width: 160px"></Input>
       </li>
       <li class="liStyle">
-        <label for="">学历：</label>
-        <Select v-model="degree" style="width: 120px">
-          <Option value="0">全部</Option>
-          <Option value="1">高中</Option>
-          <Option value="2">中专</Option>
-          <Option value="3">大专</Option>
-          <Option value="4">本科</Option>
-          <Option value="5">硕士</Option>
-          <Option value="6">博士</Option>
-          <Option value="9">其他</Option>
-        </Select>
-      </li>
-      <li class="liStyle">
-        <span>状态：</span>
-        <Select v-model="status" style="width: 120px">
-          <Option value="0">全部</Option>
-          <Option value="1">招聘中</Option>
-          <Option value="2">停止招聘</Option>
-        </Select>
+        <label for="">公告内容：</label>
+        <Input v-model="noticeContent" placeholder="请输入公告内容" style="width: 160px"></Input>
       </li>
       <li class="liStyle">
         <Button icon="ios-search" type="primary" @click="searchData()">搜 索</Button>
       </li>
     </ul>
     <div>
-      <Button icon="ios-add" class="add_button" type="primary" @click="addData()">新增职位</Button>
+      <Button icon="ios-add" class="add_button" type="primary" @click="addData()">新增公告</Button>
     </div>
     <div style="margin-top:60px;">
-      <Table :columns="column" :data="selectData"></Table>
+      <Table :columns="column" :data="tableData"></Table>
       <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
     </div>
   </div>
 </template>
 <script>
 
-import * as API from "@/api/position.js";
+import * as API from "@/api/admin.js";
 import tool from "../../../utils/formatDate";
 
 export default {
@@ -51,11 +34,8 @@ export default {
       userType: sessionStorage.getItem('userType') || 1,
       total: 10,
       currentPage: 1,
-
-      jobName: '',
-      degree: '0',
-      status: '0',
-
+      noticeName: '',
+      noticeContent: '',
       column: [
         {
           type: "index",
@@ -70,38 +50,19 @@ export default {
           }
         },
         {
-          title: "职位",
-          key: "p_name",
+          title: "公告标题",
+          key: "noticeName",
           align: "center"
         },
         {
-          title: "薪资",
-          key: "salary",
-          align: "center",
-          width: 100
-        },
-        {
-          title: "学历",
-          key: "degree",
-          align: "center",
-          width: 100,
-        },
-        {
-          title: "地点",
-          key: "address",
+          title: "公告内容",
+          key: "noticeContent",
           align: "center"
         },
         {
           title: "发布日期",
           key: "publicTime",
-          align: "center",
-          width: 100
-        },
-        {
-          title: "状态",
-          key: "state",
-          align: "center",
-          width: 100,
+          align: "center"
         },
         {
           title: "操作",
@@ -114,7 +75,7 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: "success",
+                    type: "primary  ",
                     size: "small"
                   },
                   style: {
@@ -128,24 +89,24 @@ export default {
                 },
                 "查看"
               ),
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "primary",
-                    size: "small"
-                  },
-                  style: {
-                    marginRight: "5px"
-                  },
-                  on: {
-                    click: () => {
-                      this.handleShow(params.row);
-                    }
-                  }
-                },
-                "修改"
-              ),
+              // h(
+              //   "Button",
+              //   {
+              //     props: {
+              //       type: "primary",
+              //       size: "small"
+              //     },
+              //     style: {
+              //       marginRight: "5px"
+              //     },
+              //     on: {
+              //       click: () => {
+              //         this.handleShow(params.row);
+              //       }
+              //     }
+              //   },
+              //   "修改"
+              // ),
               h(
                 "Button",
                 {
@@ -165,7 +126,7 @@ export default {
           }
         }
       ],
-      selectData: []
+      tableData: []
     };
   },
   methods: {
@@ -178,38 +139,35 @@ export default {
     },
     addData () {
       this.$router.push({
-        name: 'add_recruitment',
+        name: 'add_systemNotice',
         // params:{
         //   id:'1'
         // }
       })
     },
-    handleShow(row){//你这是要干啥，职位修改 （有id就是修改，没有id就是新增是么 嗯）
-    // p_id从实体类里查出来不就变成pId了么 没有 我没改。前端没这么用的都是驼峰命名 没事，哼
+    handleShow(row){
         this.$router.push({
-        name: 'add_recruitment',
+        name: 'add_systemNotice',
         params:{
           id: row.p_id
         }
       })
     },
     initData () {
-      this.selectData=[],
-      API.queryPersonalPosition({
-        pageNum:2,
+      this.tableData=[],
+      API.querySystemNotice({
+        pageNum: this.currentPage,
         pageSize:10,
-        publicId: "4",
-        pname:this.jobName,
-        degree:this.degree,
-        state: this.status
+        pname:this.noticeName,
+        content: this.noticeContent
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
-          _data.forEach(item => {
-            item.state == '1' ? item.state = '招聘中' : item.state = '停止招聘';
-            item.publicTime = tool.formatDate2(item.publicTime)
-          });
-          this.selectData = _data;
+          // _data.forEach(item => {
+          //   item.state == '1' ? item.state = '招聘中' : item.state = '停止招聘';
+          //   item.publicTime = tool.formatDate2(item.publicTime)
+          // });
+          this.tableData = _data;
         }
       });
     }
@@ -221,11 +179,11 @@ export default {
 </script>
 <style scoped>
 .main {
-  width: 1000px;
+  width: 100%;
   height: 100vh;
-  overflow-y: hidden;
+  overflow: hidden;
   background-color: #fff;
-  padding: 15px;
+  padding: 20px 40px 20px 20px;
   border-radius: 0.5em;
 }
 .paging {

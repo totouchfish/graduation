@@ -56,7 +56,7 @@
             <Option value="3">实习</Option>
           </Select>
         </FormItem> -->
-        <FormItem>
+        <FormItem style="text-align:center;">
           <Button type="primary" @click="submit('formValidate')">提交认证</Button>
           <!-- <Button @click="canel()" style="margin-left: 8px">取消</Button> -->
         </FormItem>
@@ -208,7 +208,7 @@ export default {
 }
 .content {
   width: 90%;
-  margin: auto;
+  margin: 0 auto;
   /* background-color: #f8f8f8; */
   /* padding: 20px 15px; */
 }

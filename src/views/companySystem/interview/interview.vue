@@ -92,6 +92,7 @@ export default {
           width: 110,
           render: (h, params) => {
             if (params.row.statusFlag) {
+              let interviewStatus = this.interviewStatus.splice(1);
               return h('Select', {
                 props: {
                   value: params.row.status, // 获取选择的下拉框的值
@@ -100,11 +101,11 @@ export default {
                 },
                 on: {
                   'on-change': e => {
-                    params.row.value = e; // 改变下拉框赋值
+                    params.row.value = e // 改变下拉框赋值
                     params.row.change = e; // 将改变的值存入暂存字段change
                   }
                 }
-              }, this.interviewStatus.map((item) => { // this.productTypeList下拉框里的data
+              }, this.interviewStatus.map((item) => { // this.interviewStatus下拉框里的data
                 return h('Option', { // 下拉框的值
                   props: {
                     value: item.value,
@@ -148,7 +149,7 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: params.row.statusFlag? "success" : "primary",
+                    type: params.row.statusFlag ? "success" : "primary",
                     size: "small"
                   },
                   style: {
@@ -160,7 +161,7 @@ export default {
                     }
                   }
                 },
-                params.row.statusFlag? "确认修改" : "修改状态"
+                params.row.statusFlag ? "确认修改" : "修改状态"
               ),
             ]);
           }
@@ -199,17 +200,21 @@ export default {
       this.initData();
     },
     modifyStatus (row) {
-      if(row.statusFlag){
-        console.log(row.statusFont + '-' + row.change)
-        // API.updateInterviewState({
-        // publicId: "4",
-        // pname: this.jobName,
-        // rname: this.userName,
-        // state: this.status
-        // }).then(res => {
-        // });
-      }
-      else{
+      if (row.statusFlag) {
+        // 修改状态接口
+        API.updateInterviewState({
+          pid: row.pid,
+          rid: row.rid,
+          state: row.change
+        }).then(res => {
+          if (res.code == 200) {
+            this.initData();
+            this.$Message.success('修改成功！');
+          } else {
+            this.$Message.error('修改失败！');
+          }
+        });
+      } else {
         row.statusFlag = !row.statusFlag;
       }
     },

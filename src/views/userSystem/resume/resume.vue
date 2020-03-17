@@ -632,10 +632,9 @@ export default {
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result[0];
-          _data.projectDate = [_data.startTime, _data.endTime];//瞎子怎么转换的
-          // 不是转换，projectDate是一个数组，把start和end拼进去就可以了 不是我给你的不是一床数字，咋改成日期的，组件自己改的不用你操心昂还有你看着
+          _data.projectDate = [_data.startTime, _data.endTime];
           this.form3Validate = _data;
-          // debugger破电脑，卡屎了哼，会了不，知道怎么处理时间了不不知道？
+          // debugger
           this.projectExp = !this.projectExp;
         } else {
           this.$Message.error('error呀')
