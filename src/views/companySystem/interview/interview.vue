@@ -101,9 +101,10 @@ export default {
                 on: {
                   'on-change': e => {
                     params.row.value = e // 改变下拉框赋值
+                    params.row.change = e; // 将改变的值存入暂存字段change
                   }
                 }
-              }, this.interviewStatus.map((item) => { // this.productTypeList下拉框里的data
+              }, this.interviewStatus.map((item) => { // this.interviewStatus下拉框里的data
                 return h('Option', { // 下拉框的值
                   props: {
                     value: item.value,
@@ -147,7 +148,7 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: params.row.statusFlag? "success" : "primary",
+                    type: params.row.statusFlag ? "success" : "primary",
                     size: "small"
                   },
                   style: {
@@ -159,7 +160,7 @@ export default {
                     }
                   }
                 },
-                params.row.statusFlag? "确认修改" : "修改状态"
+                params.row.statusFlag ? "确认修改" : "修改状态"
               ),
             ]);
           }
@@ -198,16 +199,20 @@ export default {
       this.initData();
     },
     modifyStatus (row) {
-      if(row.statusFlag){
+      if (row.statusFlag) {
+        // 修改状态接口
         API.updateInterviewState({
-        publicId: "4",
-        pname: this.jobName,
-        rname: this.userName,
-        state: this.status
+          pid: row.pid,
+          rid: row.rid,
+          state: row.change
         }).then(res => {
-          // 
+          if (res.code == 200) {
+            this.initData();
+          } else {
+            this.$Message('修改失败！');
+          }
         });
-      }else{
+      } else {
         row.statusFlag = !row.statusFlag;
       }
     },
@@ -237,6 +242,7 @@ export default {
             item.age = tool.getAge(item.birthday);
             item.applyDate = tool.formatDate2(item.applyDate);
             item.statusFlag = false;
+            item.change = '';
           });
           this.interviewData = _data;
         }
