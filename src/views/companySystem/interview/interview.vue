@@ -100,7 +100,8 @@ export default {
                 },
                 on: {
                   'on-change': e => {
-                    params.row.value = e // 改变下拉框赋值
+                    params.row.value = e; // 改变下拉框赋值
+                    params.row.change = e; // 将改变的值存入暂存字段change
                   }
                 }
               }, this.interviewStatus.map((item) => { // this.productTypeList下拉框里的data
@@ -199,15 +200,16 @@ export default {
     },
     modifyStatus (row) {
       if(row.statusFlag){
-        API.updateInterviewState({
-        publicId: "4",
-        pname: this.jobName,
-        rname: this.userName,
-        state: this.status
-        }).then(res => {
-          // 
-        });
-      }else{
+        console.log(row.statusFont + '-' + row.change)
+        // API.updateInterviewState({
+        // publicId: "4",
+        // pname: this.jobName,
+        // rname: this.userName,
+        // state: this.status
+        // }).then(res => {
+        // });
+      }
+      else{
         row.statusFlag = !row.statusFlag;
       }
     },
@@ -237,6 +239,7 @@ export default {
             item.age = tool.getAge(item.birthday);
             item.applyDate = tool.formatDate2(item.applyDate);
             item.statusFlag = false;
+            item.change = '';
           });
           this.interviewData = _data;
         }
