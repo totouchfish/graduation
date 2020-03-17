@@ -21,7 +21,7 @@ export default {
       component: () => import('@/views/companySystem/recruitment/recruitment')//懒加载
     },
     {
-      path: '/add_recruitment',
+      path: '/add_recruitment/:id',
       name: 'add_recruitment',
       component: () => import('@/views/companySystem/recruitment/add_recruitment')//懒加载
     },

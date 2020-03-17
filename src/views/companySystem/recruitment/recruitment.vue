@@ -140,7 +140,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.handleShow(params);
+                      this.handleShow(params.row);
                     }
                   }
                 },
@@ -172,7 +172,10 @@ export default {
     changepage (val) {
       this.currentPage = val;
     },
-    searchData () { },
+    searchData () {
+      this.currentPage = 1;
+      this.initData();
+    },
     addData () {
       this.$router.push({
         name: 'add_recruitment',
@@ -181,9 +184,19 @@ export default {
         // }
       })
     },
+    handleShow(row){//你这是要干啥，职位修改 （有id就是修改，没有id就是新增是么 嗯）
+    // p_id从实体类里查出来不就变成pId了么 没有 我没改。前端没这么用的都是驼峰命名 没事，哼
+        this.$router.push({
+        name: 'add_recruitment',
+        params:{
+          id: row.p_id
+        }
+      })
+    },
     initData () {
+      this.selectData=[],
       API.queryPersonalPosition({
-        pageNum:1,
+        pageNum:2,
         pageSize:10,
         publicId: "4",
         pname:this.jobName,
