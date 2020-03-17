@@ -208,8 +208,9 @@ export default {
         }).then(res => {
           if (res.code == 200) {
             this.initData();
+            this.$Message.success('修改成功！');
           } else {
-            this.$Message('修改失败！');
+            this.$Message.error('修改失败！');
           }
         });
       } else {
