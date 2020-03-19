@@ -26,7 +26,7 @@ export default {
   props: {
     userName: {
       type: String,
-      default: "老王"
+      default: "---"
     }
   },
   data() {

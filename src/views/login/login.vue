@@ -11,7 +11,7 @@
               <Input prefix="ios-contact" size="large" v-model="formValidate.userName" />
             </FormItem>
             <FormItem label="密码" prop="password" style="margin-top:40px;">
-              <Input prefix="ios-key"  type="password" size="large" v-model="formValidate.password" />
+              <Input prefix="ios-key" type="password" size="large" v-model="formValidate.password" />
             </FormItem>
             <FormItem>
               <Button userType="primary" @click="submit('formValidate')" class="login_button">登&emsp;录</Button>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import * as API from "@/api/collection.js";
+import * as API from "@/api/login.js";
 
 export default {
   name: "login",
@@ -52,35 +52,42 @@ export default {
     chooseType (userType) {
       this.userType = userType;
     },
-    register(){
+    register () {
       this.$router.push(this.userType == 2 ? 'registerC' : 'registerU');
     },
     submit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          // API.login({
-          //   userName: this.formValidate.userName,
-          //   userPwd: this.formValidate.password,
-          //   userType: this.userType
-          // }).then(res => {
-          //   if (res.code == 200) {
+          API.login({
+            userName: this.formValidate.userName,
+            userPwd: this.formValidate.password,
+            userType: this.userType
+          }).then(res => {
+            if (res.code == 200) {
               this.$router.push(this.userType == 1 ? 'home' : this.userType == 2 ? 'chome' : 'ahome');
               this.$Message.success('登录成功！');
-              sessionStorage.setItem('userType',this.userType);
-              sessionStorage.setItem('userName',this.formValidate.userName);
-              // sessionStorage.setItem('userId',res.result);
-          //   }
-          // });
+              sessionStorage.setItem('userType', this.userType);
+              // sessionStorage.setItem('userName',this.formValidate.userName);
+              sessionStorage.setItem('userName', this.formValidate.userName);
+              sessionStorage.setItem('userId', res.result);
+            }
+          });
         } else {
           this.$Message.error('Fail!');
         }
       })
     }
+  },
+  created () {
+    if(this.$route.query.type){
+      // alert(this.$route.query.type);
+      this.userType = this.$route.query.type;
+    }
   }
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .hello {
   width: 100%;
   height: 100vh;
@@ -90,7 +97,7 @@ export default {
   background-size: 100% 100%;
 }
 .login_center_box {
-  padding: 10% 20% 5% 30%;
+  padding: 8% 20% 5% 30%;
 }
 .login_center_top_box {
   text-align: center;
@@ -119,9 +126,9 @@ export default {
 }
 .login_center_bottom_word_box {
   padding: 60px 57px;
-}
-.login_center_bottom_word_box input {
-  width: 90%;
+  input {
+    width: 90%;
+  }
 }
 .login_title {
   text-align: center;
@@ -131,7 +138,7 @@ export default {
   margin-bottom: 50px;
 }
 /* 去除表单校验的红色*符号，影响美观 */
-.ivu-form-item-required .ivu-form-item-label:before {
+/deep/.ivu-form-item-required .ivu-form-item-label:before {
   content: '';
 }
 .ivu-form .ivu-form-item-label {
@@ -142,23 +149,15 @@ export default {
   top: 10px;
   right: 15px;
   font-size: 14px;
+  span {
+    cursor: pointer;
+  }
+  span:hover {
+    color: #2d8cf0;
+    text-decoration: underline;
+  }
 }
-.login_type span {
-  cursor: pointer;
-}
-.login_type span:hover {
-  color: #2d8cf0;
-  text-decoration: underline;
-}
-.registerFont{
-  cursor: pointer;
-  color: #515a6e;
-  text-decoration: underline;
-}
-.registerFont span:hover {
-  color: #2d8cf0;
-  text-decoration: underline;
-}
+
 .login_content {
   margin-top: 30px;
 }
@@ -169,9 +168,18 @@ export default {
   position: absolute;
   font-size: 17px;
 }
-.login_register{
+.login_register {
   position: absolute;
   top: 95px;
   right: -40px;
+}
+.registerFont {
+  cursor: pointer;
+  color: #515a6e;
+  text-decoration: underline;
+}
+.registerFont span:hover {
+  color: #2d8cf0;
+  text-decoration: underline;
 }
 </style>

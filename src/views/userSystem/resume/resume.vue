@@ -7,8 +7,9 @@
             <Col span="4">
             <span>我的简历</span>
             </Col>
-            <Col span="6" offset="14">
-            <span>预览、下载</span>
+            <Col span="2" offset="18">
+            <Button icon="ios-eye" type="primary" ghost @click="preview()">预览</Button>
+            <!-- <span>预览、下载</span> -->
             </Col>
           </Row>
         </div>
@@ -204,7 +205,7 @@
 
         </div>
         <div class="resumeUserInfo">
-          <div style="margin:20px 0 0 20px;font-size:18px;">项目经验</div>
+          <div style="margin:20px 0 0 20px;font-size:18px;">项目经历</div>
           <Row v-show="!projectExp">
             <Col span="20">
             <Card v-for="(item, index) in projectExpData" :key="index" class="projectItem">
@@ -234,7 +235,7 @@
             </Col>
             <Col span="4">
             <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="addProjectExp()">
-              <svg-icon icon-class="edit" />&nbsp;添加项目经验</span></Col>
+              <svg-icon icon-class="edit" />&nbsp;添加项目经历</span></Col>
           </Row>
           <Row v-show="projectExp" class="userInfo_edit">
             <Col>
@@ -261,7 +262,7 @@
             </Form>
             </Col>
             <Col>
-
+            <!-- 12312312312313 -->
             </Col>
           </Row>
         </div>
@@ -342,7 +343,7 @@
 
 <script>
 import * as API from "@/api/resume";
-import tool from "../../../utils/formatDate";
+import tool from "@/utils/formatDate";
 
 export default {
   name: "index",
@@ -410,8 +411,8 @@ export default {
         identity: [
           { required: true, message: '请选择政治面貌', trigger: 'change' }
         ],
-        none:[
-          {required: true, message: '.'}
+        none: [
+          { required: true, message: '.' }
         ]
       },
       form2Validate: {
@@ -524,6 +525,9 @@ export default {
   components: {},
   computed: {},
   methods: {
+    preview () {
+      this.$router.push('/preview');
+    },
     // 获取全国各省
     getProvince () {
       API.getProvince().then(res => {
@@ -621,11 +625,11 @@ export default {
         }
       })
     },
-    //添加项目经验
+    //添加项目经历
     addProjectExp () {
       this.projectExp = !this.projectExp;
     },
-    // 获取用户项目经验
+    // 获取用户项目经历
     editProjectExp (item) {
       API.queryProjectById({
         proId: item.proId,
@@ -661,7 +665,7 @@ export default {
         }
       })
     },
-    //添加项目经验
+    //添加项目经历
     addEducationExp () {
       this.form4Validate = [];
       this.educationExp = !this.educationExp;
@@ -676,9 +680,7 @@ export default {
           // 不是转换，projectDate是一个数组，把start和end拼进去就可以了
           _data.studyDate = [_data.startDate, _data.endDate];
           _data.isUnified = String(_data.isUnified);
-          // 我研究一下
           this.form4Validate = _data;
-          console.log(this.form4Validate);
           this.educationExp = !this.educationExp;
         } else {
           this.$Message.error('error呀')
@@ -713,11 +715,43 @@ export default {
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
-          // 个人信息
-          _data.gender == 1 ? _data.gender = '男' : _data.gender == 2 ? _data.gender='女' : '无';
+          // 个人信息 和 求职意向
+          _data.gender == 1 ? _data.gender = '男' : _data.gender == 2 ? _data.gender = '女' : '无';
           _data.birthDate = tool.getAge(_data.birthDate);
           _data.workDate = tool.getAge(_data.workDate);
-          // 求职意向
+          // 这种转义的活都应该是后台转的，前台只负责拿数据，展示数据。
+          _data.workCharacter = _data.workCharacter == '1' ? '全职' : _data.workCharacter == '2' ? '兼职' : '实习';
+          switch (_data.expectSalary) {
+            case '1':
+              _data.expectSalary = '1k元/月以下';
+              break;
+            case '2':
+              _data.expectSalary = '1k-2k元/月';
+              break;
+            case '3':
+              _data.expectSalary = '2k-4k元/月';
+              break;
+            case '4':
+              _data.expectSalary = '4k-6k元/月';
+              break;
+            case '5':
+              _data.expectSalary = '6k-8k元/月';
+              break;
+            case '6':
+              _data.expectSalary = '8k-10k元/月';
+              break;
+            case '7':
+              _data.expectSalary = '10k-15k元/月';
+              break;
+            case '8':
+              _data.expectSalary = '15k-20k元/月';
+              break;
+            case '9':
+              _data.expectSalary = '20k元/月以上';
+              break;
+            default:
+              _data.expectSalary = '无';
+          }
           this.resumeInfo = _data;
           // 项目经历
           let _projectData = res.result.projects
