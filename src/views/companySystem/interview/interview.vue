@@ -221,7 +221,7 @@ export default {
     initData () {
       this.interviewData = [];
       API.queryInterview({
-        publicId: "4",
+        publicId: sessionStorage.getItem("userId"),
         pname: this.jobName,
         rname: this.userName,
         state: this.status

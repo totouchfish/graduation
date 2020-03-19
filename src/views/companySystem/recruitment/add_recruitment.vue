@@ -260,7 +260,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           let _data = this.formValidate;
-          _data.publicId=4;
+          _data.publicId=sessionStorage.getItem("userId");
           API2.positionOperation(_data).then(res => {
             if (res.code == 200) {
               this.$router.push({ name: 'recruitment' });

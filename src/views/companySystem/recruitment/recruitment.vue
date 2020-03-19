@@ -196,9 +196,9 @@ export default {
     initData () {
       this.selectData=[],
       API.queryPersonalPosition({
-        pageNum:2,
+        pageNum:1,
         pageSize:10,
-        publicId: "4",
+        publicId: sessionStorage.getItem("userId"),
         pname:this.jobName,
         degree:this.degree,
         state: this.status

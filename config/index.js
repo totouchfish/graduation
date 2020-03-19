@@ -1,9 +1,9 @@
 'use strict'
 
 const path = require('path')
-const devServerUrl = 'http://localhost:7300/mock/5e6f803a58c1d81f50729359';
-// const devServerUrl = 'http://localhost:8080/';
-
+// const devServerUrl = 'http://localhost:7300/mock/5e6f803a58c1d81f50729359';
+const devServerUrl = 'http://localhost:8080/';
+// 代理
 module.exports = {
   dev: {
     // Paths

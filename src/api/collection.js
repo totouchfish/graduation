@@ -22,5 +22,5 @@ export function delCollection(arg) {
  * @param {*} arg 
  */
 export function login(arg) {
-  return request.post('/jobSeeker/login', arg)
+  return request.post('/login/login', arg)
 }

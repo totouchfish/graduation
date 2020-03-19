@@ -444,7 +444,7 @@ export default {
     initData () {
       this.type == '1' ? this.selectData = [] : this.type == '3' ? this.checkData = [] : this.deleteData = [];
       API.searchDeliver({
-        publicId: "4",
+        publicId: sessionStorage.getItem("userId"),
         pname: this.type == '1' ? this.selectJob : this.type == '3' ? this.reviewJob : this.deleteJob,
         rname: this.type == '1' ? this.selectName : this.type == '3' ? this.reviewName : this.deleteName,
         state: this.type
