@@ -120,7 +120,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.handleDetails(params);
+                      this.handleDetails(params.row);
                     }
                   }
                 },
@@ -175,20 +175,16 @@ export default {
       this.initData();
     },
     addData () {
-      this.$router.push({
-        name: 'add_recruitment',
-        params:{
-          id:'add'
-        }
-      })
+      this.$router.push('add_recruitment');
     },
-    handleShow(row){
-        this.$router.push({
-        name: 'add_recruitment',
-        params:{
-          id: row.p_id
-        }
-      })
+    handleDetails(row){
+      this.$router.push('add_recruitment?id='+row.p_id);
+      //   this.$router.push({
+      //   name: 'add_recruitment',
+      //   params:{
+      //     id: row.p_id
+      //   }
+      // })
     },
     initData () {
       this.selectData=[],
