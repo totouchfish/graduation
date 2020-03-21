@@ -23,27 +23,27 @@ export default {
     {
       path: '/companyReview',
       name: 'companyReview',
-      component: () => import('@/views/adminSystem/companyReview/companyReview')//懒加载
+      component: () => import('@/views/adminSystem/companyManager/companyReview')//懒加载
     },
     {
-      path: '/companyUnreviewed',
-      name: 'companyUnreviewed',
-      component: () => import('@/views/adminSystem/companyReview/companyUnreviewed')//懒加载
+      path: '/positionManager',
+      name: 'positionManager',
+      component: () => import('@/views/adminSystem/companyManager/positionManager')//懒加载
     },
-    {
-      path: '/companyManager',
-      name: 'companyManager',
-      component: () => import('@/views/adminSystem/companyManager/companyManager')//懒加载
-    },
+    // {
+    //   path: '/companyManager',
+    //   name: 'companyManager',
+    //   component: () => import('@/views/adminSystem/companyManager/companyManager')//懒加载
+    // },
     // {
     //   path: '/add_recruitment',
     //   name: 'add_recruitment',
     //   component: () => import('@/views/adminSystem/recruitment/add_recruitment')//懒加载
     // },
     {
-      path: '/userManager',
-      name: 'userManager',
-      component: () => import('@/views/adminSystem/userManager/userManager')//懒加载
+      path: '/resumeManager',
+      name: 'resumeManager',
+      component: () => import('@/views/adminSystem/resumeManager/resumeManager')//懒加载
     }
   ]
 }

@@ -10,5 +10,10 @@ export default {
       name: 'resume',
       component: () => import('@/views/userSystem/resume/resume') //懒加载
     },
+    {
+      path: '/preview',
+      name: 'preview',
+      component: () => import('@/views/userSystem/resume/preview') //懒加载
+    },
   ]
 }

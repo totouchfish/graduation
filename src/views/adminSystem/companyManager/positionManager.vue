@@ -1,31 +1,21 @@
 <template>
-  <!-- 简历管理页面 -->
+  <!-- 企业认证页面 -->
   <div class="main">
-    <ul class="fillIn clear">
-      <li class="liStyle">
-        <label for="">昵称：</label>
-        <Input v-model="search.jobName" placeholder="请输入昵称" style="width: 160px"></Input>
-      </li>
-      <li class="liStyle">
-        <label for="">姓名：</label>
-        <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
-      </li>
-      <!-- <li class="liStyle">
-        <span>状态：</span>
-        <Select v-model="search.status" style="width: 120px">
-          <Option value="0">全部</Option>
-          <Option value="1">已邀请</Option>
-          <Option value="2">已录取</Option>
-          <Option value="3">未录取</Option>
-          <Option value="4">二次面试</Option>
-        </Select>
-      </!-->
-      <li class="liStyle">
-        <Button icon="ios-search" class="button" type="primary" @click="searchData()">搜 索</Button>
-      </li>
-    </ul>
-    <Table :columns="column" :data="resumeData"></Table>
-    <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
+        <ul class="fillIn clear">
+          <li class="liStyle">
+            <label for="">职位名称：</label>
+            <Input v-model="positionName" placeholder="请输入职位名称" style="width: 160px"></Input>
+          </li>
+          <li class="liStyle">
+            <label for="">公司名称：</label>
+            <Input v-model="companyName" placeholder="请输入公司名称" style="width: 160px"></Input>
+          </li>
+          <li class="liStyle">
+            <Button icon="ios-search" class="button" type="primary" @click="searchData()">搜 索</Button>
+          </li>
+        </ul>
+        <Table :columns="column" :data="positionData"></Table>
+        <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
   </div>
 </template>
 <script>
@@ -35,11 +25,10 @@ export default {
       userType: sessionStorage.getItem('userType') || 1,
       total: 10,
       currentPage: 1,
-      search:{
-        userName:'',
-        jobName:'',
-        status:'0'
-      },
+      companyName: '',
+      legalPerson: '',
+      status: '1',
+      type:'1',
       column: [
         {
           type: "index",
@@ -54,40 +43,35 @@ export default {
           }
         },
         {
-          title: "昵称",
+          title: "职位名称",
           key: "name",
           align: "center"
         },
         {
-          title: "姓名",
-          key: "name",
-          align: "center"
-        },
-        {
-          title: "性别",
+          title: "公司名称",
           key: "gender",
           align: "center"
         },
         {
-          title: "年龄",
+          title: "发布者",
           key: "age",
           align: "center"
         },
         {
-          title: "注册日期",
+          title: "工作地点",
+          key: "age",
+          align: "center"
+        },
+        {
+          title: "发布日期",
           key: "applyDate",
           sortable: "true",
           align: "center"
         },
-        // {
-        //   title: "状态",
-        //   key: "status",
-        //   align: "center"
-        // },
         {
           title: "操作",
           key: "action",
-          width: 160,
+          width: 200,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -95,7 +79,7 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: "primary",
+                    type: "success",
                     size: "small"
                   },
                   style: {
@@ -116,37 +100,19 @@ export default {
                     type: "error",
                     size: "small"
                   },
-                  style: {
-                    marginRight: "5px"
-                  },
                   on: {
                     click: () => {
-                      this.handleShow(params);
+                      this.handleDelete(params.row.id);
                     }
                   }
                 },
-                "注销"
-              ),
-              // h(
-              //   "Button",
-              //   {
-              //     props: {
-              //       type: "error",
-              //       size: "small"
-              //     },
-              //     on: {
-              //       click: () => {
-              //         this.handleDelete(params.row.id);
-              //       }
-              //     }
-              //   },
-              //   "删除"
-              // )
+                "删除"
+              )
             ]);
           }
         }
       ],
-      resumeData: [
+      positionData: [
         {
           name: 'test1',
           gender: '男',
@@ -206,7 +172,7 @@ export default {
   list-style-type: none;
   margin-bottom: 30px;
 }
-.liStyle{
+.liStyle {
   float: left;
   margin: 20px 20px 0 0;
 }

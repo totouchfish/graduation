@@ -14,17 +14,26 @@ function importAll(r) {
 importAll(require.context('../router', false, /\.routes\.js/))
 export default new Router({
   routes: [
+    ...routerList,
     {
       path: '/',
       name: 'login',
       component: resolve => require(['@/views/login/login'], resolve)
     },
-    ...routerList,
-    // {
-    //   path: '/index_user',
-    //   name: 'index_user',
-    //   // component: Index
-    // },
-    
+    {
+      path: '/login',
+      name: 'login',
+      component: resolve => require(['@/views/login/login'], resolve)
+    },
+    {
+      path: '/registerU',
+      name: 'registerU',
+      component: () => import('@/views/login/registerU') //懒加载
+    },
+    {
+      path: '/registerC',
+      name: 'registerC',
+      component: () => import('@/views/login/registerC') //懒加载
+    },
   ]
 })

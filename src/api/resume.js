@@ -65,3 +65,8 @@ export function queryEducationById(arg) {
 export function submitEducation(arg) {
   return request.post('/resume/submitEducation', arg)
 }
+
+//查询所有简历
+export function queryResumeAll(arg) {
+  return request.post('/resume/queryResumeAll', arg)
+}

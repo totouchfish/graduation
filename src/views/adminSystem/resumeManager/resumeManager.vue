@@ -4,21 +4,11 @@
     <ul class="fillIn clear">
       <li class="liStyle">
         <label for="">姓名：</label>
-        <Input v-model="search.userName" placeholder="请输入姓名" style="width: 160px"></Input>
+        <Input v-model="name" placeholder="请输入昵称" style="width: 160px"></Input>
       </li>
       <li class="liStyle">
-        <label for="">职位：</label>
-        <Input v-model="search.jobName" placeholder="请输入职位名称" style="width: 160px"></Input>
-      </li>
-      <li class="liStyle">
-        <span>状态：</span>
-        <Select v-model="search.status" style="width: 120px">
-          <Option value="0">全部</Option>
-          <Option value="1">已邀请</Option>
-          <Option value="2">已录取</Option>
-          <Option value="3">未录取</Option>
-          <Option value="4">二次面试</Option>
-        </Select>
+        <label for="">求职意向：</label>
+        <Input v-model="expectPost" placeholder="请输入姓名" style="width: 160px"></Input>
       </li>
       <li class="liStyle">
         <Button icon="ios-search" class="button" type="primary" @click="searchData()">搜 索</Button>
@@ -29,17 +19,17 @@
   </div>
 </template>
 <script>
+import * as API from "@/api/resume.js";
+import tool from "../../../utils/formatDate";
 export default {
   data () {
     return {
       userType: sessionStorage.getItem('userType') || 1,
       total: 10,
       currentPage: 1,
-      search:{
-        userName:'',
-        jobName:'',
-        status:'0'
-      },
+      name:'',
+      expectPost:'',
+      status:'0',    
       column: [
         {
           type: "index",
@@ -56,45 +46,32 @@ export default {
         {
           title: "姓名",
           key: "name",
-          align: "center",
-          maxWidth:220,
-          minWidth:100
-        },
-        {
-          title: "性别",
-          key: "gender",
-          align: "center",
-          maxWidth: 80
+          align: "center"
         },
         {
           title: "年龄",
           key: "age",
-          align: "center",
-          maxWidth: 80
-        },
-        // {
-        //   title: "状态",
-        //   key: "status",
-        //   align: "center"
-        // },
-        {
-          title: "应聘职位",
-          key: "job",
-          align: "center",
-          minWidth:100
+          align: "center"
         },
         {
-          title: "申请日期",
-          key: "applyDate",
-          align: "center",
-          sortable: "true",
-          width: 110
+          title: "性别",
+          key: "gender",
+          align: "center"
         },
         {
-          title: "状态",
-          key: "status",
-          align: "center",
-          width: 110
+          title: "出生地",
+          key: "birthAdress",
+          align: "center"
+        },
+        {
+          title: "职位意向",
+          key: "expectPost",
+          align: "center"
+        },
+        {
+          title: "手机号",
+          key: "phone",
+          align: "center"
         },
         {
           title: "操作",
@@ -107,7 +84,7 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: "success",
+                    type: "primary",
                     size: "small"
                   },
                   style: {
@@ -125,7 +102,7 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: "primary",
+                    type: "error",
                     size: "small"
                   },
                   style: {
@@ -137,67 +114,39 @@ export default {
                     }
                   }
                 },
-                "修改状态"
+                "删除"
               ),
-              // h(
-              //   "Button",
-              //   {
-              //     props: {
-              //       type: "error",
-              //       size: "small"
-              //     },
-              //     on: {
-              //       click: () => {
-              //         this.handleDelete(params.row.id);
-              //       }
-              //     }
-              //   },
-              //   "删除"
-              // )
             ]);
           }
         }
       ],
-      resumeData: [
-        {
-          name: 'test1',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '已邀请'
-        },
-        {
-          name: 'test1',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '已录取'
-        },
-        {
-          name: 'test2',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '未录取'
-        },
-        {
-          name: 'test3',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '二次面试'
-        }
-      ]
+      resumeData: []
     };
   },
   methods: {
     changepage (val) {
       this.currentPage = val;
     },
+    initData(){
+      this.resumeData = [];
+      API.queryResumeAll({
+           rname:this.name,
+           expectPost:this.expectPost
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+           _data.forEach(item => {
+          item.gender == '1' ? item.gender = '男' : item.gender = '女';
+          item.age = tool.getAge(item.birthDate);
+          item.birthAdress=item.birthProvince+"-"+item.birthCity;
+           });
+          this.resumeData = _data;
+        }
+      });
+    }
+  },
+  created () {
+    this.initData();
   }
 }
 </script>

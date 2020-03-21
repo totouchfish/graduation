@@ -83,7 +83,7 @@ export default {
   line-height: 40px;
   letter-spacing: 0px;
   color: #ffffff;
-  padding: 0 20px;
+  padding: 0 1px;
   border-bottom: 1px solid #ffffff;
 }
 .about {

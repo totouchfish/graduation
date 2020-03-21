@@ -17,10 +17,3 @@ export function acceptPosition(arg) {
 export function delCollection(arg) {
   return request.post('/collection/delCollectPosition', arg)
 }
-  /**
- * 登录接口
- * @param {*} arg 
- */
-export function login(arg) {
-  return request.post('/login/login', arg)
-}

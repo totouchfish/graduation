@@ -75,23 +75,20 @@
           <MenuItem name="systemNotice">
             <Icon type="ios-paper" />系统公告
           </MenuItem>
-          <Submenu name='none'>
+          <Submenu name="none">
             <template slot="title">
               <Icon type="ios-paper" />企业管理
             </template>
-            <MenuItem name="companyUnreviewed">
-              <Icon type="md-briefcase" />未审核
-            </MenuItem>
             <MenuItem name="companyReview">
-              <Icon type="md-briefcase" />已审核
+              <Icon type="md-briefcase" />企业审核
             </MenuItem>
-            <!-- <MenuItem name="companyDelete">
-              <Icon type="md-briefcase" />回收站
-            </MenuItem> -->
+            <MenuItem name="positionManager">
+              <Icon type="md-briefcase" />职位管理
+            </MenuItem>
           </Submenu>
-          <MenuItem name="userManager">
-          <Icon type="ios-analytics" />用户管理
-          </MenuItem>
+          <MenuItem name="resumeManager">
+          <Icon type="ios-analytics" />简历管理
+          </MenuItem> 
         </Menu>
       </div>
       <Content class="content_admin">
