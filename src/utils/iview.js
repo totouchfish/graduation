@@ -37,7 +37,8 @@ import {
   Notice,
   Layout,
   Sider,
-  Tag
+  Tag,
+  BackTop
 } from "iview";
 
 const components = {
@@ -77,7 +78,8 @@ const components = {
   Upload,
   InputNumber,
   Tree,
-  Tag
+  Tag,
+  BackTop
 };
 const install = function (Vue, config = {}) {
   if (install.installed) return;

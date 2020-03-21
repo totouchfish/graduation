@@ -51,11 +51,9 @@ export default {
       userType: sessionStorage.getItem('userType') || 1,
       total: 10,
       currentPage: 1,
-
       jobName: '',
       degree: '0',
       status: '0',
-
       column: [
         {
           type: "index",
@@ -179,13 +177,12 @@ export default {
     addData () {
       this.$router.push({
         name: 'add_recruitment',
-        // params:{
-        //   id:'1'
-        // }
+        params:{
+          id:'add'
+        }
       })
     },
-    handleShow(row){//你这是要干啥，职位修改 （有id就是修改，没有id就是新增是么 嗯）
-    // p_id从实体类里查出来不就变成pId了么 没有 我没改。前端没这么用的都是驼峰命名 没事，哼
+    handleShow(row){
         this.$router.push({
         name: 'add_recruitment',
         params:{

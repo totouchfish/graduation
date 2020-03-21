@@ -77,7 +77,7 @@ function translateTime1(value) {
   MM = MM < 10 ? "0" + MM : MM;
   let d = date.getDate();
   d = d < 10 ? "0" + d : d;
-  return y + "年" + MM + "月" + d + "日 ";
+  return y + "年" + MM + "月" + d + "日";
 
 }
 

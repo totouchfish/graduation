@@ -1,14 +1,22 @@
 <template>
   <Layout class="layout">
-    <!-- 添加发布职位 -->
-    <div class="title">添加发布职位</div>
+    <!-- 添加发布岗位 -->
+    <div class="title">添加发布岗位</div>
     <Row class="content">
       <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="85">
-        <FormItem label="职位名称:" prop="p_name">
+        <FormItem label="岗位名称:" prop="p_name">
           <Input v-model="formValidate.p_name"></Input>
         </FormItem>
-        <FormItem label="职位描述:" prop="brief">
-          <Input type="textarea" :rows="3" maxlength="999" v-model="formValidate.brief"></Input>
+        <FormItem label="岗位职责:" prop="workDuties">
+          <Input type="textarea" :rows="3" v-model="formValidate.workDuties"></Input>
+        </FormItem>
+        <FormItem label="岗位要求:" prop="workClaim">
+          <Input type="textarea" :rows="3" v-model="formValidate.workDuties"></Input>
+        </FormItem>
+        <FormItem label="岗位福利:" prop="workWelfare">
+          <Select v-model="formValidate.workWelfare" multiple>
+            <Option v-for="item in workWelfareData" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </FormItem>
         <!-- <FormItem label="行业名称:" prop="workType">
           <Select v-model="formValidate.workType">
@@ -71,13 +79,13 @@
               </Select>
             </FormItem>
             </Col>
-            <Col span="7" offset="1">
+            <!-- <Col span="7" offset="1">
             <FormItem prop="detailAdr">
               <Select v-model="formValidate.detailAdr" placeholder="请选择区县">
                 <Option v-for="(item,index) in countyData" :key="index" :value="item.id">{{item.name}}</Option>
               </Select>
             </FormItem>
-            </Col>
+            </Col> -->
           </Row>
         </FormItem>
         <FormItem label="工作性质:" prop="employeeType">
@@ -85,11 +93,9 @@
             <Option value="1">不限</Option>
             <Option value="2">应届</Option>
             <Option value="3">实习</Option>
+            <Option value="4">兼职</Option>
           </Select>
         </FormItem>
-        <!-- <FormItem label="就读时间:" prop="studyDate">
-        <DatePicker v-model="formValidate.studyDate" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
-      </FormItem> -->
         <!-- <FormItem label="是否统招:" prop="isUnified">
         <RadioGroup v-model="formValidate.isUnified">
           <Radio label="1">是</Radio>
@@ -110,19 +116,40 @@
             <Option value="10">其它</Option>
           </Select>
         </FormItem> -->
-        <FormItem label="学历:" prop="degree">
+        <FormItem label="学历要求:" prop="degree">
           <Select v-model="formValidate.degree">
-            <Option value="1">高中</Option>
-            <Option value="2">中专</Option>
-            <Option value="3">大专</Option>
-            <Option value="4">本科</Option>
-            <Option value="5">硕士</Option>
-            <Option value="6">博士</Option>
-            <Option value="9">其他</Option>
+            <Option value="1">高中及以上</Option>
+            <Option value="2">中专及以上</Option>
+            <Option value="3">大专及以上</Option>
+            <Option value="4">本科及以上</Option>
+            <Option value="5">硕士及以上</Option>
+            <Option value="6">博士及以上</Option>
+            <Option value="9">不限</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="年龄要求:" prop="age">
+          <Select v-model="formValidate.degree">
+            <Option value="1">20岁以下</Option>
+            <Option value="2">20-25岁</Option>
+            <Option value="3">25-30岁</Option>
+            <Option value="4">35-40岁</Option>
+            <Option value="5">40-45岁</Option>
+            <Option value="6">45-50岁</Option>
+            <Option value="9">不限</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="工作经验:" prop="workYears">
+          <Select v-model="formValidate.degree">
+            <Option value="1">1年以下</Option>
+            <Option value="2">1-3年</Option>
+            <Option value="3">3-5年</Option>
+            <Option value="4">5年以上</Option>
+            <Option value="9">不限</Option>
           </Select>
         </FormItem>
         <FormItem label="税前月薪:" prop="salary">
           <Select v-model="formValidate.salary">
+            <Option value="10">面议</Option>
             <Option value="1">1k/月以下</Option>
             <Option value="2">1k-2k/月</Option>
             <Option value="3">2k-4k/月</Option>
@@ -144,7 +171,7 @@
 </template>
 <script>
 // 引入常用变量
-import commonData from "@/common/commonData";
+// import commonData from "@/common/commonData";
 import * as API from "@/api/resume.js";
 import * as API2 from "@/api/position.js";
 
@@ -156,7 +183,9 @@ export default {
       id: '',
       formValidate: {
         p_name: '',
-        brief: '',
+        workDuties: '',
+        workClaim: '',
+        workWelfare: [],
         functionType: '',
         // workType: '',
         workProvince: '',
@@ -167,17 +196,67 @@ export default {
         employeeType: '',
         // companyType: '',
         degree: '',
-        salary: '',
+        age: '',
+        workYears: '',
+        salary: ''
       },
+      workWelfareData: [
+        {
+          value: '五险一金',
+          label: '五险一金'
+        },
+        {
+          value: '带薪年假',
+          label: '带薪年假'
+        },
+        {
+          value: '弹性工作',
+          label: '弹性工作'
+        },
+        {
+          value: '定期体检',
+          label: '定期体检'
+        },
+        {
+          value: '节日礼物',
+          label: '节日礼物'
+        },
+        {
+          value: '绩效奖金',
+          label: '绩效奖金'
+        },
+        {
+          value: '通讯津贴',
+          label: '通讯津贴'
+        },
+        {
+          value: '午餐补助',
+          label: '午餐补助'
+        },
+        {
+          value: '岗位晋升',
+          label: '岗位晋升'
+        },
+        {
+          value: '技能培训',
+          label: '技能培训'
+        },
+      ],
       provinceData: [],
       cityData: [],
       countyData: [],
       ruleValidate: {
         p_name: [
-          { required: true, message: '请输入职位名称', trigger: 'blur' }
+          { required: true, message: '请输入岗位名称', trigger: 'blur' }
         ],
-        brief: [
-          { required: true, message: '请输入职位描述', trigger: 'blur' }
+        workDuties: [
+          { required: true, message: '请输入岗位描述', trigger: 'blur' }
+        ],
+        workClaim: [
+          { required: true, message: '请输入岗位描述', trigger: 'blur' }
+        ],
+        workWelfare: [
+          { required: true, type: 'array', min: 1, message: '请选择岗位福利', trigger: 'change' },
         ],
         // workType: [
         //   { required: true, message: '请选择行业名称', trigger: 'change' }
@@ -201,7 +280,13 @@ export default {
         //   { required: true, message: '请选择企业性质', trigger: 'change' }
         // ],
         degree: [
-          { required: true, message: '请选择学历', trigger: 'change' }
+          { required: true, message: '请选择学历要求', trigger: 'change' }
+        ],
+        age: [
+          { required: true, message: '请选择年龄要求', trigger: 'change' }
+        ],
+        workYears: [
+          { required: true, message: '请选择工作经验', trigger: 'change' }
         ],
         salary: [
           { required: true, message: '请选择税前月薪', trigger: 'change' }
@@ -213,16 +298,21 @@ export default {
     };
   },
   watch: {
+    'formValidate.workWelfare': function(val) {
+      console.log(val);
+      
+    },
     'formValidate.workProvince': function (val) {
       if (val) {
         this.getCity(val);
       }
-    },
-    'formValidate.workCity': function (val) {
-      if (val) {
-        this.getCounty(val);
-      }
     }
+    // ,
+    // 'formValidate.workCity': function (val) {
+    //   if (val) {
+    //     this.getCounty(val);
+    //   }
+    // }
   },
   methods: {
     // 获取全国各省
@@ -260,7 +350,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           let _data = this.formValidate;
-          _data.publicId=sessionStorage.getItem("userId");
+          _data.publicId = 4;
           API2.positionOperation(_data).then(res => {
             if (res.code == 200) {
               this.$router.push({ name: 'recruitment' });
@@ -272,13 +362,13 @@ export default {
         }
       })
     },
-    initData(){
-       API2.queryPositionInfoById({
-        pid:this.id
+    initData () {
+      API2.queryPositionInfoById({
+        pid: this.id
 
       }).then(res => {
         if (res.code == 200) {
-          let _data=res.result;
+          let _data = res.result;
           _data.workProvince = Number(_data.workProvince);
           _data.workCity = Number(_data.workCity);
           _data.detailAdr = Number(_data.detailAdr);
@@ -292,12 +382,12 @@ export default {
     }
   },
   created () {
-    if(this.$route.params.id){
+    if (this.$route.params.id && this.$route.params.id !== 'add') {
       this.id = this.$route.params.id;
       this.initData();
     }
     // 获取全国各省
-    this.getProvince()
+    this.getProvince();
   }
 }
 </script>

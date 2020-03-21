@@ -278,10 +278,10 @@
                 <Col span="7">
                 <span>{{item.major}}</span>
                 </Col>
-                <Col span="3">
+                <Col span="2">
                 <span>{{item.degree}}</span>
                 </Col>
-                <Col span="6">
+                <Col span="7">
                 <span>{{item.startDate}} - {{item.endDate}}</span>
                 </Col>
                 <Col span="2">
@@ -756,14 +756,39 @@ export default {
           // 项目经历
           let _projectData = res.result.projects
           _projectData.forEach(item => {
-            item.startTime = tool.formatDate2(item.startTime);
-            item.endTime = tool.formatDate2(item.endTime)
+            item.startTime = tool.translateTime1(item.startTime);
+            item.endTime = tool.translateTime1(item.endTime)
           });
           // 教育经历
           let _studyData = res.result.educations
           _studyData.forEach(item => {
-            item.startDate = tool.formatDate2(item.startDate);
-            item.endDate = tool.formatDate2(item.endDate)
+            item.startDate = tool.translateTime1(item.startDate);
+            item.endDate = tool.translateTime1(item.endDate);
+            switch (item.degree) {
+              case '1':
+                item.degree = '高中';
+                break;
+              case '2':
+                item.degree = '中专';
+                break;
+              case '3':
+                item.degree = '大专';
+                break;
+              case '4':
+                item.degree = '本科';
+                break;
+              case '5':
+                item.degree = '硕士';
+                break;
+              case '6':
+                item.degree = '博士';
+                break;
+              case '9':
+                item.degree = '其他';
+                break;
+              default:
+                item.degree = '无';
+            }
           });
           this.projectExpData = _data.projects;
           this.educationExpData = _data.educations;
