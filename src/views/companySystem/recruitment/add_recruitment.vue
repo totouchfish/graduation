@@ -365,7 +365,6 @@ export default {
     initData () {
       API2.queryPositionInfoById({
         pid: this.id
-
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
@@ -382,8 +381,8 @@ export default {
     }
   },
   created () {
-    if (this.$route.params.id && this.$route.params.id !== 'add') {
-      this.id = this.$route.params.id;
+    if (this.$route.query.id) {
+      this.id = this.$route.query.id;
       this.initData();
     }
     // 获取全国各省
