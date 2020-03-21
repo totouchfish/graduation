@@ -33,10 +33,45 @@
         </Row>
       </Row>
     </div>
+    <!-- 项目经历 -->
     <div class="intentionInfo">
       <div class="title">项目经历</div>
-      
-      <!--  -->
+      <div class="projectInfo" v-for="(item, index) in projectExpData" :key="index">
+        <p>
+          <span class="blue_circle"></span>&ensp;{{item.startTime}} - {{item.endTime}}
+        </p>
+        <div class="project_item" :style="projectExpData.length == index+1?'border:0':''">
+          <p class="project_item_title">{{item.projectName}}</p>
+          <div class="project_item_content">
+            <p>{{item.projectDesc}}</p>
+            <p>{{item.personalWork}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 教育经历 -->
+    <div class="educationInfo">
+      <div class="title">教育经历</div>
+      <div class="projectInfo" v-for="(item, index) in educationExpData" :key="index">
+        <div>
+          <Row>
+            <Col span="7">
+            <span class="blue_circle"></span>&ensp;{{item.schoolName}}
+            </Col>
+            <Col span="2"><span>{{item.degree}}</span></Col>
+            <Col span="5" offset="1"><span>{{item.major}}</span></Col>
+            <Col span="8"><span>{{item.startDate}} - {{item.endDate}}</span></Col>
+          </Row>
+        </div>
+        <div class="education_item" v-if="educationExpData.length !== index+1"></div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="footer_content">
+        <Button type="primary" shape="circle">下载简历</Button>
+        <Button shape="circle" style="margin-left:60px;" @click="back()">返回简历</Button>
+        <BackTop class="backtop"></BackTop>
+      </div>
     </div>
   </div>
 </template>
@@ -54,7 +89,9 @@ export default {
     return {
       resumeInfo: {},//个人信息
       itemType: 1,
-      jobLists: []
+      jobLists: [],
+      projectExpData: [],//项目经历
+      educationExpData: []//教育经历
     };
   },
   components: {},
@@ -63,6 +100,9 @@ export default {
   },
 
   methods: {
+    back(){
+      this.$router.push('/resume');
+    },
     initData () {
       // 获取用户简历所有数据
       API.queryResume({
@@ -111,17 +151,42 @@ export default {
           // 项目经历
           let _projectData = res.result.projects
           _projectData.forEach(item => {
-            item.startTime = tool.formatDate2(item.startTime);
-            item.endTime = tool.formatDate2(item.endTime)
+            item.startTime = tool.translateTime1(item.startTime);
+            item.endTime = tool.translateTime1(item.endTime)
           });
+          this.projectExpData = _projectData;
           // 教育经历
           let _studyData = res.result.educations
           _studyData.forEach(item => {
-            item.startDate = tool.formatDate2(item.startDate);
-            item.endDate = tool.formatDate2(item.endDate)
+            item.startDate = tool.translateTime1(item.startDate);
+            item.endDate = tool.translateTime1(item.endDate)
+            switch (item.degree) {
+              case '1':
+                item.degree = '高中';
+                break;
+              case '2':
+                item.degree = '中专';
+                break;
+              case '3':
+                item.degree = '大专';
+                break;
+              case '4':
+                item.degree = '本科';
+                break;
+              case '5':
+                item.degree = '硕士';
+                break;
+              case '6':
+                item.degree = '博士';
+                break;
+              case '9':
+                item.degree = '其他';
+                break;
+              default:
+                item.degree = '无';
+            }
           });
-          this.projectExpData = _data.projects;
-          this.educationExpData = _data.educations;
+          this.educationExpData = _studyData;
           // 什么的id存储？
           sessionStorage.setItem("resumeId", _data.id);
           // 隐藏数据填写的div
@@ -146,6 +211,7 @@ export default {
   width: 800px;
   border: 0;
   color: black;
+  letter-spacing: 1px;
   .userInfo {
     padding-bottom: 30px;
     background-color: #fff;
@@ -187,7 +253,7 @@ export default {
     }
   }
   .title {
-    margin: 20px 0 0 20px;
+    margin: 20px 0 15px 20px;
     font-size: 20px;
   }
   .intentionInfo {
@@ -195,6 +261,65 @@ export default {
     padding-bottom: 20px;
     background-color: #fff;
     overflow: hidden; //解决margin塌陷问题
+  }
+  .projectInfo {
+    // margin-top: 10px;
+    margin-left: 20px;
+    .blue_circle {
+      border-radius: 6px;
+      width: 6px;
+      height: 6px;
+      display: inline-block;
+      border: 2px solid #1787fb;
+    }
+    .project_item {
+      padding-left: 50px;
+      margin-left: 4px;
+      padding-bottom: 10px;
+      border-left: 1px dashed #dcdcdc;
+      .project_item_title {
+        font-size: 18px;
+        font-weight: 700;
+        padding-bottom: 15px;
+        padding-top: 15px;
+      }
+      .project_item_content {
+        p {
+          margin-bottom: 20px;
+          width: 90%;
+        }
+      }
+    }
+    .education_item {
+      border-left: 1px dashed #dcdcdc;
+      height: 30px;
+      margin-top: -6px;
+      margin-left: 2px;
+    }
+  }
+  .educationInfo {
+    margin-top: 30px;
+    margin-bottom: 100px;
+    padding-bottom: 20px;
+    background-color: #fff;
+    overflow: hidden; //解决margin塌陷问题
+  }
+  .footer {
+    position: fixed;
+    bottom: 0;
+    height: 80px;
+    width: 120%;
+    left: -20%;
+    background-color: #fff;
+    // box-shadow: 0px -2px 3px ;
+    box-shadow: 0 -4px 8px 0 rgba(90, 99, 103, 0.08);
+    .footer_content {
+      margin-left: 28%;
+      margin-top: 28px;
+      .backtop {
+        bottom: 20px !important;
+      }
+    }
   }
 }
 </style>
