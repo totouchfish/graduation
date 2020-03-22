@@ -19,6 +19,10 @@
   </div>
 </template>
 <script>
+
+import * as API from "@/api/position.js";
+import tool from "../../../utils/formatDate";
+
 export default {
   data () {
     return {
@@ -26,7 +30,7 @@ export default {
       total: 10,
       currentPage: 1,
       companyName: '',
-      legalPerson: '',
+      positionName: '',
       status: '1',
       type:'1',
       column: [
@@ -44,28 +48,33 @@ export default {
         },
         {
           title: "职位名称",
-          key: "name",
+          key: "pname",
           align: "center"
         },
         {
           title: "公司名称",
-          key: "gender",
+          key: "companyName",
           align: "center"
         },
-        {
-          title: "发布者",
-          key: "age",
-          align: "center"
-        },
+        // {
+        //   title: "发布者",
+        //   key: "age",
+        //   align: "center"
+        // },
         {
           title: "工作地点",
-          key: "age",
+          key: "address",
           align: "center"
         },
         {
           title: "发布日期",
-          key: "applyDate",
+          key: "publicTime",
           sortable: "true",
+          align: "center"
+        },
+        {
+          title: "状态",
+          key: "state",
           align: "center"
         },
         {
@@ -112,46 +121,33 @@ export default {
           }
         }
       ],
-      positionData: [
-        {
-          name: 'test1',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '已邀请'
-        },
-        {
-          name: 'test1',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '已录取'
-        },
-        {
-          name: 'test2',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '未录取'
-        },
-        {
-          name: 'test3',
-          gender: '男',
-          age: '32',
-          job: '前端开发工程师',
-          applyDate: '2020-03-06',
-          status: '二次面试'
-        }
-      ]
+      positionData: []
     };
   },
   methods: {
     changepage (val) {
       this.currentPage = val;
     },
+    initData () {
+      this.selectData=[],
+      API.queryPositionAll({
+        positionName:this.positionName,
+        companyName:this.positionName
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          _data.forEach(item => {
+            item.state == '1' ? item.state = '招聘中' : item.state = '停止招聘';
+            item.publicTime = tool.formatDate2(item.publicTime);
+            item.address=item.workProvince+"-"+item.workCity;
+          });
+          this.positionData = _data;
+        }
+      });
+    }   
+  },
+  created () {
+    this.initData();
   }
 }
 </script>

@@ -11,7 +11,7 @@
           <Input type="textarea" :rows="3" v-model="formValidate.workDuties"></Input>
         </FormItem>
         <FormItem label="岗位要求:" prop="workClaim">
-          <Input type="textarea" :rows="3" v-model="formValidate.workDuties"></Input>
+          <Input type="textarea" :rows="3" v-model="formValidate.workClaim"></Input>
         </FormItem>
         <FormItem label="岗位福利:" prop="workWelfare">
           <Select v-model="formValidate.workWelfare" multiple>
@@ -79,13 +79,6 @@
               </Select>
             </FormItem>
             </Col>
-            <!-- <Col span="7" offset="1">
-            <FormItem prop="detailAdr">
-              <Select v-model="formValidate.detailAdr" placeholder="请选择区县">
-                <Option v-for="(item,index) in countyData" :key="index" :value="item.id">{{item.name}}</Option>
-              </Select>
-            </FormItem>
-            </Col> -->
           </Row>
         </FormItem>
         <FormItem label="工作性质:" prop="employeeType">
@@ -128,7 +121,7 @@
           </Select>
         </FormItem>
         <FormItem label="年龄要求:" prop="age">
-          <Select v-model="formValidate.degree">
+          <Select v-model="formValidate.age">
             <Option value="1">20岁以下</Option>
             <Option value="2">20-25岁</Option>
             <Option value="3">25-30岁</Option>
@@ -139,7 +132,7 @@
           </Select>
         </FormItem>
         <FormItem label="工作经验:" prop="workYears">
-          <Select v-model="formValidate.degree">
+          <Select v-model="formValidate.workYears">
             <Option value="1">1年以下</Option>
             <Option value="2">1-3年</Option>
             <Option value="3">3-5年</Option>
@@ -187,14 +180,9 @@ export default {
         workClaim: '',
         workWelfare: [],
         functionType: '',
-        // workType: '',
         workProvince: '',
         workCity: '',
-        //workCounty: '',
-        detailAdr: '',
-        //workCharacter: '',
         employeeType: '',
-        // companyType: '',
         degree: '',
         age: '',
         workYears: '',
@@ -258,9 +246,6 @@ export default {
         workWelfare: [
           { required: true, type: 'array', min: 1, message: '请选择岗位福利', trigger: 'change' },
         ],
-        // workType: [
-        //   { required: true, message: '请选择行业名称', trigger: 'change' }
-        // ],
         functionType: [
           { required: true, message: '请选择职能类型', trigger: 'change' }
         ],
@@ -270,15 +255,9 @@ export default {
         workCity: [
           { required: true, type: 'number', message: '请选择城市', trigger: 'change' }
         ],
-        detailAdr: [
-          { required: true, type: 'number', message: '请选择现区县', trigger: 'change' }
-        ],
         employeeType: [
           { required: true, message: '请选择工作性质', trigger: 'change' }
         ],
-        // companyType: [
-        //   { required: true, message: '请选择企业性质', trigger: 'change' }
-        // ],
         degree: [
           { required: true, message: '请选择学历要求', trigger: 'change' }
         ],
@@ -370,7 +349,7 @@ export default {
           let _data = res.result;
           _data.workProvince = Number(_data.workProvince);
           _data.workCity = Number(_data.workCity);
-          _data.detailAdr = Number(_data.detailAdr);
+          
           this.formValidate = res.result;
         }
       });

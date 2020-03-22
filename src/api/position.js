@@ -17,3 +17,8 @@ export function positionOperation(arg) {
 export function queryPositionInfoById(arg) {
   return request.post('/post/queryPositionInfoById', arg)
 }
+
+//获取全部职位信息
+export function queryPositionAll(arg) {
+  return request.post('/positionManager/queryPositionAll', arg)
+}

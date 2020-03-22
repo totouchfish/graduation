@@ -95,7 +95,9 @@ export default {
     },
     initData () {
       API.collection({
-        userId: sessionStorage.getItem('userId')
+        userId: sessionStorage.getItem('userId'),
+        pageNum:1,
+        pageSize:10
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;

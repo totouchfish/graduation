@@ -447,7 +447,9 @@ export default {
         publicId: sessionStorage.getItem("userId"),
         pname: this.type == '1' ? this.selectJob : this.type == '3' ? this.reviewJob : this.deleteJob,
         rname: this.type == '1' ? this.selectName : this.type == '3' ? this.reviewName : this.deleteName,
-        state: this.type
+        state: this.type,
+        pageSize:10,
+        pageNum:1
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;

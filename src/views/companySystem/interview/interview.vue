@@ -224,7 +224,9 @@ export default {
         publicId: sessionStorage.getItem("userId"),
         pname: this.jobName,
         rname: this.userName,
-        state: this.status
+        state: this.status,
+        pageSize:10,
+        pageNum:1
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;

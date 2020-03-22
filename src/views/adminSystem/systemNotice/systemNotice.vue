@@ -89,24 +89,24 @@ export default {
                 },
                 "查看"
               ),
-              // h(
-              //   "Button",
-              //   {
-              //     props: {
-              //       type: "primary",
-              //       size: "small"
-              //     },
-              //     style: {
-              //       marginRight: "5px"
-              //     },
-              //     on: {
-              //       click: () => {
-              //         this.handleShow(params.row);
-              //       }
-              //     }
-              //   },
-              //   "修改"
-              // ),
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "primary",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px"
+                  },
+                  on: {
+                    click: () => {
+                      this.handleShow(params.row);
+                    }
+                  }
+                },
+                "修改"
+              ),
               h(
                 "Button",
                 {
