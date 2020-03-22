@@ -41,7 +41,7 @@
         <ul class="recruitContent">
           <li v-for="(item,index) in recruitData" :key="index" @mouseenter="item.tagShow = true" @mouseleave="item.tagShow = false">
             <div class="float-left paddingtop-20px">
-              <p>{{item.name}}</p>
+              <p><a href="#" @click="jobDetails(item.id)">{{item.name}}</a></p>
               <p class="recruitDetails">
                 <svg-icon icon-class="address" style="margin-left:0;" />
                 <span>{{item.address}}</span>
@@ -67,7 +67,6 @@
                 <Tag v-for="(element,indx) in item.tagData" :key="indx" type="border">{{element.name}}</Tag>
               </div>
             </transition>
-            <!-- 等会 -->
           </li>
         </ul>
         <!-- <Page :total="total1" :current="currentPage1" class="paging" show-elevator @on-change="changepage1()"></Page> -->
@@ -166,6 +165,9 @@ export default {
     },
     toggleHide () {
       this.tagShow = false;
+    },
+    jobDetails (id){
+      this.$router.push('jobDetails?id='+id);
     },
     initData () {
       // 初始化列表数据

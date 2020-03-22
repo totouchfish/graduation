@@ -76,11 +76,11 @@
                   </li>
                 </ul>
               </div>
-              <div>
+              <!-- <div>
                 <ul>
                   <li></li>
                 </ul>
-              </div>
+              </div> -->
             </div>
             <div></div>
           </div>
@@ -148,20 +148,20 @@ export default {
   },
 
   methods: {
-    hotSearchTouch(item){
-        API.queryPositionInfoByTrade({
-          trade:item
-        }).then(res => {
-          if (res.code == 200) {
-            let _data = res.result;
-            _data.forEach(item => {
-              item.postRequirement = `${item.salary} | ${item.workCity} | ${item.degree} | ${item.employeeType}`
-              item.postRequirement2 = `<span style='color:red;'>${item.salary}</span> | ${item.workCity} | ${item.degree} | ${item.employeeType}`
-              item.companyWelfare = item.subsidy.split("/");
-            });
-            this.resumeData = _data;
-          }
-        });
+    hotSearchTouch (item) {
+      API.queryPositionInfoByTrade({
+        trade: item
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          _data.forEach(item => {
+            item.postRequirement = `${item.salary} | ${item.workCity} | ${item.degree} | ${item.employeeType}`
+            item.postRequirement2 = `<span style='color:red;'>${item.salary}</span> | ${item.workCity} | ${item.degree} | ${item.employeeType}`
+            item.companyWelfare = item.subsidy.split("/");
+          });
+          this.resumeData = _data;
+        }
+      });
     },
     search () {
       API.homeLists({

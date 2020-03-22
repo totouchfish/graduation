@@ -97,14 +97,14 @@ export default {
         },
         {
           title: "状态",
-          key: "state",
+          key: "stateFont",
           align: "center",
           width: 100,
         },
         {
           title: "操作",
           key: "action",
-          width: 170,
+          width: 200,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -148,16 +148,16 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: "error",
+                    type: params.row.state == '1' ? "error" : "primary",
                     size: "small"
                   },
                   on: {
                     click: () => {
-                      this.handleDelete(params.row.id);
+                      this.handleChange(params.row);
                     }
                   }
                 },
-                "删除"
+                params.row.state == '1' ? "停止招聘" : "继续招聘"
               )
             ]);
           }
@@ -177,8 +177,8 @@ export default {
     addData () {
       this.$router.push('add_recruitment');
     },
-    handleDetails(row){
-      this.$router.push('add_recruitment?id='+row.p_id);
+    handleDetails (row) {
+      this.$router.push('add_recruitment?id=' + row.p_id);
       //   this.$router.push({
       //   name: 'add_recruitment',
       //   params:{
@@ -186,25 +186,39 @@ export default {
       //   }
       // })
     },
-    initData () {
-      this.selectData=[],
-      API.queryPersonalPosition({
-        pageNum:2,
-        pageSize:10,
-        publicId: "4",
-        pname:this.jobName,
-        degree:this.degree,
-        state: this.status
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          _data.forEach(item => {
-            item.state == '1' ? item.state = '招聘中' : item.state = '停止招聘';
-            item.publicTime = tool.formatDate2(item.publicTime)
-          });
-          this.selectData = _data;
+    handleChange (row) {
+      let state = row.state == '1' ? '停止招聘' : '继续招聘';
+      this.$Modal.confirm({
+        title: '确认框',
+        content: '<p>确认' + state + '吗？</p>',
+        onOk: () => {
+          row.state == '1' ? row.state = '2' : row.state = '1';
+        },
+        onCancel: () => {
+          // this.$Message.info('Clicked cancel');
         }
       });
+    },
+    initData () {
+      this.selectData = [],
+        API.queryPersonalPosition({
+          pageNum: 2,
+          pageSize: 10,
+          publicId: "4",
+          pname: this.jobName,
+          degree: this.degree,
+          state: this.status
+        }).then(res => {
+          if (res.code == 200) {
+            let _data = res.result;
+            _data.forEach(item => {
+
+              item.state == '1' ? item.stateFont = '招聘中' : item.stateFont = '停止招聘';
+              item.publicTime = tool.formatDate2(item.publicTime)
+            });
+            this.selectData = _data;
+          }
+        });
     }
   },
   created () {

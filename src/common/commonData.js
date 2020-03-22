@@ -417,6 +417,7 @@ const testData = [{
     }
   ],
   recruitData = [{
+      id: '1',
       name: '招商代表/专员',
       address: '南京',
       time: '2020-02-02 12:14',
@@ -435,6 +436,7 @@ const testData = [{
       }, ]
     },
     {
+      id: '2',
       name: '招商代表/专员',
       address: '南京',
       time: '2020-02-02 12:14',
@@ -453,6 +455,7 @@ const testData = [{
       }, ]
     },
     {
+      id: '3',
       name: '招商代表/专员',
       address: '南京',
       time: '2020-02-02 12:14',
@@ -471,6 +474,7 @@ const testData = [{
       }, ]
     },
     {
+      id: '4',
       name: '招商代表/专员',
       address: '南京',
       time: '2020-02-02 12:14',
@@ -489,6 +493,7 @@ const testData = [{
       }, ]
     },
     {
+      id: '5',
       name: '招商代表/专员',
       address: '南京',
       time: '2020-02-02 12:14',
@@ -507,6 +512,7 @@ const testData = [{
       }, ]
     },
     {
+      id: '6',
       name: '招商代表/专员',
       address: '南京',
       time: '2020-02-02 12:14',
