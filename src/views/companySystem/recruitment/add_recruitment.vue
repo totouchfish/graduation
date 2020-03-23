@@ -295,7 +295,7 @@ export default {
           _data.workCity = Number(_data.workCity);
           _data.detailAdr = Number(_data.detailAdr);
           let workWelfare = [];
-          _data.workWelfare.forEach(item =>{
+          _data.workWelfare.split('-').forEach(item =>{
             let obj = {};
             obj.value = item;
             workWelfare.push(obj);
