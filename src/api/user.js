@@ -1,8 +1,27 @@
 import request from '@/utils/request'
 
 /**
+ * 首页
+ */
+//首页列表
+export function homeLists(arg) {
+  return request.post('/recruit/queryPositionRecruiter', arg)
+}
+//热门搜索
+export function queryPositionInfoByTrade(arg) {
+  return request.post('/recruit/queryPositionInfoByTrade', arg)
+}
+
+/**
+ * 行业页面
+ */
+// 多条件查询
+export function queryPositionByCondition(arg) {
+  return request.post('/recruit/queryPositionByMore', arg)
+}
+
+/**
  * 简历页面
- * @param {*} arg 
  */
 // 获取用户简历所有数据  
 export function queryResume(arg) {
@@ -32,23 +51,6 @@ export function queryUserInfo(arg) {
 export function queryJobIntention(arg) {
   return request.post('/resume/queryJobIntention', arg)
 }
-
-// 获取全国所有省份
-export function getProvince(arg) {
-  return request.post('/china/province', arg)
-}
-//显示全国所有城市
-export function getCity(arg) {
-  return request.post('/china/city', arg)
-}
-//投递简历 申请职位
-export function accepPosition(arg) {
-  return request.post('/resume/deliverResume', arg)
-}
-// 简历投递进展
-export function progress(arg) {
-  return request.post('/resume/progress', arg)
-}
 //显示项目经验
 export function queryProjectById(arg) {
   return request.post('/resume/queryProjectById', arg)
@@ -65,8 +67,23 @@ export function queryEducationById(arg) {
 export function submitEducation(arg) {
   return request.post('/resume/submitEducation', arg)
 }
+//投递简历 申请职位
+export function accepPosition(arg) {
+  return request.post('/resume/deliverResume', arg)
+}
+// 简历投递进展
+export function progress(arg) {
+  return request.post('/resume/progress', arg)
+}
 
-//查询所有简历
-export function queryResumeAll(arg) {
-  return request.post('/resume/queryResumeAll', arg)
+/**
+ * 收藏职位
+ */
+//显示已收藏的职位
+export function collection(arg) {
+  return request.post('/collection/queryCollectPosition', arg)
+}
+//删除收藏
+export function delCollection(arg) {
+return request.post('/collection/delCollectPosition', arg)
 }

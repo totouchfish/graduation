@@ -1,5 +1,5 @@
 <template>
-  <!-- 企业认证页面 -->
+  <!-- 职位管理页面 -->
   <div class="main">
         <ul class="fillIn clear">
           <li class="liStyle">
@@ -15,12 +15,12 @@
           </li>
         </ul>
         <Table :columns="column" :data="positionData"></Table>
-        <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
+        <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage"></Page>
   </div>
 </template>
 <script>
 
-import * as API from "@/api/position.js";
+import * as API from "@/api/admin.js";
 import tool from "../../../utils/formatDate";
 
 export default {
@@ -127,10 +127,13 @@ export default {
   methods: {
     changepage (val) {
       this.currentPage = val;
+      this.initData();
     },
     initData () {
       this.selectData=[],
       API.queryPositionAll({
+        pageNum:this.currentPage,
+        pageSize:10,
         positionName:this.positionName,
         companyName:this.positionName
       }).then(res => {
@@ -141,6 +144,7 @@ export default {
             item.publicTime = tool.formatDate2(item.publicTime);
             item.address=item.workProvince+"-"+item.workCity;
           });
+          this.total=res.total;
           this.positionData = _data;
         }
       });

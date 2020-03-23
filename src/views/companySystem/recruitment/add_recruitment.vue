@@ -164,9 +164,8 @@
 </template>
 <script>
 // 引入常用变量
-// import commonData from "@/common/commonData";
-import * as API from "@/api/resume.js";
-import * as API2 from "@/api/position.js";
+import * as API from "@/api/common.js";
+import * as API2 from "@/api/company.js";
 
 
 export default {

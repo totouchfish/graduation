@@ -25,12 +25,12 @@
       </li>
     </ul>
     <Table :columns="column" :data="interviewData"></Table>
-    <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
+    <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage"></Page>
   </div>
 </template>
 <script>
 
-import * as API from "@/api/resumeHanlde.js";
+import * as API from "@/api/company.js";
 import tool from "../../../utils/formatDate";
 
 export default {
@@ -194,6 +194,7 @@ export default {
   methods: {
     changepage (val) {
       this.currentPage = val;
+      this.initData();
     },
     searchData () {
       this.currentPage = 1;
@@ -226,7 +227,7 @@ export default {
         rname: this.userName,
         state: this.status,
         pageSize:10,
-        pageNum:1
+        pageNum:this.currentPage
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
@@ -248,6 +249,7 @@ export default {
             item.statusFlag = false;
             item.change = '';
           });
+          this.total = res.total;
           this.interviewData = _data;
         }
       });

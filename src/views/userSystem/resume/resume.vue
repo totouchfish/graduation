@@ -342,7 +342,8 @@
 </template>
 
 <script>
-import * as API from "@/api/resume";
+import * as API from "@/api/user.js";
+import * as API2 from "@/api/common.js";
 import tool from "@/utils/formatDate";
 
 export default {
@@ -530,7 +531,7 @@ export default {
     },
     // 获取全国各省
     getProvince () {
-      API.getProvince().then(res => {
+      API2.getProvince().then(res => {
         if (res.code == 200) {
           this.provinceData = res.result;
         }
@@ -538,7 +539,7 @@ export default {
     },
     // 获取对应省份下的各市
     getCity (val, type) {
-      API.getCity({
+      API2.getCity({
         pid: val,
       }).then(res => {
         if (res.code == 200) {
@@ -549,7 +550,7 @@ export default {
     },
     // 获取对应市下的各个区县
     getCounty (val) {
-      API.getCity({
+      API2.getCity({
         pid: val,
       }).then(res => {
         if (res.code == 200) {

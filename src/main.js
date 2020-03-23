@@ -14,6 +14,10 @@ Vue.use(iview);
 // 引入svg图标
 import './icons'
 
+// 全局引入echarts
+import echarts from "echarts";
+Vue.prototype.$echarts = echarts;
+
 // 引入权限方法
 import {
   checkArray

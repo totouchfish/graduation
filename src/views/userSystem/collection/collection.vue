@@ -52,7 +52,7 @@
 
 <script>
 
-import * as API from "@/api/collection.js";
+import * as API from "@/api/user.js";
 import tool from "@/utils/formatDate"
 
 export default {

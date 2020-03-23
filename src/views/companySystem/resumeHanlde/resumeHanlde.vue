@@ -17,7 +17,7 @@
           </li>
         </ul>
         <Table :columns="column1" :data="selectData"></Table>
-        <Page :total="total1" :current="currentPage1" class="paging" show-elevator @on-change="changepage1()"></Page>
+        <Page :total="total1" :current="currentPage1" class="paging" show-elevator @on-change="changepage1"></Page>
       </TabPane>
       <TabPane label="简历审核" name="3">
         <ul class="fillIn clear">
@@ -34,7 +34,7 @@
           </li>
         </ul>
         <Table :columns="column2" :data="checkData"></Table>
-        <Page :total="total2" :current="currentPage2" class="paging" show-elevator @on-change="changepage2()"></Page>
+        <Page :total="total2" :current="currentPage2" class="paging" show-elevator @on-change="changepage2"></Page>
       </TabPane>
       <TabPane label="回收站" name="0">
         <ul class="fillIn clear">
@@ -61,13 +61,13 @@
           </li>
         </ul>
         <Table :columns="column3" :data="deleteData"></Table>
-        <Page :total="total3" :current="currentPage3" class="paging" show-elevator @on-change="changepage3()"></Page>
+        <Page :total="total3" :current="currentPage3" class="paging" show-elevator @on-change="changepage3"></Page>
       </TabPane>
     </Tabs>
   </div>
 </template>
 <script>
-import * as API from "@/api/resumeHanlde.js";
+import * as API from "@/api/company.js";
 import tool from "../../../utils/formatDate";
 
 export default {
@@ -390,12 +390,15 @@ export default {
   methods: {
     changepage1 (val) {
       this.currentPage1 = val;
+      this.initData();
     },
     changepage2 (val) {
-      this.currentPage1 = val;
+      this.currentPage2 = val;
+      this.initData();
     },
     changepage3 (val) {
-      this.currentPage1 = val;
+      this.currentPage3 = val;
+      this.initData();
     },
     // 添加审核
     addReview (row) {
@@ -449,7 +452,7 @@ export default {
         rname: this.type == '1' ? this.selectName : this.type == '3' ? this.reviewName : this.deleteName,
         state: this.type,
         pageSize:10,
-        pageNum:1
+        pageNum:this.type == '1' ? this.currentPage1 : this.type == '3' ? this.currentPage2 : this.currentPage3,
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
@@ -457,6 +460,7 @@ export default {
             item.gender == '1' ? item.gender = '男' : item.gender = '女';
             item.age = tool.getAge(item.birthday);
           });
+          this.type == '1' ? this.total1 =res.total : this.type == '3' ? this.total2 = res.total : this.total3 = res.total;
           this.type == '1' ? this.selectData = _data : this.type == '3' ? this.checkData = _data : this.deleteData = _data;
         }
       });

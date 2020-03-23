@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-import * as API from "@/api/resume.js";
+import * as API from "@/api/admin.js";
 import tool from "../../../utils/formatDate";
 export default {
   data () {

@@ -24,8 +24,7 @@
 <script>
 // 引入常用变量
 import tool from "@/utils/formatDate";
-import * as API from "@/api/resume.js";
-import * as API2 from "@/api/position.js";
+import * as API from "@/api/admin.js";
 
 export default {
   data () {

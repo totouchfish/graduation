@@ -70,7 +70,7 @@
 <script>
 // 引入常用变量
 import commonData from "@/common/commonData.js";
-import * as API from "@/api/resume";
+import * as API from "@/api/company.js";
 
 export default {
   data () {

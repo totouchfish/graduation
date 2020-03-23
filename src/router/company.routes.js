@@ -8,7 +8,7 @@ export default {
     {
       path: '/chome',
       name: 'chome',
-      component: () => import('@/views/companySystem/home/home')//懒加载
+      component: () => import('@/views/companySystem/home/chome')//懒加载
     },
     {
       path: '/resumeHanlde',
