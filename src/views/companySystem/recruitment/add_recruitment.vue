@@ -216,21 +216,11 @@ export default {
     };
   },
   watch: {
-    'formValidate.workWelfare': function (val) {
-      console.log(val);
-
-    },
     'formValidate.workProvince': function (val) {
       if (val) {
         this.getCity(val);
       }
     }
-    // ,
-    // 'formValidate.workCity': function (val) {
-    //   if (val) {
-    //     this.getCounty(val);
-    //   }
-    // }
   },
   methods: {
     // 获取全国各省
@@ -252,17 +242,6 @@ export default {
         }
       });
     },
-    // 获取对应市下的各个区县
-    getCounty (val) {
-      API.getCity({
-        pid: val,
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          this.countyData = _data;
-        }
-      });
-    },
     // 提交用户简历信息
     submit (name) {
       let self = this;
@@ -271,7 +250,7 @@ export default {
           // 复制一个新对象出来，防止对_data做修改的时候影响到this.formValidate
           // let _data =  Object.assign({},this.formValidate);//如果原对象里存在子对象一样会受到影响
           let _data =  JSON.parse(JSON.stringify(this.formValidate));
-          _data.publicId = 4;
+          _data.publicId = sessionStorage.getItem("userId");
           let workWelfare = '';
           _data.workWelfare.forEach(item =>{
             workWelfare += item + '-'
@@ -299,12 +278,11 @@ export default {
           _data.detailAdr = Number(_data.detailAdr);
           let workWelfare = [];
           _data.workWelfare.split('-').forEach(item =>{
-            let obj = {};
-            obj.value = item;
-            workWelfare.push(obj);
+            workWelfare.push(item);
           })
           _data.workWelfare = workWelfare;
-          this.formValidate = res.result;
+          this.formValidate = _data;
+          console.log(this.formValidate);
         }
       });
     },
