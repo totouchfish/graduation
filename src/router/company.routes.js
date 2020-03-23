@@ -26,6 +26,11 @@ export default {
       component: () => import('@/views/companySystem/recruitment/add_recruitment')//懒加载
     },
     {
+      path: '/search_recruitment',
+      name: 'search_recruitment',
+      component: () => import('@/views/companySystem/recruitment/search_recruitment')//懒加载
+    },
+    {
       path: '/interview',
       name: 'interview',
       component: () => import('@/views/companySystem/interview/interview')//懒加载
