@@ -11,7 +11,7 @@
           <Input type="textarea" :rows="3" v-model="formValidate.workDuties"></Input>
         </FormItem>
         <FormItem label="岗位要求:" prop="workClaim">
-          <Input type="textarea" :rows="3" v-model="formValidate.Duties"></Input>
+          <Input type="textarea" :rows="3" v-model="formValidate.workClaim"></Input>
         </FormItem>
         <FormItem label="岗位福利:" prop="workWelfare">
           <Select v-model="formValidate.workWelfare" multiple>
@@ -133,7 +133,7 @@
         </FormItem>
         <FormItem>
           <Button type="primary" @click="submit('formValidate')">提交</Button>
-          <Button @click="canel()" style="margin-left: 8px">取消</Button>
+          <Button @click="canel()" style="margin-left: 8px">返回</Button>
         </FormItem>
       </Form>
     </Row>
@@ -142,8 +142,8 @@
 <script>
 // 引入常用变量
 import commonData from "@/common/commonData";
-import * as API from "@/api/resume.js";
-import * as API2 from "@/api/position.js";
+import * as API from "@/api/common.js";
+import * as API2 from "@/api/company.js";
 
 
 export default {
@@ -265,9 +265,12 @@ export default {
     },
     // 提交用户简历信息
     submit (name) {
+      let self = this;
       this.$refs[name].validate((valid) => {
         if (valid) {
-          let _data = this.formValidate;
+          // 复制一个新对象出来，防止对_data做修改的时候影响到this.formValidate
+          // let _data =  Object.assign({},this.formValidate);//如果原对象里存在子对象一样会受到影响
+          let _data =  JSON.parse(JSON.stringify(this.formValidate));
           _data.publicId = 4;
           let workWelfare = '';
           _data.workWelfare.forEach(item =>{
@@ -295,7 +298,7 @@ export default {
           _data.workCity = Number(_data.workCity);
           _data.detailAdr = Number(_data.detailAdr);
           let workWelfare = [];
-          _data.workWelfare.forEach(item =>{
+          _data.workWelfare.split('-').forEach(item =>{
             let obj = {};
             obj.value = item;
             workWelfare.push(obj);

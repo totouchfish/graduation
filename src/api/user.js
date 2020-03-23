@@ -68,7 +68,7 @@ export function submitEducation(arg) {
   return request.post('/resume/submitEducation', arg)
 }
 //投递简历 申请职位
-export function accepPosition(arg) {
+export function acceptPosition(arg) {
   return request.post('/resume/deliverResume', arg)
 }
 // 简历投递进展

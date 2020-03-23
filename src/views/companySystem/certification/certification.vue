@@ -71,6 +71,7 @@
 // 引入常用变量
 import commonData from "@/common/commonData.js";
 import * as API from "@/api/company.js";
+import * as API2 from "@/api/common.js";
 
 export default {
   data () {
@@ -134,7 +135,7 @@ export default {
   methods: {
     // 获取全国各省
     getProvince () {
-      API.getProvince().then(res => {
+      API2.getProvince().then(res => {
         if (res.code == 200) {
           this.provinceData = res.result;
         }
@@ -142,7 +143,7 @@ export default {
     },
     // 获取对应省份下的各市
     getCity (val) {
-      API.getCity({
+      API2.getCity({
         pid: val,
       }).then(res => {
         if (res.code == 200) {
@@ -153,7 +154,7 @@ export default {
     },
     // 获取对应市下的各个区县
     getCounty (val) {
-      API.getCity({
+      API2.getCity({
         pid: val,
       }).then(res => {
         if (res.code == 200) {
