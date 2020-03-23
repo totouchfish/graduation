@@ -154,22 +154,22 @@ export default {
       })
     },
     initData () {
-      this.tableData=[],
-      API.querySystemNotice({
-        pageNum: this.currentPage,
-        pageSize:10,
-        pname:this.noticeName,
-        content: this.noticeContent
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          // _data.forEach(item => {
-          //   item.state == '1' ? item.state = '招聘中' : item.state = '停止招聘';
-          //   item.publicTime = tool.formatDate2(item.publicTime)
-          // });
-          this.tableData = _data;
-        }
-      });
+      // this.tableData=[],
+      // API.querySystemNotice({
+      //   pageNum: this.currentPage,
+      //   pageSize:10,
+      //   pname:this.noticeName,
+      //   content: this.noticeContent
+      // }).then(res => {
+      //   if (res.code == 200) {
+      //     let _data = res.result;
+      //     // _data.forEach(item => {
+      //     //   item.state == '1' ? item.state = '招聘中' : item.state = '停止招聘';
+      //     //   item.publicTime = tool.formatDate2(item.publicTime)
+      //     // });
+      //     this.tableData = _data;
+      //   }
+      // });
     }
   },
   created () {
