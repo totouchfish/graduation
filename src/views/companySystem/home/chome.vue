@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     improveData () {
-      this.$router.psuh('certification');
+      this.$router.push('certification');
     }
   },
   created () {

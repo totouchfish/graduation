@@ -11,7 +11,7 @@
           <span class="font">{{nowDate}}</span>
         </FormItem>
         <FormItem label="公告内容:" prop="noticeContent">
-          <Input class="font" type="textarea" :rows="6" maxlength="999" v-model="formValidate.noticeContent"></Input>
+          <Input class="font" type="textarea" :rows="6" v-model="formValidate.noticeContent"></Input>
         </FormItem>
         <FormItem>
           <Button type="primary" @click="submit('formValidate')">提交</Button>
