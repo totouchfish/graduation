@@ -349,6 +349,9 @@ import tool from "@/utils/formatDate";
 export default {
   name: "index",
   data () {
+    const noCheck = (rule, value, callback) => {
+      callback();
+    };
     return {
       userInfo: false,
       jobIntention: false,
@@ -413,7 +416,7 @@ export default {
           { required: true, message: '请选择政治面貌', trigger: 'change' }
         ],
         none: [
-          { required: true, message: '.' }
+          { required: true, validator: noCheck}
         ]
       },
       form2Validate: {

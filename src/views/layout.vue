@@ -52,8 +52,8 @@
             <Icon type="ios-paper" />招聘管理
             <!-- 发布招聘信息  -->
             </MenuItem>
-            <MenuItem name="certification">
-            <Icon type="ios-keypad" />企业认证
+            <MenuItem name="certificationInfo">
+            <Icon type="ios-keypad" />企业信息
             <!-- 企业资质认证  -->
             </MenuItem>
           </div>
