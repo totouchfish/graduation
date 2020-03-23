@@ -530,6 +530,38 @@ const testData = [{
         name: '通讯津贴'
       }, ]
     }
+
+  ],
+  workWelfareData = [{
+      value: '五险一金'
+    },
+    {
+      value: '带薪年假'
+    },
+    {
+      value: '弹性工作'
+    },
+    {
+      value: '定期体检'
+    },
+    {
+      value: '节日礼物'
+    },
+    {
+      value: '绩效奖金'
+    },
+    {
+      value: '通讯津贴'
+    },
+    {
+      value: '午餐补助'
+    },
+    {
+      value: '岗位晋升'
+    },
+    {
+      value: '技能培训'
+    },
   ]
 
 export default {
@@ -540,5 +572,6 @@ export default {
   companyTypeLists,
   workTypeLists,
   sortTypeLists,
-  recruitData
+  recruitData,
+  workWelfareData
 }

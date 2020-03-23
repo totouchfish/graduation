@@ -2,7 +2,7 @@
   <div>
     <div v-if="certificationTip" class="certificationTip" style="font-size:15px">
       <span>您好，{{userName}}，您还未完善企业信息认证，通过企业信息审核之后才可以发布职位招聘！</span>
-      <a href="https://ihr.zhaopin.com/register/personQualificationSelect.html"> <span>&emsp;&emsp;&emsp;立即完善企业信息认证</span> </a>
+      <a href="#" @click="improveData()"> <span>&emsp;&emsp;&emsp;立即完善企业信息认证</span> </a>
     </div>
     <Layout>
       <Layout class="content">
@@ -50,9 +50,10 @@
               <div style="padding-top: 10px;">欢迎回来,{{nowTime}}！</div>
             </div>
           </div>
-          <div>
-            系统公告
-          </div>
+        </div>
+        <div class="systemMessage">
+          <h2>系统公告</h2>
+          
         </div>
       </Sider>
     </Layout>
@@ -79,8 +80,8 @@ export default {
     Echarts
   },
   methods: {
-    demo () {
-
+    improveData () {
+      this.$router.psuh('certification');
     }
   },
   created () {
@@ -149,7 +150,7 @@ export default {
       }
     }
   }
-  .echarts{
+  .echarts {
     width: 100%;
     margin-top: 10px;
     margin-bottom: 20px;
@@ -179,5 +180,11 @@ export default {
       }
     }
   }
+}
+.systemMessage{
+  margin-top: 20px;
+  margin-left: 10px;
+  padding-top: 10px;
+  border-top: 1px dotted #ccc;
 }
 </style>

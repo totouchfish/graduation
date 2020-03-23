@@ -11,11 +11,11 @@
           <Input type="textarea" :rows="3" v-model="formValidate.workDuties"></Input>
         </FormItem>
         <FormItem label="岗位要求:" prop="workClaim">
-          <Input type="textarea" :rows="3" v-model="formValidate.workClaim"></Input>
+          <Input type="textarea" :rows="3" v-model="formValidate.Duties"></Input>
         </FormItem>
         <FormItem label="岗位福利:" prop="workWelfare">
           <Select v-model="formValidate.workWelfare" multiple>
-            <Option v-for="item in workWelfareData" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Option v-for="item in workWelfareData" :value="item.value" :key="item.value">{{ item.value }}</Option>
           </Select>
         </FormItem>
         <!-- <FormItem label="行业名称:" prop="workType">
@@ -37,33 +37,10 @@
         </FormItem> -->
         <FormItem label="职能类型:" prop="functionType">
           <Select v-model="formValidate.functionType">
-            <Option value="1">不限</Option>
-            <Option value="2">高级管理</Option>
-            <Option value="3">技术</Option>
-            <Option value="4">产品</Option>
-            <Option value="5">运营</Option>
-            <Option value="6">设计</Option>
-            <Option value="7">销售/客服</Option>
-            <Option value="8">市场/公关/广告/会展</Option>
-            <Option value="9">人力/财务/行政</Option>
-            <Option value="10">法务</Option>
-            <Option value="11">金融</Option>
-            <Option value="12">汽车</Option>
-            <Option value="13">房地产/建筑/物业</Option>
-            <Option value="14">生产/制造</Option>
-            <Option value="15">医疗护理/生物制药</Option>
-            <Option value="16">教育/培训</Option>
-            <Option value="17">生活服务</Option>
-            <Option value="18">能源/矿产/环保</Option>
-            <Option value="19">影视/媒体/写作/出版</Option>
-            <Option value="20">咨询/翻译</Option>
-            <Option value="21">项目管理</Option>
-            <Option value="22">采购/贸易</Option>
-            <Option value="23">供应链/物流/运输</Option>
-            <Option value="24">公务员/农林牧渔/其他</Option>
+            <Option v-for="(item, index) in functionTypeLists" :key="index" :value="item.code">{{item.name}}</Option>
           </Select>
         </FormItem>
-        <FormItem label="工作地点:">
+        <FormItem label="工作地点:" prop="none">
           <Row>
             <Col span="7">
             <FormItem prop="workProvince">
@@ -142,7 +119,7 @@
         </FormItem>
         <FormItem label="税前月薪:" prop="salary">
           <Select v-model="formValidate.salary">
-            <Option value="10">面议</Option>
+            <Option value="10">高中及以上</Option>
             <Option value="1">1k/月以下</Option>
             <Option value="2">1k-2k/月</Option>
             <Option value="3">2k-4k/月</Option>
@@ -164,14 +141,17 @@
 </template>
 <script>
 // 引入常用变量
-import * as API from "@/api/common.js";
-import * as API2 from "@/api/company.js";
+import commonData from "@/common/commonData";
+import * as API from "@/api/resume.js";
+import * as API2 from "@/api/position.js";
 
 
 export default {
   data () {
+    const noCheck = (rule, value, callback) => {
+      callback();
+    };
     return {
-      //userType: sessionStorage.getItem('userType') || 1,
       id: '',
       formValidate: {
         p_name: '',
@@ -187,48 +167,8 @@ export default {
         workYears: '',
         salary: ''
       },
-      workWelfareData: [
-        {
-          value: '五险一金',
-          label: '五险一金'
-        },
-        {
-          value: '带薪年假',
-          label: '带薪年假'
-        },
-        {
-          value: '弹性工作',
-          label: '弹性工作'
-        },
-        {
-          value: '定期体检',
-          label: '定期体检'
-        },
-        {
-          value: '节日礼物',
-          label: '节日礼物'
-        },
-        {
-          value: '绩效奖金',
-          label: '绩效奖金'
-        },
-        {
-          value: '通讯津贴',
-          label: '通讯津贴'
-        },
-        {
-          value: '午餐补助',
-          label: '午餐补助'
-        },
-        {
-          value: '岗位晋升',
-          label: '岗位晋升'
-        },
-        {
-          value: '技能培训',
-          label: '技能培训'
-        },
-      ],
+      functionTypeLists: commonData.functionTypeLists,
+      workWelfareData: commonData.workWelfareData,
       provinceData: [],
       cityData: [],
       countyData: [],
@@ -270,15 +210,15 @@ export default {
           { required: true, message: '请选择税前月薪', trigger: 'change' }
         ],
         none: [
-          { required: true, type: 'number', message: '.' }
+          { required: true, validator: noCheck}
         ]
       },
     };
   },
   watch: {
-    'formValidate.workWelfare': function(val) {
+    'formValidate.workWelfare': function (val) {
       console.log(val);
-      
+
     },
     'formValidate.workProvince': function (val) {
       if (val) {
@@ -329,6 +269,11 @@ export default {
         if (valid) {
           let _data = this.formValidate;
           _data.publicId = 4;
+          let workWelfare = '';
+          _data.workWelfare.forEach(item =>{
+            workWelfare += item + '-'
+          })
+          _data.workWelfare = workWelfare.substr(0,workWelfare.length - 1);
           API2.positionOperation(_data).then(res => {
             if (res.code == 200) {
               this.$router.push({ name: 'recruitment' });
@@ -348,7 +293,14 @@ export default {
           let _data = res.result;
           _data.workProvince = Number(_data.workProvince);
           _data.workCity = Number(_data.workCity);
-          
+          _data.detailAdr = Number(_data.detailAdr);
+          let workWelfare = [];
+          _data.workWelfare.forEach(item =>{
+            let obj = {};
+            obj.value = item;
+            workWelfare.push(obj);
+          })
+          _data.workWelfare = workWelfare;
           this.formValidate = res.result;
         }
       });

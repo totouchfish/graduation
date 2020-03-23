@@ -120,7 +120,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.handleDetails(params.row);
+                      this.handleShow(params.row);
                     }
                   }
                 },
@@ -138,7 +138,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.handleShow(params.row);
+                      this.handleEdit(params.row);
                     }
                   }
                 },
@@ -178,14 +178,11 @@ export default {
     addData () {
       this.$router.push('add_recruitment');
     },
-    handleDetails (row) {
+    handleShow(row){
+      this.$router.push('search_recruitment?id=' + row.p_id);
+    },
+    handleEdit (row) {
       this.$router.push('add_recruitment?id=' + row.p_id);
-      //   this.$router.push({
-      //   name: 'add_recruitment',
-      //   params:{
-      //     id: row.p_id
-      //   }
-      // })
     },
     handleChange (row) {
       let state = row.state == '1' ? '继续招聘' : '停止招聘';
