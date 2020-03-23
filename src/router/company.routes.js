@@ -40,10 +40,10 @@ export default {
       name: 'certification',
       component: () => import('@/views/companySystem/certification/certification')//懒加载
     },
-    // {
-    //   path: '/certification',
-    //   name: 'certification',
-    //   component: () => import('@/views/companySystem/certification/certification')//懒加载
-    // }
+    {
+      path: '/certificationInfo',
+      name: 'certificationInfo',
+      component: () => import('@/views/companySystem/certification/certificationInfo')//懒加载
+    }
   ]
 }

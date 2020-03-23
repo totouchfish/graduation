@@ -1,6 +1,6 @@
 <template>
   <Layout class="layout">
-    <div class="title">企业认证</div>   
+    <div class="title">企业信息</div>   
     <Row class="content">
       <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="135">
         <FormItem label="企业全称:" prop="companyName">
@@ -56,9 +56,9 @@
             <Option value="3">实习</Option>
           </Select>
         </FormItem> -->
-        <FormItem style="margin-left:24%;margin-top:30px;">
-          <Button type="primary" @click="submit('formValidate')">提交认证</Button>
-          <Button @click="canel()" style="margin-left: 50px">返回首页</Button>
+        <FormItem style="margin-left:30%;margin-top:30px;">
+          <Button type="primary" @click="submit('formValidate')">修 改</Button>
+          <!-- <Button @click="canel()" style="margin-left: 8px">取消</Button> -->
         </FormItem>
       </Form>
     </Row>
@@ -186,7 +186,8 @@ export default {
       })
     },
     canel () {
-      this.$router.push({ name: 'chome' });
+      this.formValidate = [];
+      this.$router.push({ name: 'recruitment' });
     }
   },
   created(){
