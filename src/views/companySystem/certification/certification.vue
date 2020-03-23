@@ -1,6 +1,6 @@
 <template>
   <Layout class="layout">
-    <div class="title">企业信息</div>   
+    <div class="title">企业认证</div>   
     <Row class="content">
       <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="135">
         <FormItem label="企业全称:" prop="companyName">
