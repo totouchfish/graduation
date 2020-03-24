@@ -43,32 +43,34 @@
           </Row>
           <Row v-show="userInfo" class="userInfo_edit">
             <Col>
-            <Form ref="form1Validate" :model="form1Validate" label-position="left" :rules="rule1Validate" :label-width="100">
+            <Form ref="form1Validate" :model="form1Validate" label-position="right" :rules="rule1Validate" :label-width="125">
               <Row>
                 <Col span="10">
-                <FormItem label="姓名" prop="name">
+                <FormItem label="姓名：" prop="name">
                   <Input v-model="form1Validate.name" style="width:194px;"></Input>
                 </FormItem>
-                <FormItem label="性别" prop="gender">
+                <FormItem label="性别：" prop="gender">
                   <RadioGroup v-model="form1Validate.gender">
                     <Radio label="1">男</Radio>
                     <Radio label="2">女</Radio>
                   </RadioGroup>
                 </FormItem>
-                <FormItem label="出生年月" prop="birthDate">
+                <FormItem label="出生年月：" prop="birthDate">
                   <DatePicker type="date" v-model="form1Validate.birthDate"></DatePicker>
                 </FormItem>
-                <FormItem label="参加工作时间" prop="workDate">
+                <FormItem label="参加工作时间：" prop="workDate">
                   <DatePicker type="date" v-model="form1Validate.workDate"></DatePicker>
                 </FormItem>
                 </Col>
                 <Col span="6" offset="8">
-                <span>选择文件</span>
+                <Upload :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-exceeded-size="handleMaxSize" :on-format-error="handleFormatError" :data="{'userId': userId}" :action="url" style="display: inline-block;">
+                  <div class="uploadButton">选择文件&ensp;</div>
+                </Upload>
                 <img src="@/assets/images/man.jpg" style="width:100px;height:100px;">
-                <p>只支持JPG格式,大小不要超过500k 建议使用一寸证件照70*100像素</p>
+                <p>支持JPG、JPEG、PNG格式,大小不要超过2M,建议使用一寸证件照70*100像素</p>
                 </Col>
               </Row>
-              <FormItem label="户口所在地" prop="none">
+              <FormItem label="户口所在地：" prop="none">
                 <Row>
                   <Col span="7">
                   <FormItem prop="birthProvince">
@@ -86,7 +88,7 @@
                   </Col>
                 </Row>
               </FormItem>
-              <FormItem label="现居住城市" prop="none">
+              <FormItem label="现居住城市：" prop="none">
                 <Row>
                   <Col span="8">
                   <FormItem prop="liveProvince">
@@ -111,13 +113,13 @@
                   </Col>
                 </Row>
               </FormItem>
-              <FormItem label="联系方式" prop="phone">
+              <FormItem label="联系方式：" prop="phone">
                 <Input v-model="form1Validate.phone"></Input>
               </FormItem>
-              <FormItem label="电子邮箱" prop="mail">
+              <FormItem label="电子邮箱：" prop="mail">
                 <Input v-model="form1Validate.mail"></Input>
               </FormItem>
-              <FormItem label="政治面貌" prop="identity">
+              <FormItem label="政治面貌：" prop="identity">
                 <Select v-model="form1Validate.identity">
                   <Option value="1">中共党员(含预备党员)</Option>
                   <Option value="2">团员</Option>
@@ -166,23 +168,23 @@
           <Row v-show="jobIntention" class="userInfo_edit">
             <Col>
             <Form ref="form2Validate" :model="form2Validate" label-position="left" :rules="rule2Validate" :label-width="100">
-              <FormItem label="工作性质" prop="workCharacter">
+              <FormItem label="工作性质：" prop="workCharacter">
                 <RadioGroup v-model="form2Validate.workCharacter">
                   <Radio label="1">全职</Radio>
                   <Radio label="2">兼职</Radio>
                   <Radio label="3">实习</Radio>
                 </RadioGroup>
               </FormItem>
-              <FormItem label="期望地点" prop="expectPlace">
+              <FormItem label="期望地点：" prop="expectPlace">
                 <Input v-model="form2Validate.expectPlace"></Input>
               </FormItem>
-              <FormItem label="期望行业" prop="expectJob">
+              <FormItem label="期望行业：" prop="expectJob">
                 <Input v-model="form2Validate.expectJob"></Input>
               </FormItem>
-              <FormItem label="期望职业" prop="expectPost">
+              <FormItem label="期望职业：" prop="expectPost">
                 <Input v-model="form2Validate.expectPost"></Input>
               </FormItem>
-              <FormItem label="税前月薪" prop="expectSalary">
+              <FormItem label="税前月薪：" prop="expectSalary">
                 <Select v-model="form2Validate.expectSalary">
                   <Option value="1">1k元/月以下</Option>
                   <Option value="2">1k-2k元/月</Option>
@@ -244,7 +246,7 @@
           </Row>
           <Row v-show="projectExp" class="userInfo_edit">
             <Col>
-            <Form ref="form3Validate" :model="form3Validate" label-position="left" :rules="rule3Validate" :label-width="100">
+            <Form ref="form3Validate" :model="form3Validate" label-position="right" :rules="rule3Validate" :label-width="100">
               <FormItem label="项目名称：" prop="projectName">
                 <Input v-model="form3Validate.projectName"></Input>
               </FormItem>
@@ -280,26 +282,26 @@
           </Row>
           <Row v-show="!educationExp">
             <Col span="20">
-              <Card v-for="(item, index) in educationExpData" :key="index" class="projectItem">
-                <Row>
-                  <Col span="6">
-                  <span>{{item.schoolName}}</span>
-                  </Col>
-                  <Col span="7">
-                  <span>{{item.major}}</span>
-                  </Col>
-                  <Col span="2">
-                  <span>{{item.degree}}</span>
-                  </Col>
-                  <Col span="7">
-                  <span>{{item.startDate}} - {{item.endDate}}</span>
-                  </Col>
-                  <Col span="2">
-                  <span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editEducationExp(item)">
-                    <svg-icon icon-class="edit" />&nbsp;编辑</span>
-                  </Col>
-                </Row>
-              </Card>
+            <Card v-for="(item, index) in educationExpData" :key="index" class="projectItem">
+              <Row>
+                <Col span="6">
+                <span>{{item.schoolName}}</span>
+                </Col>
+                <Col span="7">
+                <span>{{item.major}}</span>
+                </Col>
+                <Col span="2">
+                <span>{{item.degree}}</span>
+                </Col>
+                <Col span="7">
+                <span>{{item.startDate}} - {{item.endDate}}</span>
+                </Col>
+                <Col span="2">
+                <span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editEducationExp(item)">
+                  <svg-icon icon-class="edit" />&nbsp;编辑</span>
+                </Col>
+              </Row>
+            </Card>
             </Col>
             <!-- <Col span="4">
             <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="addEducationExp()">
@@ -307,7 +309,7 @@
           </Row>
           <Row v-show="educationExp" class="userInfo_edit">
             <Col>
-            <Form ref="form4Validate" :model="form4Validate" label-position="left" :rules="rule4Validate" :label-width="100">
+            <Form ref="form4Validate" :model="form4Validate" label-position="right" :rules="rule4Validate" :label-width="100">
               <FormItem label="学校名称：" prop="schoolName">
                 <Input v-model="form4Validate.schoolName"></Input>
               </FormItem>
@@ -363,6 +365,8 @@ export default {
       callback();
     };
     return {
+      url: '',
+      userId: sessionStorage.getItem('userId'),
       userInfo: false,
       jobIntention: false,
       projectExp: false,
@@ -539,6 +543,25 @@ export default {
   components: {},
   computed: {},
   methods: {
+    handleMaxSize (file) {
+      this.$Notice.warning({
+        title: "图片大小超过限制",
+        desc: file.name + " 图片超过2M，请重新上传。"
+      });
+    },
+    handleFormatError (file) {
+      this.$Notice.warning({
+        title: "格式不正确",
+        desc: "请选择JPG、JPEG、PNG格式的图片"
+      });
+    },
+    handleSuccess (res, file) {
+      if (res.result) {
+        this.$Message.success("图片上传成功！");
+        this.uploadList = [];
+        this.imgUrl = '@/assets/images/man.jpg';
+      }
+    },
     preview () {
       this.$router.push('/preview');
     },
@@ -575,7 +598,7 @@ export default {
     // 点击编辑按钮，获取用户信息
     editUserInfo () {
       API.queryUserInfoById({
-        userId: sessionStorage.getItem('userId')
+        userId: this.userId
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
@@ -597,7 +620,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           let _data = this.form1Validate;
-          _data.id = sessionStorage.getItem('userId')
+          _data.id = this.userId
           API.updateUserInfo(_data).then(res => {
             if (res.code == 200) {
               this.userInfo = !this.userInfo;
@@ -613,7 +636,7 @@ export default {
     // 获取简历求职意向信息
     editIntentionInfo () {
       API.queryJobIntentionById({
-        userId: sessionStorage.getItem('userId')
+        userId: this.userId
 
       }).then(res => {
         if (res.code == 200) {
@@ -627,7 +650,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           let _data = this.form2Validate;
-          _data.id = sessionStorage.getItem('userId')
+          _data.id = this.userId
           API.updateJobIntention(_data).then(res => {
             if (res.code == 200) {
               this.jobIntention = !this.jobIntention;
@@ -725,7 +748,7 @@ export default {
     initData () {
       // 获取用户简历所有数据
       API.queryResume({
-        userId: sessionStorage.getItem('userId')
+        userId: this.userId
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
@@ -809,7 +832,7 @@ export default {
           // 什么的id存储？
           sessionStorage.setItem("resumeId", _data.id);
           // 隐藏数据填写的div
-          this.userInfo = false;
+          this.userInfo = true;
         } else {
           // 900 代表用户还没录入过信息
           // 显示数据填写的div
@@ -831,6 +854,7 @@ span {
   font-size: 15px;
   vertical-align: middle;
 }
+
 .layout {
   width: 1000px;
   border: 0;
@@ -854,7 +878,7 @@ span {
   width: 80%;
   margin: auto;
   background-color: #f8f8f8;
-  padding: 20px 15px;
+  padding: 25px 15px 20px 5px;
 }
 .manImage {
   width: 116px;
@@ -890,5 +914,9 @@ span {
   display: inline-block;
   width: 83%;
   vertical-align: top;
+}
+.uploadButton {
+  cursor: pointer;
+  color: #1787fb;
 }
 </style>

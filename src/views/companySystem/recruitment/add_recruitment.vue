@@ -14,7 +14,7 @@
           <Input type="textarea" :rows="3" v-model="formValidate.workClaim"></Input>
         </FormItem>
         <FormItem label="岗位福利:" prop="workWelfare">
-          <Select v-model="formValidate.workWelfare" multiple>
+          <Select v-model="formValidate.workWelfare" filterable multiple allow-create @on-create="handleAddWelfare">
             <Option v-for="item in workWelfareData" :value="item.value" :key="item.value">{{ item.value }}</Option>
           </Select>
         </FormItem>
@@ -66,12 +66,6 @@
             <Option value="4">兼职</Option>
           </Select>
         </FormItem>
-        <!-- <FormItem label="是否统招:" prop="isUnified">
-        <RadioGroup v-model="formValidate.isUnified">
-          <Radio label="1">是</Radio>
-          <Radio label="0">否</Radio>
-        </RadioGroup>
-      </FormItem> -->
         <!-- <FormItem label="企业性质:" prop="companyType">
           <Select v-model="formValidate.companyType">
             <Option value="1">不限</Option>
@@ -220,14 +214,18 @@ export default {
     };
   },
   watch: {
-    'formValidate.workWelfare': function (val) {
-      console.log(val);
-
-    },
     'formValidate.workProvince': function (val) {
+      // 如果是四个直辖市,第二级选择为对应区
+      if (val == 110000) val = 110100;
+      if (val == 120000) val = 120100;
+      if (val == 310000) val = 310100;
+      if (val == 500000) val = 500100;
       if (val) {
         this.getCity(val);
       }
+      // if (val) {
+      //   this.getCity(val);
+      // }
     }
     // ,
     // 'formValidate.workCity': function (val) {
@@ -237,6 +235,12 @@ export default {
     // }
   },
   methods: {
+    handleAddWelfare (val) {
+      this.workWelfareData.push({
+        value: val,
+        label: val
+      });
+    },
     // 获取全国各省
     getProvince () {
       API.getProvince().then(res => {
@@ -336,7 +340,7 @@ export default {
   border-radius: 0.5em;
 }
 .title {
-  border-left: 5px solid #2d8cf0;
+  border-left: 4px solid #2d8cf0;
   padding-left: 10px;
   font-size: 18px;
   height: 24px;

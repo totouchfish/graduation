@@ -93,7 +93,7 @@ export default {
           title: "发布日期",
           key: "publicTime",
           align: "center",
-          width: 100
+          width: 120
         },
         {
           title: "状态",
@@ -104,7 +104,7 @@ export default {
         {
           title: "操作",
           key: "action",
-          width: 200,
+          width: 210,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -197,47 +197,26 @@ export default {
       });
     },
     initData () {
-      this.selectData=[],
-      API.queryPersonalPosition({
-        pageNum: this.currentPage,
-        pageSize:10,
-        publicId: sessionStorage.getItem("userId"),
-        pname:this.jobName,
-        degree:this.degree,
-        state: this.status
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          _data.forEach(item => {
-            item.state == '1' ? item.state = '招聘中' : item.state = '停止招聘';
-            item.publicTime = tool.formatDate2(item.publicTime)
-          });
-          this.total = res.total;
-          this.selectData = _data;
-        }
-      });
-    },
-    // initData () {
-    //   this.selectData = [],
-    //     API.queryPersonalPosition({
-    //       pageNum: 2,
-    //       pageSize: 10,
-    //       publicId: "4",
-    //       pname: this.jobName,
-    //       degree: this.degree,
-    //       state: this.status
-    //     }).then(res => {
-    //       if (res.code == 200) {
-    //         let _data = res.result;
-    //         _data.forEach(item => {
-
-    //           item.state == '1' ? item.stateFont = '招聘中' : item.stateFont = '停止招聘';
-    //           item.publicTime = tool.formatDate2(item.publicTime)
-    //         });
-    //         this.selectData = _data;
-    //       }
-    //     });
-    // }
+      this.selectData = [],
+        API.queryPersonalPosition({
+          pageNum: this.currentPage,
+          pageSize: 10,
+          publicId: sessionStorage.getItem("userId"),
+          pname: this.jobName,
+          degree: this.degree,
+          state: this.status
+        }).then(res => {
+          if (res.code == 200) {
+            let _data = res.result;
+            _data.forEach(item => {
+              item.state == '1' ? item.stateFont = '招聘中' : item.stateFont = '停止招聘';
+              item.publicTime = tool.formatDate2(item.publicTime)
+            });
+            this.total = res.total;
+            this.selectData = _data;
+          }
+        });
+    }
   },
   created () {
     this.initData();

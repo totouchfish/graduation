@@ -1,76 +1,74 @@
 <template>
   <div class="container">
-    <div id="pdfCentent">
-      <div class="userInfo">
-        <div class="resume_title"></div>
-        <div class="man_photo"><img src="@/assets/images/man.jpg" class="man_photo" :alt="this.resumeInfo.name"></div>
-        <div class="userName">{{resumeInfo.name}}</div>
-        <div class="userInfo1">
-          <span style="padding-left:0;">{{resumeInfo.gender}}</span>|<span>{{resumeInfo.birthDate}}岁</span>|<span>{{resumeInfo.birthProvince}}{{resumeInfo.birthCity}}</span></span>|<span>{{resumeInfo.workDate}}年经验</span>
-        </div>
-        <div class="userInfo2">
-          <svg-icon icon-class="phone" /><span>{{resumeInfo.phone}}</span>
-          <svg-icon icon-class="email" style="margin:0 5px 0 40px;" /><span>{{resumeInfo.mail}}</span>
-        </div>
+    <div class="userInfo">
+      <div class="resume_title"></div>
+      <div class="man_photo"><img src="@/assets/images/man.jpg" class="man_photo" :alt="this.resumeInfo.name"></div>
+      <div class="userName">{{resumeInfo.name}}</div>
+      <div class="userInfo1">
+        <span style="padding-left:0;">{{resumeInfo.gender}}</span>|<span>{{resumeInfo.birthDate}}岁</span>|<span>{{resumeInfo.birthProvince}}{{resumeInfo.birthCity}}</span></span>|<span>{{resumeInfo.workDate}}年经验</span>
       </div>
-      <div class="intentionInfo">
-        <div class="title">求职意向</div>
-        <Row style="padding-top:5px;font-size:14px;line-height:2;margin-left:20px;">
-          <Row>
-            <Col span="3">工作性质：</Col>
-            <Col span="6">{{resumeInfo.workCharacter}}</Col>
-            <Col span="3" offset="4">期望地点：</Col>
-            <Col span="6">{{resumeInfo.expectPlace}}</Col>
-          </Row>
-          <Row>
-            <Col span="3">期望行业：</Col>
-            <Col span="6">{{resumeInfo.expectJob}}</Col>
-            <Col span="3" offset="4">税前月薪：</Col>
-            <Col span="6">{{resumeInfo.expectSalary}}</Col>
-          </Row>
-          <Row>
-            <Col span="3">期望职业：</Col>
-            <Col span="6">{{resumeInfo.expectPost}}</Col>
-          </Row>
+      <div class="userInfo2">
+        <svg-icon icon-class="phone" /><span>{{resumeInfo.phone}}</span>
+        <svg-icon icon-class="email" style="margin:0 5px 0 40px;" /><span>{{resumeInfo.mail}}</span>
+      </div>
+    </div>
+    <div class="intentionInfo">
+      <div class="title">求职意向</div>
+      <Row style="padding-top:5px;font-size:14px;line-height:2;margin-left:20px;">
+        <Row>
+          <Col span="3">工作性质：</Col>
+          <Col span="6">{{resumeInfo.workCharacter}}</Col>
+          <Col span="3" offset="4">期望地点：</Col>
+          <Col span="6">{{resumeInfo.expectPlace}}</Col>
         </Row>
-      </div>
-      <!-- 项目经历 -->
-      <div class="intentionInfo">
-        <div class="title">项目经历</div>
-        <div class="projectInfo" v-for="(item, index) in projectExpData" :key="index">
-          <p>
-            <span class="blue_circle"></span>&ensp;{{item.startTime}} - {{item.endTime}}
-          </p>
-          <div class="project_item" :style="projectExpData.length == index+1?'border:0':''">
-            <p class="project_item_title">{{item.projectName}}</p>
-            <div class="project_item_content">
-              <p>{{item.projectDesc}}</p>
-              <p>{{item.personalWork}}</p>
-            </div>
+        <Row>
+          <Col span="3">期望行业：</Col>
+          <Col span="6">{{resumeInfo.expectJob}}</Col>
+          <Col span="3" offset="4">税前月薪：</Col>
+          <Col span="6">{{resumeInfo.expectSalary}}</Col>
+        </Row>
+        <Row>
+          <Col span="3">期望职业：</Col>
+          <Col span="6">{{resumeInfo.expectPost}}</Col>
+        </Row>
+      </Row>
+    </div>
+    <!-- 项目经历 -->
+    <div class="intentionInfo">
+      <div class="title">项目经历</div>
+      <div class="projectInfo" v-for="(item, index) in projectExpData" :key="index">
+        <p>
+          <span class="blue_circle"></span>&ensp;{{item.startTime}} - {{item.endTime}}
+        </p>
+        <div class="project_item" :style="projectExpData.length == index+1?'border:0':''">
+          <p class="project_item_title">{{item.projectName}}</p>
+          <div class="project_item_content">
+            <p>{{item.projectDesc}}</p>
+            <p>{{item.personalWork}}</p>
           </div>
         </div>
       </div>
-      <!-- 教育经历 -->
-      <div class="educationInfo">
-        <div class="title">教育经历</div>
-        <div class="projectInfo" v-for="(item, index) in educationExpData" :key="index">
-          <div>
-            <Row>
-              <Col span="7">
-              <span class="blue_circle"></span>&ensp;{{item.schoolName}}
-              </Col>
-              <Col span="2"><span>{{item.degree}}</span></Col>
-              <Col span="5" offset="1"><span>{{item.major}}</span></Col>
-              <Col span="8"><span>{{item.startDate}} - {{item.endDate}}</span></Col>
-            </Row>
-          </div>
-          <div class="education_item" v-if="educationExpData.length !== index+1"></div>
+    </div>
+    <!-- 教育经历 -->
+    <div class="educationInfo">
+      <div class="title">教育经历</div>
+      <div class="projectInfo" v-for="(item, index) in educationExpData" :key="index">
+        <div>
+          <Row>
+            <Col span="7">
+            <span class="blue_circle"></span>&ensp;{{item.schoolName}}
+            </Col>
+            <Col span="2"><span>{{item.degree}}</span></Col>
+            <Col span="5" offset="1"><span>{{item.major}}</span></Col>
+            <Col span="8"><span>{{item.startDate}} - {{item.endDate}}</span></Col>
+          </Row>
         </div>
+        <div class="education_item" v-if="educationExpData.length !== index+1"></div>
       </div>
     </div>
     <div class="footer">
       <div class="footer_content">
-        <Button type="primary" shape="circle" @click="ExportSavePdf(htmlTitle,nowTime)">下载简历</Button>
+        <Button type="primary" shape="circle">下载简历</Button>
         <Button shape="circle" style="margin-left:60px;" @click="back()">返回简历</Button>
         <BackTop class="backtop"></BackTop>
       </div>
@@ -81,8 +79,6 @@
 <script>
 import * as API from "@/api/user.js";
 import tool from "@/utils/formatDate";
-import html2Canvas from 'html2canvas'
-import JsPDF from 'jspdf'
 
 export default {
   name: "index",
@@ -91,16 +87,11 @@ export default {
   },
   data () {
     return {
-      resumeInfo: {}, // 个人信息
+      resumeInfo: {},//个人信息
       itemType: 1,
       jobLists: [],
-      projectExpData: [], // 项目经历
-      educationExpData: [], // 教育经历
-      // jstopdf 方法一
-      title: sessionStorage.getItem('userName') + '的简历',
-      // jstopdf 方法二
-      htmlTitle: sessionStorage.getItem('userName') + '的简历',
-      nowTime: "03-24",
+      projectExpData: [],//项目经历
+      educationExpData: []//教育经历
     };
   },
   components: {},
@@ -109,7 +100,7 @@ export default {
   },
 
   methods: {
-    back () {
+    back(){
       this.$router.push('/resume');
     },
     initData () {
