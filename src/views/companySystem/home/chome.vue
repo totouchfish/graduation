@@ -73,7 +73,6 @@ export default {
           : new Date().getHours() > 18
             ? "晚上好"
             : "下午好",
-      // certificationTip:false
     };
   },
   components: {

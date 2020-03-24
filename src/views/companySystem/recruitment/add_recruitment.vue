@@ -18,7 +18,7 @@
             <Option v-for="item in workWelfareData" :value="item.value" :key="item.value">{{ item.value }}</Option>
           </Select>
         </FormItem>
-        <!-- <FormItem label="行业名称:" prop="workType">
+        <FormItem label="行业名称:" prop="workType">
           <Select v-model="formValidate.workType">
             <Option value="1">不限</Option>
             <Option value="2">互联网/游戏/软件</Option>
@@ -34,7 +34,7 @@
             <Option value="12">能源/化工/环保</Option>
             <Option value="13">政府/农林牧渔</Option>
           </Select>
-        </FormItem> -->
+        </FormItem>
         <FormItem label="职能类型:" prop="functionType">
           <Select v-model="formValidate.functionType">
             <Option v-for="(item, index) in functionTypeLists" :key="index" :value="item.code">{{item.name}}</Option>
@@ -158,6 +158,7 @@ export default {
         workDuties: '',
         workClaim: '',
         workWelfare: [],
+        workType: '',
         functionType: '',
         workProvince: '',
         workCity: '',
@@ -185,6 +186,9 @@ export default {
         workWelfare: [
           { required: true, type: 'array', min: 1, message: '请选择岗位福利', trigger: 'change' },
         ],
+        workType: [
+          { required: true, type: 'number', message: '请选择行业', trigger: 'change' }
+        ],
         functionType: [
           { required: true, message: '请选择职能类型', trigger: 'change' }
         ],
@@ -210,7 +214,7 @@ export default {
           { required: true, message: '请选择税前月薪', trigger: 'change' }
         ],
         none: [
-          { required: true, validator: noCheck}
+          { required: true, validator: noCheck }
         ]
       },
     };
@@ -270,13 +274,13 @@ export default {
         if (valid) {
           // 复制一个新对象出来，防止对_data做修改的时候影响到this.formValidate
           // let _data =  Object.assign({},this.formValidate);//如果原对象里存在子对象一样会受到影响
-          let _data =  JSON.parse(JSON.stringify(this.formValidate));
+          let _data = JSON.parse(JSON.stringify(this.formValidate));
           _data.publicId = 4;
           let workWelfare = '';
-          _data.workWelfare.forEach(item =>{
+          _data.workWelfare.forEach(item => {
             workWelfare += item + '-'
           })
-          _data.workWelfare = workWelfare.substr(0,workWelfare.length - 1);
+          _data.workWelfare = workWelfare.substr(0, workWelfare.length - 1);
           API2.positionOperation(_data).then(res => {
             if (res.code == 200) {
               this.$router.push({ name: 'recruitment' });
@@ -298,7 +302,7 @@ export default {
           _data.workCity = Number(_data.workCity);
           _data.detailAdr = Number(_data.detailAdr);
           let workWelfare = [];
-          _data.workWelfare.split('-').forEach(item =>{
+          _data.workWelfare.split('-').forEach(item => {
             let obj = {};
             obj.value = item;
             workWelfare.push(obj);

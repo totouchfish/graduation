@@ -29,7 +29,6 @@ import * as API from "@/api/admin.js";
 export default {
   data () {
     return {
-      //userType: sessionStorage.getItem('userType') || 1,
       id: '',
       formValidate: {
         p_name: '',

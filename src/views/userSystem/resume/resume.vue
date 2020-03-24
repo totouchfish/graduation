@@ -8,7 +8,7 @@
             <span>我的简历</span>
             </Col>
             <Col span="2" offset="18">
-            <Button icon="ios-eye" type="primary" ghost @click="preview()">预览</Button>
+            <Button icon="ios-eye" @click="preview()">预览</Button>
             <!-- <span>预览、下载</span> -->
             </Col>
           </Row>
@@ -207,6 +207,11 @@
         <div class="resumeUserInfo">
           <div style="margin:20px 0 0 20px;font-size:18px;">项目经历</div>
           <Row v-show="!projectExp">
+            <Col span="4" offset="20">
+            <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="addProjectExp()">
+              <svg-icon icon-class="edit" />&nbsp;添加项目经历</span></Col>
+          </Row>
+          <Row v-show="!projectExp">
             <Col span="20">
             <Card v-for="(item, index) in projectExpData" :key="index" class="projectItem">
               <Row>
@@ -233,9 +238,9 @@
               </Row>
             </Card>
             </Col>
-            <Col span="4">
+            <!-- <Col span="4">
             <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="addProjectExp()">
-              <svg-icon icon-class="edit" />&nbsp;添加项目经历</span></Col>
+              <svg-icon icon-class="edit" />&nbsp;添加项目经历</span></Col> -->
           </Row>
           <Row v-show="projectExp" class="userInfo_edit">
             <Col>
@@ -269,31 +274,36 @@
         <div class="resumeUserInfo">
           <div style="margin:20px 0 0 20px;font-size:18px;">教育经历</div>
           <Row v-show="!educationExp">
-            <Col span="20">
-            <Card v-for="(item, index) in educationExpData" :key="index" class="projectItem">
-              <Row>
-                <Col span="6">
-                <span>{{item.schoolName}}</span>
-                </Col>
-                <Col span="7">
-                <span>{{item.major}}</span>
-                </Col>
-                <Col span="2">
-                <span>{{item.degree}}</span>
-                </Col>
-                <Col span="7">
-                <span>{{item.startDate}} - {{item.endDate}}</span>
-                </Col>
-                <Col span="2">
-                <span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editEducationExp(item)">
-                  <svg-icon icon-class="edit" />&nbsp;编辑</span>
-                </Col>
-              </Row>
-            </Card>
-            </Col>
-            <Col span="4">
+            <Col span="4" offset="20">
             <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="addEducationExp()">
               <svg-icon icon-class="edit" />&nbsp;添加教育经历</span></Col>
+          </Row>
+          <Row v-show="!educationExp">
+            <Col span="20">
+              <Card v-for="(item, index) in educationExpData" :key="index" class="projectItem">
+                <Row>
+                  <Col span="6">
+                  <span>{{item.schoolName}}</span>
+                  </Col>
+                  <Col span="7">
+                  <span>{{item.major}}</span>
+                  </Col>
+                  <Col span="2">
+                  <span>{{item.degree}}</span>
+                  </Col>
+                  <Col span="7">
+                  <span>{{item.startDate}} - {{item.endDate}}</span>
+                  </Col>
+                  <Col span="2">
+                  <span class="edit" style="padding-left:15px;margin-top:-10px;" @click="editEducationExp(item)">
+                    <svg-icon icon-class="edit" />&nbsp;编辑</span>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+            <!-- <Col span="4">
+            <span class="edit" style="padding-left:15px;margin-top:-70px;" @click="addEducationExp()">
+              <svg-icon icon-class="edit" />&nbsp;添加教育经历</span></Col> -->
           </Row>
           <Row v-show="educationExp" class="userInfo_edit">
             <Col>
@@ -416,7 +426,7 @@ export default {
           { required: true, message: '请选择政治面貌', trigger: 'change' }
         ],
         none: [
-          { required: true, validator: noCheck}
+          { required: true, validator: noCheck }
         ]
       },
       form2Validate: {
@@ -763,6 +773,7 @@ export default {
             item.startTime = tool.translateTime1(item.startTime);
             item.endTime = tool.translateTime1(item.endTime)
           });
+          this.projectExpData = _projectData;
           // 教育经历
           let _studyData = res.result.educations
           _studyData.forEach(item => {
@@ -794,8 +805,7 @@ export default {
                 item.degree = '无';
             }
           });
-          this.projectExpData = _data.projects;
-          this.educationExpData = _data.educations;
+          this.educationExpData = _studyData;
           // 什么的id存储？
           sessionStorage.setItem("resumeId", _data.id);
           // 隐藏数据填写的div

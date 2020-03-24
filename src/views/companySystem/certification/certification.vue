@@ -111,13 +111,13 @@ export default {
           { required: true, message: '请输入企业联系电话', trigger: 'blur' }
         ],
         companyProvince: [
-          { required: true, message: '请选择企业所在省份', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择企业所在省份', trigger: 'change' }
         ],
         companyCity: [
-          { required: true, message: '请选择企业所在城市', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择企业所在城市', trigger: 'change' }
         ],
         companyCounty: [
-          { required: true, message: '请选择企业所在区县', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择企业所在区县', trigger: 'change' }
         ],
         companyAddress: [
           { required: true, message: '请输入企业详细地址', trigger: 'blur' }
