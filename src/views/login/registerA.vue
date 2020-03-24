@@ -3,19 +3,25 @@
     <div class="login_center_box">
       <div class="login_center_bottom_box">
         <div class="login_center_bottom_bg_box"></div>
-        <div class="login_type"><span @click="chooseType(1)">用户</span>&emsp;<span @click="chooseType(2)">企业</span>&emsp;<span @click="chooseType(3)">管理员</span></div>
+        <div class="login_type"><span>管理员注册</span></div>
         <div class="login_center_bottom_word_box">
-          <div class="login_title">大学生招聘网站{{userType == 1 ?'用户':userType == 2 ? '企业':'管理员'}}登录</div>
-          <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="70" class="login_content">
-            <FormItem label="用户名" prop="userName">
+          <div class="login_title">大学生招聘网站管理员注册</div>
+          <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="85" class="login_content">
+            <FormItem label="用户名称" prop="userName">
               <Input prefix="ios-contact" size="large" v-model="formValidate.userName" />
             </FormItem>
-            <FormItem label="密码" prop="password" style="margin-top:40px;">
+            <FormItem label="用户密码" prop="password" style="margin-top:40px;">
               <Input prefix="ios-key" type="password" size="large" v-model="formValidate.password" />
             </FormItem>
+            <FormItem label="确认密码" prop="password2" style="margin-top:40px;">
+              <Input prefix="ios-key" type="password" size="large" v-model="formValidate.password2" />
+            </FormItem>
+            <FormItem label="手机号" prop="phone" style="margin-top:40px;">
+              <Input prefix="ios-contact" size="large" v-model="formValidate.phone" />
+            </FormItem>
             <FormItem>
-              <Button userType="primary" @click="submit('formValidate')" class="login_button">登&emsp;录</Button>
-              <div class="login_register">没有账号，<a href="#" @click="register()" class="registerFont">免费注册</a></div>
+              <Button @click="submit('formValidate')" class="login_button">注&emsp;册</Button>
+              <div class="login_register">已有账号，<a href="#" @click="login()" class="registerFont">去登陆</a></div>
             </FormItem>
           </Form>
         </div>
@@ -32,11 +38,22 @@ import * as API from "@/api/login.js";
 export default {
   name: "login",
   data () {
+    const validatePassCheck = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.formValidate.password) {
+        callback(new Error('两次密码输入不一致'));
+      } else {
+        callback();
+      }
+    };
     return {
       userType: sessionStorage.getItem('userType') || 1,
       formValidate: {
-        userName: 'kong',
-        password: '123456'
+        userName: '',
+        password: '',
+        password2: '',
+        phone:''
       },
       ruleValidate: {
         userName: [
@@ -44,43 +61,40 @@ export default {
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' }
+        ],
+        password2: [
+          { validator: validatePassCheck, trigger: 'blur' }
+        ],
+         phone: [
+          { required: true, message: '请输入手机号', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
-    chooseType (userType) {
-      this.userType = userType;
-    },
-    register () {
-      this.$router.push(this.userType == 1 ? 'registerU' : this.userType == 2 ? 'registerC' : 'registerA');
+    login () {
+      this.$router.push('login?type=3');
     },
     submit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          API.login({
-            name: this.formValidate.userName,
-            password: this.formValidate.password,
+          API.registerA({
+            adminName: this.formValidate.userName,
+            adminPwd: this.formValidate.password,
+            phone:this.formValidate.phone,
             userType: this.userType
           }).then(res => {
             if (res.code == 200) {
-              this.$router.push(this.userType == 1 ? 'home' : this.userType == 2 ? 'chome' : 'ahome');
+              this.$router.push('login?type=3');
               this.$Message.success('登录成功！');
-              sessionStorage.setItem('userType',this.userType);
-              sessionStorage.setItem('userName',this.formValidate.userName);
-              sessionStorage.setItem('userId',res.result);
-            }else{
-              this.$Message.error('用户名或密码错误！');
+              sessionStorage.setItem('userType', this.userType);
+              sessionStorage.setItem('adminName', this.formValidate.adminName);
             }
           });
+        } else {
+          this.$Message.error('Fail!');
         }
       })
-    }
-  },
-  created () {
-    if(this.$route.query.type){
-      // alert(this.$route.query.type);
-      this.userType = this.$route.query.type;
     }
   }
 };
@@ -109,7 +123,7 @@ export default {
 
 .login_center_bottom_box {
   width: 600px;
-  height: 450px;
+  height: 550px;
   z-index: 10;
   position: absolute;
 }
@@ -124,7 +138,7 @@ export default {
   border-radius: 15px;
 }
 .login_center_bottom_word_box {
-  padding: 60px 57px;
+  padding: 0 57px;
   input {
     width: 90%;
   }
@@ -133,17 +147,18 @@ export default {
   text-align: center;
   font-size: 30px;
   font-weight: bold;
-  margin-top: 20px;
-  margin-bottom: 50px;
+  margin-top: 40px;
+  margin-bottom: 30px;
 }
 /* 去除表单校验的红色*符号，影响美观 */
-/deep/.ivu-form-item-required .ivu-form-item-label:before {
+/deep/ .ivu-form-item-required .ivu-form-item-label:before {
   content: '';
 }
 .ivu-form .ivu-form-item-label {
   font-size: 16px;
 }
 .login_type {
+  /* float: right; */
   position: absolute;
   top: 10px;
   right: 15px;
@@ -156,12 +171,8 @@ export default {
     text-decoration: underline;
   }
 }
-
-.login_content {
-  margin-top: 30px;
-}
 .login_button {
-  top: 40px;
+  top: 20px;
   left: 27%;
   width: 120px;
   position: absolute;
@@ -169,16 +180,16 @@ export default {
 }
 .login_register {
   position: absolute;
-  top: 95px;
+  top: 80px;
   right: -40px;
 }
 .registerFont {
   cursor: pointer;
   color: #515a6e;
   text-decoration: underline;
-}
-.registerFont span:hover {
-  color: #2d8cf0;
-  text-decoration: underline;
+  span:hover {
+    color: #2d8cf0;
+    text-decoration: underline;
+  }
 }
 </style>

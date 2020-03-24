@@ -133,7 +133,7 @@ export default {
         {
           title: "操作",
           key: "action",
-          width: 200,
+          width: 250,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -186,7 +186,7 @@ export default {
                     }
                   }
                 },
-                "删除"
+                "不合适"
               )
             ]);
           }
@@ -238,7 +238,7 @@ export default {
         {
           title: "操作",
           key: "action",
-          width: 200,
+          width: 250,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -291,7 +291,7 @@ export default {
                     }
                   }
                 },
-                "删除"
+                "不合适"
               )
             ]);
           }
@@ -341,7 +341,7 @@ export default {
         {
           title: "操作",
           key: "action",
-          width: 200,
+          width: 250,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -367,16 +367,34 @@ export default {
                 "Button",
                 {
                   props: {
+                    type: "primary",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px"
+                  },
+                  on: {
+                    click: () => {
+                      this.handleResume(params.row);
+                    }
+                  }
+                },
+                "恢复"
+              ),
+              h(
+                "Button",
+                {
+                  props: {
                     type: "error",
                     size: "small"
                   },
                   on: {
                     click: () => {
-                      this.handleDelete(params.row);
+                      this.handleDel(params.row);
                     }
                   }
                 },
-                "恢复"
+                "删除"
               )
             ]);
           }
@@ -412,7 +430,7 @@ export default {
         }
       });
     },
-    // 删除
+    // 不合适
     handleDelete (row) {
       console.log(row);
       API.resumeUnsuit({
@@ -428,6 +446,30 @@ export default {
     handleInvitation (row) {
       console.log(row);
       API.requestInterview({
+        pid: row.pid,
+        rid: row.rid
+      }).then(res => {
+        if (res.code == 200) {
+          this.initData();
+        }
+      });
+    },
+    // 恢复
+    handleResume (row) {
+      console.log(row);
+      API.resumeResume({
+        pid: row.pid,
+        rid: row.rid
+      }).then(res => {
+        if (res.code == 200) {
+          this.initData();
+        }
+      });
+    },
+    //删除
+    handleDel (row) {
+      console.log(row);
+      API.delResume({
         pid: row.pid,
         rid: row.rid
       }).then(res => {

@@ -157,7 +157,7 @@ export default {
                     }
                   }
                 },
-                params.row.state == '1' ? "停止招聘" : "继续招聘"
+                params.row.state == '1' ? '停止招聘' : '继续招聘'
               )
             ]);
           }
@@ -209,7 +209,8 @@ export default {
         if (res.code == 200) {
           let _data = res.result;
           _data.forEach(item => {
-            item.state == '1' ? item.state = '招聘中' : item.state = '停止招聘';
+            item.state == '1' ? item.stateFont = '招聘中' : item.stateFont = '停止招聘';
+            item.address=item.workProvince+"-"+item.workCity;
             item.publicTime = tool.formatDate2(item.publicTime)
           });
           this.total = res.total;

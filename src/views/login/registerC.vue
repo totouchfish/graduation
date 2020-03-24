@@ -3,13 +3,10 @@
     <div class="login_center_box">
       <div class="login_center_bottom_box">
         <div class="login_center_bottom_bg_box"></div>
-        <div class="login_type"><span @click="register()">用户注册</span></div>
+        <div class="login_type"><span>企业注册</span></div>
         <div class="login_center_bottom_word_box">
           <div class="login_title">大学生招聘网站企业注册</div>
           <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="85">
-            <FormItem label="企业全称" prop="companyName">
-              <Input prefix="ios-contacts" size="large" v-model="formValidate.companyName" />
-            </FormItem>
             <FormItem label="用户名称" prop="userName" style="margin-top:40px;">
               <Input prefix="ios-contact" size="large" v-model="formValidate.userName" />
             </FormItem>
@@ -18,6 +15,19 @@
             </FormItem>
             <FormItem label="确认密码" prop="password2" style="margin-top:40px;">
               <Input prefix="ios-key" type="password" size="large" v-model="formValidate.password2" />
+            </FormItem>
+            <FormItem label="企业全称" prop="companyName">
+              <Input prefix="ios-contacts" size="large" v-model="formValidate.companyName" />
+            </FormItem>
+            <FormItem label="企业性质:" prop="companyType">
+              <Select v-model="formValidate.companyType">
+                <Option v-for="(item, index) in companyTypeLists" :key="index" :value="item.code">{{item.name}}</Option>
+              </Select>
+            </FormItem>
+            <FormItem label="所属行业:" prop="trade"">
+              <Select v-model="formValidate.trade">
+                <Option v-for="(item, index) in workTypeLists" :key="index" :value="item.code">{{item.name}}</Option>
+              </Select>
             </FormItem>
             <FormItem>
               <Button @click="submit('formValidate')" class="login_button">注&emsp;册</Button>
@@ -33,6 +43,8 @@
 </template>
 
 <script>
+
+import commonData from "@/common/commonData";
 import * as API from "@/api/login.js";
 
 export default {
@@ -50,11 +62,16 @@ export default {
     return {
       userType: sessionStorage.getItem('userType') || 1,
       formValidate: {
-        companyName: 'XXX股份有限公司',
-        userName: 'kong',
-        password: '123456',
-        password2: '123456'
+        companyName: '',
+        userName: '',
+        password: '',
+        password2: '',
+        companyType:'',
+        trade:'',
       },
+      companyTypeLists: commonData.companyTypeLists,
+      workTypeLists: commonData.workTypeLists,
+
       ruleValidate: {
         companyName: [
           { required: true, message: '请输入企业名称', trigger: 'blur' }
@@ -67,31 +84,36 @@ export default {
         ],
         password2: [
           { validator: validatePassCheck, trigger: 'blur' }
+        ],
+        companyType: [
+          { required: true, message: '请选择公司性质', trigger: 'blur' }
+        ],
+        trade: [
+          { required: true, message: '请选择所属行业', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
-    register () {
-      this.$router.push('registerU');
-    },
     login () {
       this.$router.push('login?type=2');
     },
     submit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          API.register({
-            userName: this.formValidate.userName,
-            userPwd: this.formValidate.password,
+          API.registerC({
+            cname: this.formValidate.userName,
+            cpwd: this.formValidate.password,
+            companyName:this.formValidate.companyName,
+            companyType:this.formValidate.companyType,
+            trade:this.formValidate.trade,
             userType: this.userType
           }).then(res => {
             if (res.code == 200) {
-              this.$router.push(this.userType == 1 ? 'home' : this.userType == 2 ? 'chome' : 'ahome');
-              this.$Message.success('登录成功！');
+              this.$router.push('login?type=2');
+              this.$Message.success('注册成功！请重新登录');
               sessionStorage.setItem('userType', this.userType);
-              sessionStorage.setItem('userName', this.formValidate.userName);
-              sessionStorage.setItem('userId', res.result);
+              sessionStorage.setItem('came', this.formValidate.came);
             }
           });
         } else {
@@ -126,7 +148,7 @@ export default {
 
 .login_center_bottom_box {
   width: 600px;
-  height: 500px;
+  height: 610px;
   z-index: 10;
   position: absolute;
 }

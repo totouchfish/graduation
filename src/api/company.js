@@ -24,6 +24,14 @@ export function requestInterview(arg) {
 export function updateInterviewState(arg) {
   return request.post('/resumeHandle/updateInterviewState', arg)
 }
+//恢复简历
+export function resumeResume(arg) {
+  return request.post('/resumeHandle/resumeResume', arg)
+}
+//删除简历
+export function delResume(arg) {
+  return request.post('/resumeHandle/delResume', arg)
+}
 
 /**
 * 面试管理
@@ -50,3 +58,11 @@ return request.post('/post/positionOperation', arg)
 export function queryPositionInfoById(arg) {
 return request.post('/post/queryPositionInfoById', arg)
 }
+//修改职位状态
+export function updatePositionState(arg) {
+  return request.post('/post/updatePositionState', arg)
+}
+//企业认证
+export function certification(arg) {
+  return request.post('/certification/addCertification', arg)
+  }

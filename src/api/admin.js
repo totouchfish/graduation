@@ -9,3 +9,12 @@ export function queryPositionAll(arg) {
 export function queryResumeAll(arg) {
   return request.post('/resume/queryResumeAll', arg)
 }
+//查询审核企业
+export function queryCertification(arg) {
+  return request.post('/certification/queryCertification', arg)
+}
+//通过Id查询需审核企业
+export function queryCertificationById(arg) {
+  return request.post('/certification/queryCertificationById', arg)
+}
+//

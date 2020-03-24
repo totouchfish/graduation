@@ -9,20 +9,25 @@ export function login(arg) {
   return request.post('/login/login', arg)
 }
 /**
- * 注册
+ * 用户注册
  * @param {*} arg 
  */
-export function register(arg) {
+export function registerU(arg) {
     return request.post('/jobSeeker/register', arg)
   }
+/**
+ * 企业注册
+ * @param {*} arg 
+ */
+export function registerC(arg) {
+  return request.post('/recruit/register', arg)
+}
+/**
+ * 管理员注册
+ * @param {*} arg 
+ */
+export function registerA(arg) {
+  return request.post('/admin/register', arg)
+}
 
-// //投递简历 申请职位
-// export function acceptPosition(arg) {
-//   return request.post('/resume/deliverResume', arg)
-// }
-
-// //删除收藏
-// export function delCollection(arg) {
-//   return request.post('/collection/delCollectPosition', arg)
-// }
  

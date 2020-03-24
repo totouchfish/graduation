@@ -35,5 +35,10 @@ export default new Router({
       name: 'registerC',
       component: () => import('@/views/login/registerC') //懒加载
     },
+    {
+      path: '/registerA',
+      name: 'registerA',
+      component: () => import('@/views/login/registerA') //懒加载
+    },
   ]
 })

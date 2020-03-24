@@ -6,13 +6,13 @@
         <FormItem label="企业全称:" prop="companyName">
           <Input v-model="formValidate.companyName"></Input>
         </FormItem>
-        <FormItem label="营业执照注册号:" prop="companyId">
+        <FormItem label="营业执照注册号:" prop="licenceId">
           <Input v-model="formValidate.companyId"></Input>
         </FormItem>
         <FormItem label="法人姓名:" prop="legalPersonName">
           <Input v-model="formValidate.legalPersonName"></Input>
         </FormItem>
-        <FormItem label="法人身份证号:" prop="legalPersonId">
+        <FormItem label="法人身份证号:" prop="idCard">
           <Input v-model="formValidate.legalPersonId"></Input>
         </FormItem>
         <FormItem label="企业联系电话:" prop="companyPhone">
@@ -82,14 +82,15 @@ export default {
       userType: sessionStorage.getItem('userType') || 1,
       formValidate: {
         companyName: '',
-        companyId: '',
-        legalPersonName: '',
-        legalPersonId: '',
+        licenceId: '',
+        legalPersonName: '',       
+        idCard: '',
         companyPhone: '',
         companyUrl: '',
         companyProvince: '',
         companyCity: '',
         companyCounty: '',
+        companyAddress:'',
       },
       provinceData: [],
       cityData: [],
@@ -98,17 +99,20 @@ export default {
         companyName: [
           { required: true, message: '请输入企业全称', trigger: 'blur' }
         ],
-        companyId: [
+        licenceId: [
           { required: true, message: '请输入企业营业执照注册号', trigger: 'blur' }
         ],
         legalPersonName: [
           { required: true, message: '请输入法人姓名', trigger: 'blur' }
         ],
-        legalPersonId: [
+        idCard: [
           { required: true, message: '请输入法人身份证号', trigger: 'blur' }
         ],
         companyPhone: [
           { required: true, message: '请输入企业联系电话', trigger: 'blur' }
+        ],
+        companyUrl: [
+          { required: true, message: '请输入企业官网地址', trigger: 'blur' }
         ],
         companyProvince: [
           { required: true, message: '请选择企业所在省份', trigger: 'change' }
@@ -170,16 +174,12 @@ export default {
     submit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          console.log(this.form2Validate)
-          // API.updateUserInfo({
-          //   userId: sessionStorage.getItem('userId'),
-          //   jobIntention: this.form2Validate
-          // }).then(res => {
-          //   if (res.code == 200) {
-          //     this.jobIntention = !this.jobIntention;
-          //     this.$Message.success('Success!');
-          //   }
-          // });
+          _data=this.formValidate;
+          API.certification(_data).then(res => {
+            if (res.code == 200) {
+              this.$Message.success('提交成功!等待管理员认证！！！');
+            }
+          });
         } else {
           this.$Message.error('Fail!');
         }

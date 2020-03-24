@@ -54,22 +54,32 @@ export default {
         },
         {
           title: "企业名称",
-          key: "name",
+          key: "companyName",
           align: "center"
         },
         {
           title: "法代表人名称",
-          key: "gender",
+          key: "legalPersonName",
           align: "center"
         },
         {
           title: "企业联系方式",
-          key: "age",
+          key: "companyPhone",
+          align: "center"
+        },  
+        {
+          title: "省市",
+          key: "address",
+          align: "center"
+        },
+        {
+          title: "企业官网",
+          key: "companyUrl",
           align: "center"
         },
         {
           title: "申请日期",
-          key: "applyDate",
+          key: "registerTime",
           sortable: "true",
           align: "center"
         },
@@ -102,12 +112,30 @@ export default {
                 "Button",
                 {
                   props: {
+                    type: "primary",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "10px"
+                  },
+                  on: {
+                    click: () => {
+                      this.handleUpdate(params.row);
+                    }
+                  }
+                },
+                "修改"
+              ),
+              h(
+                "Button",
+                {
+                  props: {
                     type: "error",
                     size: "small"
                   },
                   on: {
                     click: () => {
-                      this.handleDelete(params.row.id);
+                      this.handleDelete(params.row);
                     }
                   }
                 },

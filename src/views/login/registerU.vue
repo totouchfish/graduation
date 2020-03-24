@@ -3,7 +3,7 @@
     <div class="login_center_box">
       <div class="login_center_bottom_box">
         <div class="login_center_bottom_bg_box"></div>
-        <div class="login_type"><span @click="register()">企业注册</span></div>
+        <div class="login_type"><span>用户注册</span></div>
         <div class="login_center_bottom_word_box">
           <div class="login_title">大学生招聘网站用户注册</div>
           <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="85" class="login_content">
@@ -15,6 +15,9 @@
             </FormItem>
             <FormItem label="确认密码" prop="password2" style="margin-top:40px;">
               <Input prefix="ios-key" type="password" size="large" v-model="formValidate.password2" />
+            </FormItem>
+            <FormItem label="手机号" prop="phone" style="margin-top:40px;">
+              <Input prefix="ios-contact" size="large" v-model="formValidate.phone" />
             </FormItem>
             <FormItem>
               <Button @click="submit('formValidate')" class="login_button">注&emsp;册</Button>
@@ -47,9 +50,10 @@ export default {
     return {
       userType: sessionStorage.getItem('userType') || 1,
       formValidate: {
-        userName: 'kong',
-        password: '123456',
-        password2: '123456'
+        userName: '',
+        password: '',
+        password2: '',
+        phone:''
       },
       ruleValidate: {
         userName: [
@@ -60,32 +64,31 @@ export default {
         ],
         password2: [
           { validator: validatePassCheck, trigger: 'blur' }
+        ],
+         phone: [
+          { required: true, message: '请输入手机号', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
-    register () {
-      this.$router.push('registerC');
-    },
     login () {
       this.$router.push('login?type=1');
     },
     submit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          API.register({
+          API.registerU({
             userName: this.formValidate.userName,
             userPwd: this.formValidate.password,
-            userPwd2: this.formValidate.password2,
+            mobile:this.formValidate.phone,
             userType: this.userType
           }).then(res => {
             if (res.code == 200) {
-              this.$router.push(this.userType == 1 ? 'home' : this.userType == 2 ? 'chome' : 'ahome');
-              this.$Message.success('登录成功！');
+              this.$router.push('login?type=1');
+              this.$Message.success('注册成功！请重新登录');
               sessionStorage.setItem('userType', this.userType);
               sessionStorage.setItem('userName', this.formValidate.userName);
-              sessionStorage.setItem('userId', res.result);
             }
           });
         } else {
@@ -120,7 +123,7 @@ export default {
 
 .login_center_bottom_box {
   width: 600px;
-  height: 450px;
+  height: 550px;
   z-index: 10;
   position: absolute;
 }
