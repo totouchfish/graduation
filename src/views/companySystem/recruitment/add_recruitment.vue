@@ -213,18 +213,6 @@ export default {
       },
     };
   },
-  watch: {
-    'formValidate.workProvince': function (val) {
-      // 如果是四个直辖市,第二级选择为对应区
-      if (val == 110000) val = 110100;
-      if (val == 120000) val = 120100;
-      if (val == 310000) val = 310100;
-      if (val == 500000) val = 500100;
-      if (val) {
-        this.getCity(val);
-      }
-    }
-  },
   methods: {
     handleAddWelfare (val) {
       this.workWelfareData.push({
@@ -288,12 +276,13 @@ export default {
           _data.workCity = Number(_data.workCity);
           _data.detailAdr = Number(_data.detailAdr);
           let workWelfare = [];
-          _data.workWelfare.split('-').forEach(item =>{
-            workWelfare.push(item);
+          _data.workWelfare.split('-').forEach(item => {
+            let obj = {};
+            obj.value = item;
+            workWelfare.push(obj);
           })
           _data.workWelfare = workWelfare;
           this.formValidate = _data;
-          console.log(this.formValidate);
         }
       });
     },
@@ -302,6 +291,40 @@ export default {
       this.$router.push({ name: 'recruitment' });
     }
   },
+  watch: {
+    'formValidate.workProvince': function (val) {
+      // 如果是四个直辖市,第二级选择为对应区
+      if (val == 110000) val = 110100;
+      if (val == 120000) val = 120100;
+      if (val == 310000) val = 310100;
+      if (val == 500000) val = 500100;
+      if (val) this.getCity(val);
+    }
+  },
+  // computed: {
+  //   workWelfare: {
+  //     get () {
+  //       console.log("get");
+  //       let workWelfare = [];
+  //       this.formValidate.workWelfare.split('-').forEach(item => {
+  //         let obj = {};
+  //         obj.value = item;
+  //         workWelfare.push(obj);
+  //       })
+  //       console.log(workWelfare);
+  //       return workWelfare;
+  //     },
+  //     set (val) {
+  //       console.log("set");
+  //       debugger
+  //       let workWelfare = '';
+  //       this.formValidate.workWelfare.forEach(item => {
+  //         workWelfare += item + '-'
+  //       })
+  //       return workWelfare.substr(0, workWelfare.length - 1);
+  //     }
+  //   }
+  // },
   created () {
     if (this.$route.query.id) {
       this.id = this.$route.query.id;
