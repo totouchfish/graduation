@@ -27,9 +27,9 @@ export default {
       userType: sessionStorage.getItem('userType') || 1,
       total: 10,
       currentPage: 1,
-      name:'',
-      expectPost:'',
-      status:'0',    
+      name: '',
+      expectPost: '',
+      status: '0',
       column: [
         {
           type: "index",
@@ -110,7 +110,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.handleShow(params);
+                      this.handleDelete(params.row);
                     }
                   }
                 },
@@ -127,19 +127,35 @@ export default {
     changepage (val) {
       this.currentPage = val;
     },
-    initData(){
+    searchData(){
+      this.currentPage = 1;
+      this.initData();
+    },
+    handleDelete(row){
+      API.deleteResume({
+        rid:row.id
+      }).then(res => {
+        if (res.code == 200) {
+          this.initData();
+        }
+      });
+    },
+    initData () {
       this.resumeData = [];
       API.queryResumeAll({
-           rname:this.name,
-           expectPost:this.expectPost
+        rname: this.name.trim(),
+        expectPost: this.expectPost.trim(),
+        pageNum:this.currentPage,
+        pageSize:10
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;
-           _data.forEach(item => {
-          item.gender == '1' ? item.gender = '男' : item.gender = '女';
-          item.age = tool.getAge(item.birthDate);
-          item.birthAdress=item.birthProvince+"-"+item.birthCity;
-           });
+          _data.forEach(item => {
+            item.gender == '1' ? item.gender = '男' : item.gender = '女';
+            item.age = tool.getAge(item.birthDate);
+            item.birthAdress = item.birthProvince + "-" + item.birthCity;
+          });
+          this.total=res.total;
           this.resumeData = _data;
         }
       });
@@ -167,7 +183,7 @@ export default {
   list-style-type: none;
   margin-bottom: 30px;
 }
-.liStyle{
+.liStyle {
   float: left;
   margin: 20px 20px 0 0;
 }

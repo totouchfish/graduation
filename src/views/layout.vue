@@ -20,9 +20,9 @@
             <MenuItem name="collection">
             <Icon type="md-heart" />职位收藏
             </MenuItem>
-            <MenuItem name="personal">
+            <!-- <MenuItem name="personal">
             <Icon type="ios-keypad" />个人中心
-            </MenuItem>
+            </MenuItem> -->
           </div>
         </Menu>
       </Header>

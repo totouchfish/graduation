@@ -2,7 +2,7 @@
   "name": "graduation",
   "version": "1.0.0",
   "description": "graduation",
-  "author": "549032340 <549032340@qq.com>",
+  "author": "graduation <549032340@qq.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "echarts": "^4.7.0",
+    "html2canvas": "^1.0.0-rc.5",
     "iview": "^3.5.3",
+    "jspdf": "^1.5.3",
+    "view-design": "^4.0.0",
     "vue": "^2.5.2",
     "vue-router": "^3.1.3"
   },

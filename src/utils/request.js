@@ -1,6 +1,6 @@
 import axios from "axios";
 import Qs from "querystring";
-import { Message } from 'iview'
+import { Message } from 'view-design'
 import $AjaxUrl from './severurl'
 
 // 创建axios实例

@@ -15,11 +15,6 @@ export default {
       component: () => import('@/views/userSystem/collection/collection')//懒加载
     },
     {
-      path: '/postDetail',
-      name: 'postDetail',
-      component: () => import('@/views/userSystem/postDetail/postDetail')//懒加载
-    },
-    {
       path: '/progress',
       name: 'progress',
       component: () => import('@/views/userSystem/progress/progress')//懒加载

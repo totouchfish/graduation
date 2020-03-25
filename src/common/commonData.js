@@ -153,17 +153,22 @@ const testData = [{
   ],
   workCharacterLists = [{
       name: "不限",
-      code: "character00",
+      code: "1",
       choose: true
     },
     {
       name: "应届",
-      code: "character01",
+      code: "2",
       choose: false
     },
     {
       name: "实习",
-      code: "character02",
+      code: "3",
+      choose: false
+    },
+    {
+      name: "兼职",
+      code: "4",
       choose: false
     }
   ],

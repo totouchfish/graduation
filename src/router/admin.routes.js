@@ -26,6 +26,11 @@ export default {
       component: () => import('@/views/adminSystem/companyManager/companyReview')//懒加载
     },
     {
+      path: '/update_review',
+      name: 'update_review',
+      component: () => import('@/views/adminSystem/companyManager/update_review')//懒加载
+    },
+    {
       path: '/positionManager',
       name: 'positionManager',
       component: () => import('@/views/adminSystem/companyManager/positionManager')//懒加载

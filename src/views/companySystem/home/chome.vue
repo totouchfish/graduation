@@ -11,24 +11,24 @@
           <div class="recruitmentData_content">
             <div class="box first">
               <div>简历投递</div>
-              <div>12</div>
+              <div>{{echatrsData.deliverNum}}</div>
               <div>今日新增(份)</div>
             </div>
             <div class="box second">
               <div>简历投递</div>
-              <div>1200</div>
+              <div>{{echatrsData.deliverAllNum}}</div>
               <div>历史累计(份)</div>
             </div>
           </div>
           <div class="recruitmentData_content">
             <div class="box third">
               <div>招聘人数</div>
-              <div>12</div>
+              <div>{{echatrsData.recruitNum}}</div>
               <div>今日新增(人)</div>
             </div>
             <div class="box forth">
               <div>招聘人数</div>
-              <div>1200</div>
+              <div>{{echatrsData.recruitAllNum}}</div>
               <div>历史累计(人)</div>
             </div>
           </div>
@@ -61,10 +61,16 @@
 </template>
 <script>  
 import Echarts from '@/common/companyEcharts';
-
+import * as API from "@/api/company.js";
 export default {
   data () {
     return {
+      echatrsData:{
+        deliverNum: "0",
+        deliverAllNum: "0",
+        recruitNum: "0",
+        recruitAllNum: "0",
+      },
       certificationTip: true,
       userName: sessionStorage.getItem('userName'),
       nowTime:
@@ -73,7 +79,6 @@ export default {
           : new Date().getHours() > 18
             ? "晚上好"
             : "下午好",
-      // certificationTip:false
     };
   },
   components: {
@@ -82,9 +87,20 @@ export default {
   methods: {
     improveData () {
       this.$router.push('certification');
+    },
+    initData(){
+      API.queryNumber({
+        publicId:sessionStorage.getItem("userId"),
+      }).then(res => {
+        if(res.code == 200) {
+          this.echatrsData=res.result
+        }
+      });
+      
     }
   },
   created () {
+    this.initData();
   }
 }
 </script>

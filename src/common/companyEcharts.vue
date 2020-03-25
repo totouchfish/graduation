@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import * as API from "@/api/company.js";
 export default {
   data () {
     return {
@@ -12,16 +13,27 @@ export default {
         width: '',
         height: '450'
       },
-      dateData: ['2019-01-01', '2019-01-02', '2019-01-03', '2019-01-04', '2019-01-05', '2019-01-06', '2019-01-07'],
-      deliveryArr: [24, 35, 28, 36, 25, 10, 30],
-      recruitArr: [12, 18, 20, 13, 20, 2, 15],
-      maxNumber: 50
+      echatrsData: {
+        // dateData: [],
+        // deliveryArr: [],
+        // recruitArr: [],//我需要这个数组里的最大值
+        dateData: ['2019-01-01', '2019-01-02', '2019-01-03', '2019-01-04', '2019-01-05', '2019-01-06', '2019-01-07'],
+        deliveryArr: [24, 35, 28, 36, 25, 10, 30],
+        recruitArr: [12, 18, 20, 13, 20, 2, 15],
+        maxNumber: 50
+      },
+
     };
   },
   props: {
     chartData: {
       type: Object,
       default: () => { }
+    }
+  },
+  watch:{
+    echatrsData(val){
+      this.options();
     }
   },
   mounted () {
@@ -50,7 +62,7 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: this.dateData,
+          data: this.echatrsData.dateData,
           axisLine: {
             lineStyle: {
               color: "#999"
@@ -82,7 +94,7 @@ export default {
         series: [{
           name: '投递人数',
           type: 'line',
-          data: this.deliveryArr,
+          data: this.echatrsData.deliveryArr,
           color: "#F58080",
           lineStyle: {
             normal: {
@@ -121,7 +133,7 @@ export default {
         {
           name: '招聘人数',
           type: 'line',
-          data: this.recruitArr,
+          data: this.echatrsData.recruitArr,
           lineStyle: {
             normal: {
               width: 5,
@@ -158,54 +170,25 @@ export default {
           },
           smooth: true
         },
-        // {
-        //   name: '续费',
-        //   type: 'line',
-        //   data: [125, 568, 25, 36, 784, 56],
-        //   lineStyle: {
-        //     normal: {
-        //       width: 5,
-        //       color: {
-        //         type: 'linear',
-
-        //         colorStops: [{
-        //           offset: 0,
-        //           color: '#F6D06F' // 0% 处的颜色
-        //         },
-        //         {
-        //           offset: 0.4,
-        //           color: '#F9A589' // 100% 处的颜色
-        //         }, {
-        //           offset: 1,
-        //           color: '#F9A589' // 100% 处的颜色
-        //         }
-        //         ],
-        //         globalCoord: false // 缺省为 false
-        //       },
-        //       shadowColor: 'rgba(249,165,137, 0.5)',
-        //       shadowBlur: 10,
-        //       shadowOffsetY: 7
-        //     }
-        //   },
-        //   itemStyle: {
-        //     normal: {
-        //       color: '#F6D06F',
-        //       borderWidth: 10,
-        //       /*shadowColor: 'rgba(72,216,191, 0.3)',
-        //        shadowBlur: 100,*/
-        //       borderColor: "#F6D06F"
-        //     }
-        //   },
-        //   smooth: true
-        // }
         ]
       };
       myChart.setOption(option);
+    },
+    initData () {
+      API.recentDeliverNum({
+        publicId: sessionStorage.getItem("userId"),
+      }).then(res => {
+        if (res.code == 200) {
+          // let _data = JSON.parse(JSON.stringify(res.result));
+          let _data = res.result;
+          this.echatrsData = _data;
+        }
+      });
+
     }
-
   },
-  // created(){
-
-  // }
+  created () {
+    this.initData();
+  }
 };
 </script>

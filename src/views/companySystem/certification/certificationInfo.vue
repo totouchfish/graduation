@@ -49,13 +49,9 @@
         <FormItem label="企业详细地址:" prop="companyAddress">
           <Input v-model="formValidate.companyAddress"></Input>
         </FormItem>
-        <!-- <FormItem label="工作性质:" prop="workCharacter">
-          <Select v-model="formValidate.workCharacter">
-            <Option value="1">不限</Option>
-            <Option value="2">应届</Option>
-            <Option value="3">实习</Option>
-          </Select>
-        </FormItem> -->
+        <FormItem label="企业简介:" prop="companyDesc">
+          <Input type="textarea" :rows="3" v-model="formValidate.workDuties"></Input>
+        </FormItem>
         <FormItem style="margin-left:30%;margin-top:30px;">
           <Button type="primary" @click="submit('formValidate')">修 改</Button>
           <!-- <Button @click="canel()" style="margin-left: 8px">取消</Button> -->
@@ -90,6 +86,8 @@ export default {
         companyProvince: '',
         companyCity: '',
         companyCounty: '',
+        companyAddress:'',
+        companyDesc:''
       },
       provinceData: [],
       cityData: [],
@@ -111,16 +109,19 @@ export default {
           { required: true, message: '请输入企业联系电话', trigger: 'blur' }
         ],
         companyProvince: [
-          { required: true, message: '请选择企业所在省份', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择企业所在省份', trigger: 'change' }
         ],
         companyCity: [
-          { required: true, message: '请选择企业所在城市', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择企业所在城市', trigger: 'change' }
         ],
         companyCounty: [
-          { required: true, message: '请选择企业所在区县', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择企业所在区县', trigger: 'change' }
         ],
         companyAddress: [
           { required: true, message: '请输入企业详细地址', trigger: 'blur' }
+        ],
+        companyDesc: [
+          { required: true, message: '请输入企业简介', trigger: 'blur' }
         ],
         none: [
           { required: true, validator: noCheck}

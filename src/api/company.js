@@ -1,6 +1,20 @@
 import request from '@/utils/request'
 
 /**
+ * 获取今日投递、招聘人数，以及总人数
+ * @param {*} arg
+ */
+export function queryNumber(arg) {
+  return request.post('/resumeHandle/queryNumber', arg)
+}
+/**
+ * 获取近七天内招聘人数和简历投递数
+ * @param {*} arg
+ */
+export function recentDeliverNum(arg) {
+  return request.post('/resumeHandle/recentDeliverNum', arg)
+}
+/**
  * 筛选简历
  * @param {*} arg
  */

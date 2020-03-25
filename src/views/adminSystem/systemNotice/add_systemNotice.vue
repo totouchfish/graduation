@@ -29,7 +29,6 @@ import * as API from "@/api/admin.js";
 export default {
   data () {
     return {
-      //userType: sessionStorage.getItem('userType') || 1,
       id: '',
       formValidate: {
         p_name: '',
@@ -82,7 +81,7 @@ export default {
     },
     canel () {
       this.formValidate = [];
-      this.$router.push({ name: 'recruitment' });
+      this.$router.push({ name: 'systemNotice' });
     }
   },
   //mounted是在el挂载到实例上后调用，一般第一个业务逻辑会在这里开启

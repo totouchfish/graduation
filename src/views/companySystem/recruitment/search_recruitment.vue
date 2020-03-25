@@ -185,7 +185,7 @@ export default {
   border-radius: 0.5em;
 }
 .title {
-  border-left: 5px solid #2d8cf0;
+  border-left: 4px solid #2d8cf0;
   padding-left: 10px;
   font-size: 18px;
   height: 24px;

@@ -89,10 +89,10 @@ export default {
           title: "状态",
           key: "status",
           align: "center",
-          width: 110,
+          width: 120,
           render: (h, params) => {
             if (params.row.statusFlag) {
-              let interviewStatus = this.interviewStatus.splice(1);
+              let interviewStatus = this.interviewStatus.slice().splice(1);
               return h('Select', {
                 props: {
                   value: params.row.status, // 获取选择的下拉框的值
@@ -105,7 +105,7 @@ export default {
                     params.row.change = e; // 将改变的值存入暂存字段change
                   }
                 }
-              }, this.interviewStatus.map((item) => { // this.interviewStatus下拉框里的data
+              }, interviewStatus.map((item) => { // this.interviewStatus下拉框里的data
                 return h('Option', { // 下拉框的值
                   props: {
                     value: item.value,
@@ -123,7 +123,7 @@ export default {
         {
           title: "操作",
           key: "action",
-          width: 160,
+          width: 200,
           align: "center",
           render: (h, params) => {
             return h("div", [

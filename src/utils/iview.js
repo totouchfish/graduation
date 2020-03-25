@@ -39,7 +39,7 @@ import {
   Sider,
   Tag,
   BackTop
-} from "iview";
+} from "view-design";
 
 const components = {
   Button,

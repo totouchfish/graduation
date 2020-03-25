@@ -17,7 +17,7 @@ export function queryPositionInfoByTrade(arg) {
  */
 // 多条件查询
 export function queryPositionByCondition(arg) {
-  return request.post('/recruit/queryPositionByMore', arg)
+  return request.post('/positionInfo/queryPositionByMore', arg)
 }
 
 /**

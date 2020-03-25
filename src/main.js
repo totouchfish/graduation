@@ -6,8 +6,8 @@ import router from './router'
 import global from './components/global.js'
 // import array from './common/array.js'
 
-// 引入iview
-import 'iview/dist/styles/iview.css';
+// view-design
+import 'view-design/dist/styles/iview.css';
 import iview from "./utils/iview.js";
 Vue.use(iview);
 
@@ -17,6 +17,10 @@ import './icons'
 // 全局引入echarts
 import echarts from "echarts";
 Vue.prototype.$echarts = echarts;
+
+// jstopdf
+import html2pdf from "./utils/html2pdf.js"
+Vue.use(html2pdf)
 
 // 引入权限方法
 import {

@@ -14,7 +14,7 @@
           <Input type="textarea" :rows="3" v-model="formValidate.workClaim"></Input>
         </FormItem>
         <FormItem label="岗位福利:" prop="workWelfare">
-          <Select v-model="formValidate.workWelfare" multiple>
+          <Select v-model="formValidate.workWelfare" filterable multiple allow-create @on-create="handleAddWelfare">
             <Option v-for="item in workWelfareData" :value="item.value" :key="item.value">{{ item.value }}</Option>
           </Select>
         </FormItem>
@@ -66,12 +66,6 @@
             <Option value="4">兼职</Option>
           </Select>
         </FormItem>
-        <!-- <FormItem label="是否统招:" prop="isUnified">
-        <RadioGroup v-model="formValidate.isUnified">
-          <Radio label="1">是</Radio>
-          <Radio label="0">否</Radio>
-        </RadioGroup>
-      </FormItem> -->
         <!-- <FormItem label="企业性质:" prop="companyType">
           <Select v-model="formValidate.companyType">
             <Option value="1">不限</Option>
@@ -158,6 +152,7 @@ export default {
         workDuties: '',
         workClaim: '',
         workWelfare: [],
+        //workType: '',
         functionType: '',
         workProvince: '',
         workCity: '',
@@ -185,6 +180,9 @@ export default {
         workWelfare: [
           { required: true, type: 'array', min: 1, message: '请选择岗位福利', trigger: 'change' },
         ],
+        // workType: [
+        //   { required: true, message: '请选择行业', trigger: 'change' }
+        // ],
         functionType: [
           { required: true, message: '请选择职能类型', trigger: 'change' }
         ],
@@ -210,19 +208,30 @@ export default {
           { required: true, message: '请选择税前月薪', trigger: 'change' }
         ],
         none: [
-          { required: true, validator: noCheck}
+          { required: true, validator: noCheck }
         ]
       },
     };
   },
   watch: {
     'formValidate.workProvince': function (val) {
+      // 如果是四个直辖市,第二级选择为对应区
+      if (val == 110000) val = 110100;
+      if (val == 120000) val = 120100;
+      if (val == 310000) val = 310100;
+      if (val == 500000) val = 500100;
       if (val) {
         this.getCity(val);
       }
     }
   },
   methods: {
+    handleAddWelfare (val) {
+      this.workWelfareData.push({
+        value: val,
+        label: val
+      });
+    },
     // 获取全国各省
     getProvince () {
       API.getProvince().then(res => {
@@ -248,14 +257,16 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           // 复制一个新对象出来，防止对_data做修改的时候影响到this.formValidate
-          // let _data =  Object.assign({},this.formValidate);//如果原对象里存在子对象一样会受到影响
+          // let _data =  Object.assign({},this.formValidate);
+          // 如果原对象里存在子对象一样会受到影响,Object.assign只会对只是一级属性复制，比浅拷贝多深拷贝了一层而已，无法达到深度克隆的目的，
+          // 强大的JSON.parse(JSON.stringify(obj)) 先将对象转化为字符串(简单的数据类型)，再用JSON.pase转化成对象，从而实现深度克隆。
           let _data =  JSON.parse(JSON.stringify(this.formValidate));
           _data.publicId = sessionStorage.getItem("userId");
           let workWelfare = '';
-          _data.workWelfare.forEach(item =>{
+          _data.workWelfare.forEach(item => {
             workWelfare += item + '-'
           })
-          _data.workWelfare = workWelfare.substr(0,workWelfare.length - 1);
+          _data.workWelfare = workWelfare.substr(0, workWelfare.length - 1);
           API2.positionOperation(_data).then(res => {
             if (res.code == 200) {
               this.$router.push({ name: 'recruitment' });
@@ -310,7 +321,7 @@ export default {
   border-radius: 0.5em;
 }
 .title {
-  border-left: 5px solid #2d8cf0;
+  border-left: 4px solid #2d8cf0;
   padding-left: 10px;
   font-size: 18px;
   height: 24px;

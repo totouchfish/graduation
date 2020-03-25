@@ -1,6 +1,6 @@
 <template>
   <Layout class="layout">
-    <div class="title">企业认证</div>   
+    <div class="title">企业认证修改</div>   
     <Row class="content">
       <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="135">
         <FormItem label="企业全称:" prop="companyName">
@@ -57,8 +57,8 @@
           </Select>
         </FormItem> -->
         <FormItem style="margin-left:24%;margin-top:30px;">
-          <Button type="primary" @click="submit('formValidate')">提交认证</Button>
-          <Button @click="canel()" style="margin-left: 50px">返回首页</Button>
+          <Button type="primary" @click="submit('formValidate')">提交</Button>
+          <Button @click="canel()" style="margin-left: 50px">返回</Button>
         </FormItem>
       </Form>
     </Row>
@@ -70,7 +70,7 @@
 <script>
 // 引入常用变量
 import commonData from "@/common/commonData.js";
-import * as API from "@/api/company.js";
+import * as API from "@/api/admin.js";
 import * as API2 from "@/api/common.js";
 
 export default {
@@ -142,7 +142,7 @@ export default {
       if (val) {
         this.getCounty(val);
       }
-    },
+    }
   },
   methods: {
     // 获取全国各省
@@ -179,10 +179,11 @@ export default {
     submit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          let _data=this.formValidate;//_data 需要声明呀
-          API.certification(_data).then(res => {
+          let _data=this.formValidate;
+          API.updateCertification(_data).then(res => {
             if (res.code == 200) {
-              this.$Message.success('提交成功!等待管理员认证！！！');
+              this.$router.push({ name: 'companyReview' });
+              this.$Message.success('修改成功!');
             }
           });
         } else {
@@ -191,10 +192,28 @@ export default {
       })
     },
     canel () {
-      this.$router.push({ name: 'chome' });
-    }
+      this.formValidate=[];
+      this.$router.push({ name: 'companyReview' });
+    },
+     initData () {
+      API.queryCertificationById({
+        vid: this.id
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          _data.companyProvince = Number(_data.companyProvince);
+          _data.companyCity = Number(_data.companyCity);
+          _data.companyCounty = Number(_data.companyCounty);
+          this.formValidate = _data;
+        }
+      });
+    },
   },
   created(){
+    if (this.$route.query.id) {
+      this.id = this.$route.query.id;
+      this.initData();
+    }
     this.getProvince();
   }
 }

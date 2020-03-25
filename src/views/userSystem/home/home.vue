@@ -50,13 +50,6 @@
                 <div style="padding-top: 10px;">欢迎回来,{{nowTime}}！</div>
               </div>
               <div class="userWorkInfo">
-                <!-- <p>
-                  <span title="天津">天津</span>
-                  <span style="color:#999999;">|</span>
-                  <span title="开发者服务">开发者服务</span>
-                  <span style="color:#999999;">|</span>
-                  <span title="工作1年以上">工作1年以上</span>
-                </p>-->
                 <ul>
                   <li>
                     理想工作城市：
@@ -76,11 +69,6 @@
                   </li>
                 </ul>
               </div>
-              <!-- <div>
-                <ul>
-                  <li></li>
-                </ul>
-              </div> -->
             </div>
             <div></div>
           </div>
@@ -149,6 +137,7 @@ export default {
 
   methods: {
     hotSearchTouch (item) {
+      this.resumeData=[],
       API.queryPositionInfoByTrade({
         trade: item
       }).then(res => {
@@ -164,27 +153,12 @@ export default {
       });
     },
     search () {
-      API.homeLists({
-        type: this.selectPosition,
-        // hotSearch: this.hotSearchIt,
-        content: this.searchContent
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          _data.forEach(item => {
-            item.postRequirement = `${item.salary} | ${item.workCity} | ${item.degree} | ${item.employeeType}`
-            item.postRequirement2 = `<span style='color:red;'>${item.salary}</span> | ${item.workCity} | ${item.degree} | ${item.employeeType}`
-            item.companyWelfare = item.subsidy.split("/");
-          });
-          this.resumeData = _data;
-          console.log(_data);
-        }
-      });
+      this.initData();
     },
     initData () {
+      this.resumeData=[];
       API.homeLists({
         type: this.selectPosition,
-        // hotSearch: this.hotSearchIt,
         content: this.searchContent
       }).then(res => {
         if (res.code == 200) {

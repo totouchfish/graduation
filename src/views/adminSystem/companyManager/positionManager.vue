@@ -111,7 +111,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.handleDelete(params.row.id);
+                      this.handleDelete(params.row);
                     }
                   }
                 },
@@ -129,13 +129,26 @@ export default {
       this.currentPage = val;
       this.initData();
     },
+    searchData(){
+      this.currentPage = 1;
+      this.initData();
+    },
+    handleDelete(row){
+      API.delPosition({
+        pid:row.pid
+      }).then(res => {
+        if (res.code == 200) {
+          this.initData();
+        }
+      });
+    },
     initData () {
       this.selectData=[],
       API.queryPositionAll({
         pageNum:this.currentPage,
         pageSize:10,
-        positionName:this.positionName,
-        companyName:this.positionName
+        positionName:this.positionName.trim(),
+        companyName:this.companyName.trim()
       }).then(res => {
         if (res.code == 200) {
           let _data = res.result;

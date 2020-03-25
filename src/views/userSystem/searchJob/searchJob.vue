@@ -13,7 +13,21 @@
             <li>
               <dl>
                 <dt style="font-weight:bold;">工作城市:</dt>
-                <dd v-for="(item,index) in workCityLists" :class="item.choose?'choose':''" :key="index" @click="chooseItem(index,workCityLists,workCity,'workCity')">{{item.name}}</dd>
+                <dd v-for="(item,index) in workProvinceLists" :class="item.choose?'choose':''" :key="index" @click="chooseItem(index,workProvinceLists,workCity,'workCity')">{{item.name}}</dd>
+                <!-- <dd>
+                  <Row>
+                    <Col span="7">
+                    <Select v-model="workProvince" placeholder="请选择省份" style="widt:30%;">
+                      <Option v-for="(item,index) in provinceData" :key="index" :value="item.id">{{item.name}}</Option>
+                    </Select>
+                    </Col>
+                    <Col span="7" offset="1">
+                    <Select v-model="workCity" placeholder="请选择城市" style="widt:30%;">
+                      <Option v-for="(item,index) in cityData" :key="index" :value="item.id">{{item.name}}</Option>
+                    </Select>
+                    </Col>
+                  </Row>
+                </dd> -->
               </dl>
               <dl>
                 <dt>工作性质:</dt>
@@ -37,7 +51,7 @@
         <div class="jobType">
           <span v-for="(item,index) in sortTypeLists" :class="item.choose?'choose':''" :key="index" @click="chooseItem(index,sortTypeLists,sortType,'sortType')">{{item.name}}</span>
         </div>
-        
+
         <ul class="recruitContent">
           <li v-for="(item,index) in recruitData" :key="index" @mouseenter="item.tagShow = true" @mouseleave="item.tagShow = false">
             <div class="float-left paddingtop-20px">
@@ -80,7 +94,7 @@
 // 引入常用变量
 import commonData from "@/common/commonData.js";
 import * as API from "@/api/user.js";
-
+import * as API2 from "@/api/common.js";
 export default {
   name: "index",
   props: {
@@ -99,9 +113,13 @@ export default {
           label: "公司"
         }
       ],
+      workProvince: "",
+      workCity: "",
+      provinceData: [],
+      cityData: [],
       searchContent: "",
       searchTips: "请输入关键字,例如：IT、JAVA、百度、华为等",
-      workCityLists: commonData.workCityLists,
+      workProvinceLists: [],
       workCharacterLists: commonData.workCharacterLists,
       functionTypeLists: commonData.functionTypeLists,
       workTypeLists: commonData.workTypeLists,
@@ -124,17 +142,51 @@ export default {
     };
   },
   watch: {
-    selectPosition (val) {
-      if (val == 1) {
-        this.searchTips = "请输入关键字,例如：IT,JAVA,前端,后端等";
-      } else {
-        this.searchTips = "请输入公司名称或者关键词,例如：百度,华为等";
+    'formValidate.workProvince': function (val) {
+      // 如果是四个直辖市,第二级选择为对应区
+      if (val == 110000) val = 110100;
+      if (val == 120000) val = 120100;
+      if (val == 310000) val = 310100;
+      if (val == 500000) val = 500100;
+      if (val) {
+        this.getCity(val);
       }
     }
   },
   components: {},
   computed: {},
   methods: {
+    // 获取全国各省
+    getProvince () {
+      API2.getProvince().then(res => {
+        if (res.code == 200) {
+          this.provinceData = res.result;
+        }
+      });
+    },
+    // 获取对应省份下的各市
+    getCity (val) {
+      API2.getCity({
+        pid: val,
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+          this.cityData = _data;
+        }
+      });
+    },
+    getWorkCharacter () {
+
+    },
+    getFunctionType () {
+
+    },
+    getWorkType () {
+
+    },
+    getCompanyType () {
+
+    },
     chooseItem (index, list, chooseIt, string) {
       list[chooseIt].choose = false;
       list[index].choose = true;
@@ -166,8 +218,8 @@ export default {
     toggleHide () {
       this.tagShow = false;
     },
-    jobDetails (id){
-      this.$router.push('jobDetails?id='+id);
+    jobDetails (id) {
+      this.$router.push('jobDetails?id=' + id);
     },
     initData () {
       // 初始化列表数据
@@ -176,12 +228,12 @@ export default {
         content: this.searchContent,//搜索框
         workCity: this.workCityName,
         employType: this.workCharacterName,
-        trade:this.workTypeName,//啥字段
+        trade: this.workTypeName,//啥字段
         functionType: this.functionTypeName,
         companyType: this.companyTypeName,
         type: this.sortTypeName,
-        pageSize:10,
-        pageNum:1
+        pageSize: 10,
+        pageNum: 1
       }).then(res => {
         if (res.code == 200) {
           // this.jobLists = res.result;
@@ -191,9 +243,9 @@ export default {
   },
   created () {
     // 加载已选中的城市
-    if (sessionStorage.getItem("workCity")) {
-      this.chooseItem(sessionStorage.getItem("workCity"), this.workCityLists, this.workCity, 'workCity');
-    }
+    // if (sessionStorage.getItem("workCity")) {
+    //   this.chooseItem(sessionStorage.getItem("workCity"), this.workCityLists, this.workCity, 'workCity');
+    // }
     if (sessionStorage.getItem("workCharacter")) {
       this.chooseItem(sessionStorage.getItem("workCharacter"), this.workCharacterLists, this.workCharacter, 'workCharacter');
     }
@@ -209,6 +261,7 @@ export default {
     if (sessionStorage.getItem("sortType")) {
       this.chooseItem(sessionStorage.getItem("sortType"), this.sortTypeLists, this.sortType, 'sortType');
     }
+    this.getProvince();
     this.initData();
   }
 };

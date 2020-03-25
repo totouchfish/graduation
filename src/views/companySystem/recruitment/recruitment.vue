@@ -44,6 +44,7 @@
 
 import * as API from "@/api/company.js";
 import tool from "../../../utils/formatDate";
+import switchFont from "@/utils/switchFont";
 
 export default {
   data () {
@@ -76,7 +77,7 @@ export default {
           title: "薪资",
           key: "salary",
           align: "center",
-          width: 100
+          width: 120
         },
         {
           title: "学历",
@@ -93,7 +94,7 @@ export default {
           title: "发布日期",
           key: "publicTime",
           align: "center",
-          width: 100
+          width: 120
         },
         {
           title: "状态",
@@ -104,7 +105,7 @@ export default {
         {
           title: "操作",
           key: "action",
-          width: 200,
+          width: 210,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -185,60 +186,50 @@ export default {
       this.$router.push('add_recruitment?id=' + row.p_id);
     },
     handleChange (row) {
-      let state = row.state == '1' ? '继续招聘' : '停止招聘';
+      let state = row.state == '1' ? '停止招聘' : '继续招聘';
       this.$Modal.confirm({
         title: '确认框',
         content: '<p>确认' + state + '吗？</p>',
         onOk: () => {
-          row.state == '1' ? row.state = '2' : row.state = '1';
+          API.updatePositionState({
+            pid: row.p_id,
+            state: row.state=='1'? 2 : 1
+          }).then(res => {
+            if(res.code == 200) {
+              //row.state == '1' ? row.state = '2' : row.state = '1';
+              this.initData();
+            }
+          });
+                   
         },
         onCancel: () => {
         }
       });
     },
     initData () {
-      this.selectData=[],
-      API.queryPersonalPosition({
-        pageNum: this.currentPage,
-        pageSize:10,
-        publicId: sessionStorage.getItem("userId"),
-        pname:this.jobName,
-        degree:this.degree,
-        state: this.status
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          _data.forEach(item => {
-            item.state == '1' ? item.stateFont = '招聘中' : item.stateFont = '停止招聘';
-            item.address=item.workProvince+"-"+item.workCity;
-            item.publicTime = tool.formatDate2(item.publicTime)
-          });
-          this.total = res.total;
-          this.selectData = _data;
-        }
-      });
-    },
-    // initData () {
-    //   this.selectData = [],
-    //     API.queryPersonalPosition({
-    //       pageNum: 2,
-    //       pageSize: 10,
-    //       publicId: "4",
-    //       pname: this.jobName,
-    //       degree: this.degree,
-    //       state: this.status
-    //     }).then(res => {
-    //       if (res.code == 200) {
-    //         let _data = res.result;
-    //         _data.forEach(item => {
-
-    //           item.state == '1' ? item.stateFont = '招聘中' : item.stateFont = '停止招聘';
-    //           item.publicTime = tool.formatDate2(item.publicTime)
-    //         });
-    //         this.selectData = _data;
-    //       }
-    //     });
-    // }
+      this.selectData = [],
+        API.queryPersonalPosition({
+          pageNum: this.currentPage,
+          pageSize: 10,
+          publicId: sessionStorage.getItem("userId"),
+          pname: this.jobName,
+          degree: this.degree,
+          state: this.status
+        }).then(res => {
+          if (res.code == 200) {
+            let _data = res.result;
+            _data.forEach(item => {
+              item.state == '1' ? item.stateFont = '招聘中' : item.stateFont = '停止招聘';
+              item.publicTime = tool.formatDate2(item.publicTime)
+              item.salary=switchFont.salary(item.salary);
+              item.degree=switchFont.degree(item.degree);
+              item.address=item.workProvince+"-"+item.workCity;
+            });
+            this.total = res.total;
+            this.selectData = _data;
+          }
+        });
+    }
   },
   created () {
     this.initData();
