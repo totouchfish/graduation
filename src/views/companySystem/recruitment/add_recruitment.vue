@@ -181,7 +181,7 @@ export default {
           { required: true, type: 'array', min: 1, message: '请选择岗位福利', trigger: 'change' },
         ],
         workType: [
-          { required: true, type: 'number', message: '请选择行业', trigger: 'change' }
+          { required: true, message: '请选择行业', trigger: 'change' }
         ],
         functionType: [
           { required: true, message: '请选择职能类型', trigger: 'change' }
@@ -220,13 +220,12 @@ export default {
       if (val == 120000) val = 120100;
       if (val == 310000) val = 310100;
       if (val == 500000) val = 500100;
-      if (val) {
-        this.getCity(val);
-      }
+      if (val) this.getCity(val);
+
       // if (val) {
       //   this.getCity(val);
       // }
-    }
+    },
     // ,
     // 'formValidate.workCity': function (val) {
     //   if (val) {
@@ -280,11 +279,11 @@ export default {
           // let _data =  Object.assign({},this.formValidate);//如果原对象里存在子对象一样会受到影响
           let _data = JSON.parse(JSON.stringify(this.formValidate));
           _data.publicId = 4;
-          let workWelfare = '';
-          _data.workWelfare.forEach(item => {
-            workWelfare += item + '-'
-          })
-          _data.workWelfare = workWelfare.substr(0, workWelfare.length - 1);
+          // let workWelfare = '';
+          // _data.workWelfare.forEach(item => {
+          //   workWelfare += item + '-'
+          // })
+          // _data.workWelfare = workWelfare.substr(0, workWelfare.length - 1);
           API2.positionOperation(_data).then(res => {
             if (res.code == 200) {
               this.$router.push({ name: 'recruitment' });
@@ -305,20 +304,49 @@ export default {
           _data.workProvince = Number(_data.workProvince);
           _data.workCity = Number(_data.workCity);
           _data.detailAdr = Number(_data.detailAdr);
-          let workWelfare = [];
-          _data.workWelfare.split('-').forEach(item => {
-            let obj = {};
-            obj.value = item;
-            workWelfare.push(obj);
-          })
-          _data.workWelfare = workWelfare;
-          this.formValidate = res.result;
+          // let workWelfare = [];
+          // _data.workWelfare.split('-').forEach(item => {
+          //   let obj = {};
+          //   obj.value = item;
+          //   workWelfare.push(obj);
+          // })
+          // _data.workWelfare = workWelfare;
+          this.formValidate = _data;
         }
       });
     },
     canel () {
       this.formValidate = [];
       this.$router.push({ name: 'recruitment' });
+    }
+  },
+  computed: {
+    workWelfare1: {
+      get () {
+        console.log("get");
+
+        // let workWelfare = [];
+        // this.formValidate.workWelfare.split('-').forEach(item => {
+        //   let obj = {};
+        //   obj.value = item;
+        //   workWelfare.push(obj);
+        // })
+        // console.log(workWelfare);
+        return workWelfare1;
+      },
+      set (val) {
+        let workWelfare = '';
+        this.formValidate.workWelfare.forEach(item => {
+          workWelfare += item + '-'
+        })
+        return workWelfare.substr(0, workWelfare.length - 1);
+      }
+    }
+  },
+  watch: {
+    formValidate (val) {
+      console.log(val);
+
     }
   },
   created () {

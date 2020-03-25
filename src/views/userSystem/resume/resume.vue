@@ -620,7 +620,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           let _data = this.form1Validate;
-          _data.id = this.userId
+          _data.id = this.userId;
           API.updateUserInfo(_data).then(res => {
             if (res.code == 200) {
               this.userInfo = !this.userInfo;
@@ -642,7 +642,7 @@ export default {
         if (res.code == 200) {
           this.form2Validate = res.result;
         }
-        this.jobIntention = !this.jobIntention
+        this.jobIntention = !this.jobIntention;
       });
     },
     // 提交简历求职意向信息
@@ -650,7 +650,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           let _data = this.form2Validate;
-          _data.id = this.userId
+          _data.id = this.userId;
           API.updateJobIntention(_data).then(res => {
             if (res.code == 200) {
               this.jobIntention = !this.jobIntention;
@@ -678,7 +678,7 @@ export default {
           // debugger
           this.projectExp = !this.projectExp;
         } else {
-          this.$Message.error('error呀')
+          this.$Message.error('error');
         }
       });
     },
@@ -791,14 +791,14 @@ export default {
           }
           this.resumeInfo = _data;
           // 项目经历
-          let _projectData = res.result.projects
+          let _projectData = res.result.projects;
           _projectData.forEach(item => {
             item.startTime = tool.translateTime1(item.startTime);
-            item.endTime = tool.translateTime1(item.endTime)
+            item.endTime = tool.translateTime1(item.endTime);
           });
           this.projectExpData = _projectData;
           // 教育经历
-          let _studyData = res.result.educations
+          let _studyData = res.result.educations;
           _studyData.forEach(item => {
             item.startDate = tool.translateTime1(item.startDate);
             item.endDate = tool.translateTime1(item.endDate);
@@ -832,7 +832,7 @@ export default {
           // 什么的id存储？
           sessionStorage.setItem("resumeId", _data.id);
           // 隐藏数据填写的div
-          this.userInfo = true;
+          this.userInfo = false;
         } else {
           // 900 代表用户还没录入过信息
           // 显示数据填写的div
