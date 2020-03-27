@@ -5,9 +5,9 @@
         <div class="title">
           <div class="title-info">
 
-            <h1 title="前端开发工程师">前端开发工程师</h1>
+            <h1 title="职位名称">{{positionDetail.p_name}}</h1>
             <h3>
-              <span title="天津万顺东晟科技发展有限公司">天津万顺东晟科技发展有限公司</span>
+              <span title="公司名称">{{positionDetail.conpanyName}}</span>
               <!-- <a href="https://www.liepin.com/company/10280479/" data-promid="" target="_blank" title="天津万顺东晟科技发展有限公司">天津万顺东晟科技发展有限公司</a> -->
             </h3>
 
@@ -17,24 +17,24 @@
         </div>
         <div class="job-item">
           <div class="job-title-left">
-            <p class="job-item-title">8-12k·12薪</p>
+            <p class="job-item-title">{{positionDetail.salary}}</p>
             <p class="basic-infor">
-              <svg-icon icon-class="address" /><span>天津</span>
-              <svg-icon icon-class="time" /><span>2020年03月20日</span>
+              <svg-icon icon-class="address" /><span>{{positionDetail.workCity}}</span>
+              <svg-icon icon-class="time" /><span>{{positionDetail.publicTime}}</span>
             </p>
             <div class="job-qualifications">
-              <span>学历不限</span>
-              <span>1年以上</span>
-              <span>语言不限</span>
-              <span>年龄不限</span>
+              <span>{{positionDetail.degree}}</span>
+              <span>{{positionDetail.workYears}}</span>
+              <span>{{positionDetail.employeeType}}</span>
+              <span>{{positionDetail.age}}</span>
             </div>
           </div>
           <div class="right-control">
             <div class="job-intro">
-              <a href="javascript:;" class="btn-apply" style="top: auto;">应聘职位</a>
+              <a href="javascript:;" class="btn-apply" style="top: auto;" @click="applyPosition()">应聘职位</a>
             </div>
             <div class="right-operation">
-              <a class="link-collection" data-selector="link-collection" data-value="0" href="javascript:;">收藏</a>
+              <a class="link-collection" data-selector="link-collection" data-value="0" href="javascript:;" @click="collectPosition()">收藏</a>
             </div>
           </div>
         </div>
@@ -45,31 +45,15 @@
           <div class="job_details_word">
             <h3 class="job_details_title">岗位职责：</h3>
             <p>
-              1.根据业务需求文档完成前端研发工作；与后端研发人员配合，讨论交互方式，页面集成工作；完成现有系统的维护工作，完成相关的迭代优化工作；
-              2.根据系统平台的业务需求，完成前端架构，并编制相关的前端规范等技术文档,网页标准化及优化研究；
-              3.负责公司前端的测试计划和优化，编写设计文档和测试分析报告等文档，沉淀和积累前端的测试框架和发布规范及机制；
-              4.负责前端系统性能优化工作，确立优化方向及可执行和量化的优化方案；
-              5.完成领导交办的其它任务。
+              {{positionDetail.workDuties}}
             </p>
             <h3 class="job_details_title">职位要求：</h3>
             <p>
-              1.专科学历，软件技术、计算机科学与技术、电子工程等相关专业；
-              2.3年以上Web前端工作经验、对企业级前端开发有经验；
-              3.熟练使用JavaScript、CSS/CSS3.HTML4/HTML5编程开发，熟悉其标准规范及各浏览器差异性；
-              4.熟练掌握AjaxHTTP等基础知识了解跨域机制；
-              5.熟练前端模块化开发,面向对象编程开发；
-              6.熟练使用jQuery、React、Vue、ng、Ember等框架对前端组件化有一定的理解；
-              7.熟练使用前端代码管理及打包工具。
+              {{positionDetail.workClaim}}
             </p>
             <h3 class="job_details_title">企业简介：</h3>
             <p>
-              1.专科学历，软件技术、计算机科学与技术、电子工程等相关专业；
-              2.3年以上Web前端工作经验、对企业级前端开发有经验；
-              3.熟练使用JavaScript、CSS/CSS3.HTML4/HTML5编程开发，熟悉其标准规范及各浏览器差异性；
-              4.熟练掌握AjaxHTTP等基础知识了解跨域机制；
-              5.熟练前端模块化开发,面向对象编程开发；
-              6.熟练使用jQuery、React、Vue、ng、Ember等框架对前端组件化有一定的理解；
-              7.熟练使用前端代码管理及打包工具。
+              {{positionDetail.brief}}
             </p>
           </div>
         </div>
@@ -83,6 +67,9 @@
 // 引入常用变量
 import commonData from "@/common/commonData.js";
 import * as API from "@/api/user.js";
+import * as API2 from "@/api/common.js";
+import tool from "@/utils/formatDate";
+import switchFont from "@/utils/switchFont";
 
 export default {
   name: "index",
@@ -91,6 +78,8 @@ export default {
   },
   data () {
     return {
+      id:'',
+      positionDetail:[],
       tagData: [
         {
           name: '年底双薪'
@@ -119,28 +108,59 @@ export default {
   },
   components: {},
   methods: {
+    applyPosition(){
+      API.acceptPosition({
+        pid: this.id,
+        rid: sessionStorage.getItem("resumeId"),
+        userId: sessionStorage.getItem('userId')
+      }).then(res => {
+        if(res.code == 200) {
+          this.$route.push('searchJob');
+          this.$Message.success("申请成功！");
+        }else{
+          this.$Message.error("申请失败，请先完善简历！");
+        }
+      });
+      
+    },
+    collectPosition(){
+      API.addCollection({
+        pid: this.id,
+        uid: sessionStorage.getItem("userId")
+      }).then(res => {
+        if(res.code == 200) {
+          // 为什么收藏成功要跳转页面 不跳转就在那个页面了 我问的是为什么要跳转，请正面回答
+          //想调到那个页面
+          this.$router.push('searchJob');
+          this.$Message.success("收藏成功！");
+        }else{
+          this.$Message.error("收藏失败！");
+        }
+      });
+      
+    },
     initData () {
       // 初始化列表数据
-      API.queryPositionByCondition({
-        // 这里是将变量与你接口的字段绑定，
-        content: this.searchContent,//搜索框
-        workCity: this.workCityName,
-        employType: this.workCharacterName,
-        trade: this.workTypeName,//啥字段
-        functionType: this.functionTypeName,
-        companyType: this.companyTypeName,
-        type: this.sortTypeName,
-        pageSize: 10,
-        pageNum: 1
+      API.positionDetail({
+       pid:this.id,
       }).then(res => {
         if (res.code == 200) {
-          // this.jobLists = res.result;
+          let _data=res.result;
+          _data.publicTime = tool.translateTime1( _data.publicTime);
+          _data.degree = switchFont.degree(_data.degree);
+          _data.age = switchFont.age(_data.age);
+          _data.workYears = switchFont.workYears(_data.workYears);
+          _data.salary = switchFont.salary(_data.salary);
+          this.positionDetail = _data;
         }
       })
     }
   },
   created () {
-    // this.initData();
+    if (this.$route.query.id) {
+      this.id = this.$route.query.id;
+      this.initData();
+    }
   }
 };
 </script>
