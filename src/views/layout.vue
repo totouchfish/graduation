@@ -11,6 +11,9 @@
             <MenuItem name="searchJob">
             <Icon type="md-briefcase" />行业
             </MenuItem>
+            <MenuItem name="part-time">
+            <Icon type="md-briefcase" />校园兼职
+            </MenuItem>
             <MenuItem name="resume">
             <Icon type="ios-paper" />我的简历
             </MenuItem>

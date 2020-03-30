@@ -5,21 +5,29 @@ import request from '@/utils/request'
  */
 //首页列表
 export function homeLists(arg) {
-  return request.post('/recruit/queryPositionRecruiter', arg)
+  return request.post('/positionInfo/queryPositionRecruiter', arg)
 }
 //热门搜索
 export function queryPositionInfoByTrade(arg) {
-  return request.post('/recruit/queryPositionInfoByTrade', arg)
+  return request.post('/positionInfo/queryPositionInfoByTrade', arg)
 }
 
 /**
  * 行业页面
  */
 // 多条件查询
-export function queryPositionByCondition(arg) {
+export function queryPositionByMore(arg) {
   return request.post('/positionInfo/queryPositionByMore', arg)
 }
 
+//查询职位详细信息
+export function positionDetail(arg) {
+  return request.post('/positionInfo/queryPositionDetail', arg)
+}
+//兼职信息
+export function queryPartTime(arg) {
+  return request.post('/positionInfo/queryPartTime', arg)
+}
 /**
  * 简历页面
  */
@@ -79,6 +87,9 @@ export function progress(arg) {
 /**
  * 收藏职位
  */
+export function addCollection(arg) {
+  return request.post('/collection/addCollectPosition', arg)
+}
 //显示已收藏的职位
 export function collection(arg) {
   return request.post('/collection/queryCollectPosition', arg)

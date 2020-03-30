@@ -47,7 +47,7 @@ export default {
         {
           type: "index",
           title: "序号",
-          width: 60,
+          width: 70,
           align: "center",
           render: (h, params) => {
             return h(
@@ -60,7 +60,7 @@ export default {
           title: "姓名",
           key: "name",
           align: "center",
-          width: 180
+          width: 80
         },
         {
           title: "性别",
@@ -77,7 +77,8 @@ export default {
         {
           title: "应聘职位",
           key: "job",
-          align: "center"
+          align: "center",
+          width: 180
         },
         {
           title: "申请日期",

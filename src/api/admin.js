@@ -38,3 +38,23 @@ export function updateState(arg) {
 export function delCertification(arg) {
   return request.post('/certification/delCertification', arg)
 }
+//系统公告列表
+export function queryNoticeAll(arg) {
+  return request.post('/notice/queryNoticeAll', arg)
+}
+//添加公告
+export function opNotice(arg) {
+  return request.post('/notice/opNotice', arg)
+}
+//修改公告
+export function updateNotice(arg) {
+  return request.post('/notice/updateNotice', arg)
+}
+//删除公告
+export function deleteNotice(arg) {
+  return request.post('/notice/deleteNotice', arg)
+}
+//通过Id查询公告
+export function queryNoticeById(arg) {
+  return request.post('/notice/queryNoticeById', arg)
+}

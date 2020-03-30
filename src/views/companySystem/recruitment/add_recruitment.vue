@@ -4,13 +4,13 @@
     <div class="title">添加发布岗位</div>
     <Row class="content">
       <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="85">
-        <FormItem label="岗位名称:" prop="p_name">
+        <FormItem label="职位名称:" prop="p_name">
           <Input v-model="formValidate.p_name"></Input>
         </FormItem>
-        <FormItem label="岗位职责:" prop="workDuties">
+        <FormItem label="职位职责:" prop="workDuties">
           <Input type="textarea" :rows="3" v-model="formValidate.workDuties"></Input>
         </FormItem>
-        <FormItem label="岗位要求:" prop="workClaim">
+        <FormItem label="职位要求:" prop="workClaim">
           <Input type="textarea" :rows="3" v-model="formValidate.workClaim"></Input>
         </FormItem>
         <FormItem label="岗位福利:" prop="workWelfare">
@@ -59,6 +59,9 @@
             </Col>
           </Row>
         </FormItem>
+        <FormItem label="详细地址:" prop="addressDetail">
+          <Input v-model="formValidate.addressDetail"></Input>
+        </FormItem>
         <FormItem label="工作性质:" prop="employeeType">
           <Select v-model="formValidate.employeeType">
             <Option value="1">不限</Option>
@@ -103,7 +106,7 @@
             <Option value="9">不限</Option>
           </Select>
         </FormItem>
-        <FormItem label="工作经验:" prop="workYears">
+        <!-- <FormItem label="工作经验:" prop="workYears">
           <Select v-model="formValidate.workYears">
             <Option value="1">1年以下</Option>
             <Option value="2">1-3年</Option>
@@ -111,8 +114,8 @@
             <Option value="4">5年以上</Option>
             <Option value="9">不限</Option>
           </Select>
-        </FormItem>
-        <FormItem label="税前月薪:" prop="salary">
+        </FormItem> -->
+        <!-- <FormItem label="税前月薪:" prop="salary">
           <Select v-model="formValidate.salary">
             <Option value="10">高中及以上</Option>
             <Option value="1">1k/月以下</Option>
@@ -125,6 +128,9 @@
             <Option value="8">15k-20k/月</Option>
             <Option value="9">20k/月以上</Option>
           </Select>
+        </FormItem> -->
+        <FormItem label="工资:" prop="salary">
+          <Input v-model="formValidate.salary" placeholder="格式：xx/天/小时/月/年"></Input>
         </FormItem>
         <FormItem>
           <Button type="primary" @click="submit('formValidate')">提交</Button>
@@ -158,10 +164,10 @@ export default {
         functionType: '',
         workProvince: '',
         workCity: '',
+        addressDetail:'',
         employeeType: '',
         degree: '',
         age: '',
-        workYears: '',
         salary: ''
       },
       functionTypeLists: commonData.functionTypeLists,
@@ -174,17 +180,14 @@ export default {
           { required: true, message: '请输入岗位名称', trigger: 'blur' }
         ],
         workDuties: [
-          { required: true, message: '请输入岗位描述', trigger: 'blur' }
+          {message: '请输入岗位描述', trigger: 'blur' }
         ],
         workClaim: [
-          { required: true, message: '请输入岗位描述', trigger: 'blur' }
+          {message: '请输入岗位描述', trigger: 'blur' }
         ],
         workWelfare: [
           { required: true, type: 'string', message: '请选择岗位福利', trigger: 'change' },
         ],
-        // workType: [
-        //   { required: true, message: '请选择行业', trigger: 'change' }
-        // ],
         functionType: [
           { required: true, message: '请选择职能类型', trigger: 'change' }
         ],
@@ -194,20 +197,20 @@ export default {
         workCity: [
           { required: true, type: 'number', message: '请选择城市', trigger: 'change' }
         ],
+        addressDetail: [
+          { required: true, message: '请输入详细地址', trigger: 'change' }
+        ],
         employeeType: [
           { required: true, message: '请选择工作性质', trigger: 'change' }
         ],
         degree: [
-          { required: true, message: '请选择学历要求', trigger: 'change' }
+          {message: '请选择学历要求', trigger: 'change' }
         ],
         age: [
-          { required: true, message: '请选择年龄要求', trigger: 'change' }
-        ],
-        workYears: [
-          { required: true, message: '请选择工作经验', trigger: 'change' }
-        ],
+          {message: '请选择年龄要求', trigger: 'change' }
+        ],      
         salary: [
-          { required: true, message: '请选择税前月薪', trigger: 'change' }
+          {required: true, message: '请输入工资，格式：xx/天/小时/月', trigger: 'change' }
         ],
         none: [
           { required: true, validator: noCheck }
@@ -301,37 +304,6 @@ export default {
       if (val == 310000) val = 310100;
       if (val == 500000) val = 500100;
       if (val) this.getCity(val);
-    }
-  },
-  computed: {
-    workWelfare: {
-      get () {
-        console.log('get');
-        let workWelfare = [];
-        this.formValidate.workWelfare.split('-').forEach(item => {
-          // 拆分岗位福利数据
-          workWelfare.push(item);
-          // 比对岗位福利数据，如果不存在workWelfareData里，则添加到workWelfareData中
-          // 由于this.workWelfareData是数组对象，如果想要将里面的值取出进行比对则需要在此循环中载嵌套循环，影响性能
-          // 骚操作：将this.workWelfareData转换成字符串，然后通过比对此字符串中是否包含item即可
-          let string = JSON.stringify(this.workWelfareData);
-          if(string.indexOf(item) == -1){
-            let obj = {};
-            obj.value = item;
-            this.workWelfareData.push(obj);
-          }
-        })
-        return workWelfare;
-      },
-      set (val) {
-        console.log("set");
-        let workWelfare = '';
-        val.workWelfare.forEach(item => {
-          workWelfare += item + '-'
-        })
-        val.workWelfare = workWelfare.substr(0, workWelfare.length - 1);
-        return val;
-      }
     }
   },
   created () {

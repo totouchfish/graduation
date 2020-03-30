@@ -3,12 +3,12 @@
   <div class="main">
     <ul class="fillIn clear">
       <li class="liStyle">
-        <label for="">公告内容：</label>
+        <label for="">公告标题：</label>
         <Input v-model="noticeName" placeholder="请输入公告标题" style="width: 160px"></Input>
       </li>
       <li class="liStyle">
-        <label for="">公告内容：</label>
-        <Input v-model="noticeContent" placeholder="请输入公告内容" style="width: 160px"></Input>
+        <label for="">公告时间：</label>
+        <Input v-model="publicTime" placeholder="格式：如2020-03-22" style="width: 160px"></Input>
       </li>
       <li class="liStyle">
         <Button icon="ios-search" type="primary" @click="searchData()">搜 索</Button>
@@ -19,7 +19,7 @@
     </div>
     <div style="margin-top:60px;">
       <Table :columns="column" :data="tableData"></Table>
-      <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage()"></Page>
+      <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage"></Page>
     </div>
   </div>
 </template>
@@ -35,12 +35,12 @@ export default {
       total: 10,
       currentPage: 1,
       noticeName: '',
-      noticeContent: '',
+      publicTime: '',
       column: [
         {
           type: "index",
           title: "序号",
-          width: 60,
+          width: 70,
           align: "center",
           render: (h, params) => {
             return h(
@@ -52,22 +52,31 @@ export default {
         {
           title: "公告标题",
           key: "noticeName",
-          align: "center"
+          align: "center",
+          width: 140,
         },
         {
           title: "公告内容",
           key: "noticeContent",
           align: "center"
+          
         },
         {
           title: "发布日期",
           key: "publicTime",
-          align: "center"
+          align: "center",
+          width: 120,
+        },
+        {
+          title: "接收者",
+          key: "receiver",
+          align: "center",
+          width: 100,
         },
         {
           title: "操作",
           key: "action",
-          width: 170,
+          width: 200,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -101,7 +110,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.handleShow(params.row);
+                      this.handleEdit(params.row);
                     }
                   }
                 },
@@ -116,7 +125,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.handleDelete(params.row.id);
+                      this.handleDelete(params.row);
                     }
                   }
                 },
@@ -132,6 +141,7 @@ export default {
   methods: {
     changepage (val) {
       this.currentPage = val;
+      this.initData();
     },
     searchData () {
       this.currentPage = 1;
@@ -140,36 +150,38 @@ export default {
     addData () {
       this.$router.push({
         name: 'add_systemNotice',
-        // params:{
-        //   id:'1'
-        // }
       })
     },
-    handleShow(row){
-        this.$router.push({
-        name: 'add_systemNotice',
-        params:{
-          id: row.p_id
+    handleEdit (row) {
+      this.$router.push('add_systemNotice?id=' + row.id);
+    },
+    handleDelete(row){
+      API.deleteNotice({
+        id:row.id
+      }).then(res => {
+        if (res.code == 200) {
+          this.initData();
         }
-      })
+      });
     },
     initData () {
-      // this.tableData=[],
-      // API.querySystemNotice({
-      //   pageNum: this.currentPage,
-      //   pageSize:10,
-      //   pname:this.noticeName,
-      //   content: this.noticeContent
-      // }).then(res => {
-      //   if (res.code == 200) {
-      //     let _data = res.result;
-      //     // _data.forEach(item => {
-      //     //   item.state == '1' ? item.state = '招聘中' : item.state = '停止招聘';
-      //     //   item.publicTime = tool.formatDate2(item.publicTime)
-      //     // });
-      //     this.tableData = _data;
-      //   }
-      // });
+      this.tableData=[],
+      API.queryNoticeAll({
+        pageNum: this.currentPage,
+        pageSize:10,
+        noticeName:this.noticeName,
+        publicTime: this.publicTime
+      }).then(res => {
+        if (res.code == 200) {
+          let _data = res.result;
+           _data.forEach(item => {
+             item.receiver == '1' ? item.receiver = '用户' : item.receiver = '用人单位';
+             item.publicTime = tool.formatDate2(item.publicTime)
+          });
+          this.total=res.total;
+          this.tableData = _data;
+        }
+      });
     }
   },
   created () {

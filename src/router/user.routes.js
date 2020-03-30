@@ -10,6 +10,11 @@ export default {
       component: () => import('@/views/userSystem/home/home')//懒加载
     },
     {
+      path: '/part-time',
+      name: 'part-time',
+      component: () => import('@/views/userSystem/part-time/part-time')//懒加载
+    },
+    {
       path: '/collection',
       name: 'collection',
       component: () => import('@/views/userSystem/collection/collection')//懒加载

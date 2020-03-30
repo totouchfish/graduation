@@ -102,76 +102,140 @@ const testData = [{
     },
     {
       name: "北京",
-      code: "city01",
+      code: "110100",
       choose: false
     },
     {
       name: "上海",
-      code: "city02",
+      code: "310100",
       choose: false
     },
     {
       name: "广州",
-      code: "city03",
+      code: "440100",
       choose: false
     },
     {
       name: "深圳",
-      code: "city04",
+      code: "440300",
       choose: false
     },
     {
       name: "杭州",
-      code: "city05",
+      code: "330100",
       choose: false
     },
     {
       name: "苏州",
-      code: "city06",
+      code: "320500",
       choose: false
     },
     {
-      name: "大连",
-      code: "city07",
+      name: "济南",
+      code: "370100",
       choose: false
     },
     {
-      name: "成都",
-      code: "city08",
+      name: "青岛",
+      code: "370200",
       choose: false
     },
     {
       name: "武汉",
-      code: "city09",
+      code: "420100",
       choose: false
     },
     {
       name: "天津",
-      code: "city10",
+      code: "120100",
+      choose: false
+    },
+    {
+      name: "杭州",
+      code: "330100",
       choose: false
     }
+
   ],
   workCharacterLists = [{
       name: "不限",
-      code: "1",
+      code: "type00",
       choose: true
     },
     {
       name: "应届",
-      code: "2",
+      code: "type01",
       choose: false
     },
     {
       name: "实习",
-      code: "3",
-      choose: false
-    },
-    {
-      name: "兼职",
-      code: "4",
+      code: "type02",
       choose: false
     }
   ],
+  partTimeLists = [
+    {
+      name: "不限",
+      code: "ptype00",
+      choose: false
+    },
+    {
+    name: "家教",
+    code: "ptype01",
+    choose: true
+  },
+  {
+    name: "保姆",
+    code: "ptype02",
+    choose: false
+  },
+  {
+    name: "传单",
+    code: "ptype03",
+    choose: false
+  },
+  {
+    name: "替考",
+    code: "ptype04",
+    choose: false
+  },
+  {
+    name: "服务员",
+    code: "ptype05",
+    choose: false
+  },
+  {
+    name: "推销员",
+    code: "ptype06",
+    choose: false
+  },
+  {
+    name: "外卖员",
+    code: "ptype07",
+    choose: false
+  },
+  {
+    name: "打字员",
+    code: "ptype08",
+    choose: false
+  },
+  {
+    name: "话务员",
+    code: "ptype09",
+    choose: false
+  },
+  {
+    name: "自媒体",
+    code: "ptype10",
+    choose: false
+  },
+  {
+    name: "其他",
+    code: "ptype11",
+    choose: false
+  },
+  
+],
   functionTypeLists = [{
       name: "不限",
       code: "type00",
@@ -583,6 +647,7 @@ const testData = [{
 export default {
   testData,
   workCityLists,
+  partTimeLists,
   workCharacterLists,
   functionTypeLists,
   companyTypeLists,

@@ -13,21 +13,7 @@
             <li>
               <dl>
                 <dt style="font-weight:bold;">工作城市:</dt>
-                <dd v-for="(item,index) in workProvinceLists" :class="item.choose?'choose':''" :key="index" @click="chooseItem(index,workProvinceLists,workCity,'workCity')">{{item.name}}</dd>
-                <!-- <dd>
-                  <Row>
-                    <Col span="7">
-                    <Select v-model="workProvince" placeholder="请选择省份" style="widt:30%;">
-                      <Option v-for="(item,index) in provinceData" :key="index" :value="item.id">{{item.name}}</Option>
-                    </Select>
-                    </Col>
-                    <Col span="7" offset="1">
-                    <Select v-model="workCity" placeholder="请选择城市" style="widt:30%;">
-                      <Option v-for="(item,index) in cityData" :key="index" :value="item.id">{{item.name}}</Option>
-                    </Select>
-                    </Col>
-                  </Row>
-                </dd> -->
+                <dd v-for="(item,index) in workCityLists" :class="item.choose?'choose':''" :key="index" @click="chooseItem(index,workCityLists,workCity,'workCity')">{{item.name}}</dd>
               </dl>
               <dl>
                 <dt>工作性质:</dt>
@@ -36,10 +22,6 @@
               <dl>
                 <dt>职能类型:</dt>
                 <dd v-for="(item,index) in functionTypeLists" :class="item.choose?'choose':''" :key="index" @click="chooseItem(index,functionTypeLists,functionType,'functionType')">{{item.name}}</dd>
-              </dl>
-              <dl>
-                <dt>企业性质:</dt>
-                <dd v-for="(item,index) in companyTypeLists" :class="item.choose?'choose':''" :key="index" @click="chooseItem(index,companyTypeLists,companyType,'companyType')">{{item.name}}</dd>
               </dl>
               <dl>
                 <dt>&emsp;&emsp;行业:</dt>
@@ -51,16 +33,18 @@
         <div class="jobType">
           <span v-for="(item,index) in sortTypeLists" :class="item.choose?'choose':''" :key="index" @click="chooseItem(index,sortTypeLists,sortType,'sortType')">{{item.name}}</span>
         </div>
-
-        <ul class="recruitContent">
-          <li v-for="(item,index) in recruitData" :key="index" @mouseenter="item.tagShow = true" @mouseleave="item.tagShow = false">
+         <div class="positionNull" v-show="positionList">
+           <span>暂无数据</span>
+        </div> 
+        <ul class="recruitContent" v-show="!positionList">
+          <li v-for="(item,index) in positionData" :key="index" @mouseenter="item.tagShow = true" @mouseleave="item.tagShow = false">
             <div class="float-left paddingtop-20px">
-              <p><a href="#" @click="jobDetails(item.id)">{{item.name}}</a></p>
+              <p><a href="#" @click="jobDetails(item.pid)">{{item.pname}}</a></p>
               <p class="recruitDetails">
                 <svg-icon icon-class="address" style="margin-left:0;" />
-                <span>{{item.address}}</span>
+                <span>{{item.workCity}}</span>
                 <svg-icon icon-class="time" />
-                <span>{{item.time}}发布</span>
+                <span>{{item.publicTime}}发布</span>
                 <svg-icon icon-class="degree" />
                 <span>{{item.degree}}</span>
                 <svg-icon icon-class="salary" />
@@ -69,8 +53,8 @@
             </div>
             <div class="float-right company">
               <div class="float-left paddingtop-20px">
-                <p>{{item.company}}</p>
-                <p class="recruitDetails">{{item.workType}}</p>
+                <p>{{item.companyName}}</p>
+                <p class="recruitDetails">{{item.trade}}</p>
               </div>
               <div class="float-right company-logo">
                 <img src="@/assets/images/company.png">
@@ -78,12 +62,12 @@
             </div>
             <transition name="fade">
               <div v-if="item.tagShow" class="labels">
-                <Tag v-for="(element,indx) in item.tagData" :key="indx" type="border">{{element.name}}</Tag>
+                <Tag v-for="(element,indx) in item.workWelfare.split('-')" :key="indx" type="border">{{element}}</Tag>
               </div>
             </transition>
           </li>
         </ul>
-        <!-- <Page :total="total1" :current="currentPage1" class="paging" show-elevator @on-change="changepage1()"></Page> -->
+        <Page :total="total" :current="currentPage" class="paging" show-elevator @on-change="changepage"></Page> 
       </Content>
     </Layout>
   </div>
@@ -95,6 +79,9 @@
 import commonData from "@/common/commonData.js";
 import * as API from "@/api/user.js";
 import * as API2 from "@/api/common.js";
+import tool from "@/utils/formatDate";
+import switchFont from "@/utils/switchFont";
+
 export default {
   name: "index",
   props: {
@@ -102,114 +89,63 @@ export default {
   },
   data () {
     return {
-      selectPosition: 1,
-      selectPositionLists: [
-        {
-          value: 1,
-          label: "职位"
-        },
-        {
-          value: 2,
-          label: "公司"
-        }
-      ],
-      workProvince: "",
-      workCity: "",
-      provinceData: [],
-      cityData: [],
+      positionList:false,
+      total:10,
+      currentPage:1,
       searchContent: "",
       searchTips: "请输入关键字,例如：IT、JAVA、百度、华为等",
-      workProvinceLists: [],
+      workCityLists: commonData.workCityLists,
       workCharacterLists: commonData.workCharacterLists,
       functionTypeLists: commonData.functionTypeLists,
       workTypeLists: commonData.workTypeLists,
-      companyTypeLists: commonData.companyTypeLists,
       sortTypeLists: commonData.sortTypeLists,
-      recruitData: commonData.recruitData,
-      // 这里是我声明的选中的那些字段对应的变量
+      positionData: [],
+      // 声明选中的那些字段对应的code
+      // search:{
+      //   workCityCode: 0,
+      //   workCharacterCode: 0,
+      //   workTypeCode: 0,
+      //   functionTypeCode: 0,
+      //   sortTypeCode: 0,
+      //   workCityCode: 'city00',
+      //   workCharacterCode: 'type00',
+      //   workTypeCode: 'type00',
+      //   functionTypeCode: 'type00',
+      // },
+      // 声明选中的那些字段对应的index
       workCity: 0,
       workCharacter: 0,
       workType: 0,
       functionType: 0,
-      companyType: 0,
       sortType: 0,
-      workCityName: '',
-      workCharacterName: '',
-      workTypeName: '',
-      functionTypeName: '',
-      companyTypeName: '',
-      sortTypeName: ''
+      workCity1: 'city00',
+      workCharacter1: 'type00',
+      workType1: 'type00',
+      functionType1: 'type00',
     };
   },
-  watch: {
-    'formValidate.workProvince': function (val) {
-      // 如果是四个直辖市,第二级选择为对应区
-      if (val == 110000) val = 110100;
-      if (val == 120000) val = 120100;
-      if (val == 310000) val = 310100;
-      if (val == 500000) val = 500100;
-      if (val) {
-        this.getCity(val);
-      }
-    }
-  },
-  components: {},
-  computed: {},
   methods: {
-    // 获取全国各省
-    getProvince () {
-      API2.getProvince().then(res => {
-        if (res.code == 200) {
-          this.provinceData = res.result;
-        }
-      });
-    },
-    // 获取对应省份下的各市
-    getCity (val) {
-      API2.getCity({
-        pid: val,
-      }).then(res => {
-        if (res.code == 200) {
-          let _data = res.result;
-          this.cityData = _data;
-        }
-      });
-    },
-    getWorkCharacter () {
-
-    },
-    getFunctionType () {
-
-    },
-    getWorkType () {
-
-    },
-    getCompanyType () {
-
-    },
     chooseItem (index, list, chooseIt, string) {
       list[chooseIt].choose = false;
       list[index].choose = true;
       if (string == "workCity") {
         // 这里是将选中的值绑定到对应的变量上
         this.workCity = index;
-        this.workCityName = list[index].name;
+        this.workCity1 = list[index].code;
+        // this.search.workCityCode = list[index].code;
       } else if (string == "functionType") {
         this.functionType = index;
-        this.functionTypeName = list[index].name;
+        this.functionType1 = list[index].code;
       } else if (string == "workCharacter") {
         this.workCharacter = index;
-        this.workCharacterName = list[index].name;
+        this.workCharacter1 = list[index].code;
       } else if (string == "workType") {
         this.workType = index;
-        this.workTypeName = list[index].name;
-      } else if (string == "companyType") {
-        this.companyType = index;
-        this.companyTypeName = list[index].name;
+        this.workType1 = list[index].code;
       } else if (string == "sortType") {
         this.sortType = index;
-        this.sortTypeName = list[index].name;
       }
+      this.initData();//点击之后需要触发调用接口
       sessionStorage.setItem(string, index);
     },
     toggleShow () {
@@ -218,34 +154,50 @@ export default {
     toggleHide () {
       this.tagShow = false;
     },
+    changepage (val) {
+      this.currentPage = val;
+      this.initData();
+    },
     jobDetails (id) {
-      this.$router.push('jobDetails?id=' + id);
+      console.log(id);
+      this.$router.push('jobDetails?id=' + id);     
     },
     initData () {
       // 初始化列表数据
-      API.queryPositionByCondition({
+      API.queryPositionByMore({
         // 这里是将变量与你接口的字段绑定，
         content: this.searchContent,//搜索框
-        workCity: this.workCityName,
-        employType: this.workCharacterName,
-        trade: this.workTypeName,//啥字段
-        functionType: this.functionTypeName,
-        companyType: this.companyTypeName,
-        type: this.sortTypeName,
+        workCity: this.workCity1,
+        employeeType: this.workCharacter1,
+        trade: this.workType1,
+        functionType: this.functionType1,
+        type: this.sortType,
         pageSize: 10,
-        pageNum: 1
+        pageNum: this.currentPage
       }).then(res => {
         if (res.code == 200) {
-          // this.jobLists = res.result;
-        }
+           let _data= res.result;
+            _data.forEach(item => {
+            item.publicTime = tool.translateTime1( item.publicTime);
+            item.degree = switchFont.degree(item.degree);
+            item.salary = switchFont.salary(item.salary);
+          }); 
+          this.positionList = false;
+          this.positionData =_data;
+          this.total = res.total;          
+        }else{
+          this.positionList = true;
+        }       
+      }).catch(res =>{
+        this.positionList = true;
       })
     }
   },
   created () {
-    // 加载已选中的城市
-    // if (sessionStorage.getItem("workCity")) {
-    //   this.chooseItem(sessionStorage.getItem("workCity"), this.workCityLists, this.workCity, 'workCity');
-    // }
+     //加载已选中的城市
+     if (sessionStorage.getItem("workCity")) {
+       this.chooseItem(sessionStorage.getItem("workCity"), this.workCityLists, this.workCity, 'workCity');
+    }
     if (sessionStorage.getItem("workCharacter")) {
       this.chooseItem(sessionStorage.getItem("workCharacter"), this.workCharacterLists, this.workCharacter, 'workCharacter');
     }
@@ -255,13 +207,9 @@ export default {
     if (sessionStorage.getItem("functionType")) {
       this.chooseItem(sessionStorage.getItem("functionType"), this.functionTypeLists, this.functionType, 'functionType');
     }
-    if (sessionStorage.getItem("companyType")) {
-      this.chooseItem(sessionStorage.getItem("companyType"), this.companyTypeLists, this.companyType, 'companyType');
-    }
     if (sessionStorage.getItem("sortType")) {
       this.chooseItem(sessionStorage.getItem("sortType"), this.sortTypeLists, this.sortType, 'sortType');
     }
-    this.getProvince();
     this.initData();
   }
 };
@@ -319,7 +267,7 @@ export default {
 } */
 .search {
   width: 800px;
-  height: 325px;
+  height: 270px;
   background-color: #fff;
   padding: 20px 15px;
   font-size: 15px;
@@ -371,7 +319,7 @@ dd {
 }
 .recruitContent li {
   position: relative;
-  padding: 32px 19px;
+  padding: 18px 15px;
   margin-top: 20px;
   background-color: #fff;
   border: 1px solid #e6e8ea;
@@ -379,7 +327,7 @@ dd {
   overflow: hidden;
 }
 .paddingtop-20px {
-  padding-top: 20px;
+  padding-top: 15px;
 }
 .recruitDetails {
   font-size: 14px;
@@ -387,7 +335,7 @@ dd {
   margin-top: 10px;
 }
 .recruitDetails svg {
-  margin-left: 30px;
+  margin-left: 10px;
   vertical-align: middle;
 }
 .float-left {
@@ -397,7 +345,7 @@ dd {
   float: right;
 }
 .company {
-  width: 300px;
+  width: 260px;
 }
 .company-logo {
   position: relative;
@@ -436,5 +384,10 @@ dd {
 .fade-enter-to,
 .fade-leave {
   height: 37px;
+}
+.paging{
+  margin-top: 15px;
+  margin-bottom: 20px;
+  float: right;
 }
 </style>

@@ -22,7 +22,7 @@
           <Content class="content">
             <div class="recruit" v-for="(item,index) in resumeData" :key="index">
               <a class="recruit_left" href="#" style="color:#333">
-                <p class="recruit_right_postName">{{item.pName}}</p>
+                <p class="recruit_right_postName">{{item.p_name}}</p>
                 <p class="recruit_right_workInfo" :title="item.postRequirement" v-html="item.postRequirement2">{{item.postRequirement2}}</p>
                 <p style="font-size:14px;margin-top:11px;">{{item.publicTime}}</p>
               </a>
@@ -81,6 +81,8 @@
 <script>
 import * as API from "@/api/user.js";
 import commonData from "@/common/commonData.js";
+import tool from "@/utils/formatDate";
+import switchFont from "@/utils/switchFont";
 
 export default {
   name: "index",
@@ -136,8 +138,7 @@ export default {
   },
 
   methods: {
-    hotSearchTouch (item) {
-      this.resumeData=[],
+    hotSearchTouch (item) {     
       API.queryPositionInfoByTrade({
         trade: item
       }).then(res => {
@@ -149,6 +150,8 @@ export default {
             item.companyWelfare = item.subsidy.split("/");
           });
           this.resumeData = _data;
+        }else{
+         this.resumeData=[]
         }
       });
     },
@@ -164,12 +167,11 @@ export default {
         if (res.code == 200) {
           let _data = res.result;
           _data.forEach(item => {
-            item.postRequirement = `${item.salary} | ${item.workCity} | ${item.degree} | ${item.employeeType}`
-            item.postRequirement2 = `<span style='color:red;'>${item.salary}</span> | ${item.workCity} | ${item.degree} | ${item.employeeType}`
-            item.companyWelfare = item.subsidy.split("/");
+            item.postRequirement = `${switchFont.salary(item.salary)} | ${item.workCity} | ${switchFont.degree(item.degree)} | ${item.employeeType}`
+            item.postRequirement2 = `<span style='color:red;'>${switchFont.salary(item.salary)}</span> | ${item.workCity} | ${switchFont.degree(item.degree)} | ${item.employeeType}`
+            item.companyWelfare = item.workWelfare.split("-");
           });
           this.resumeData = _data;
-          console.log(_data);
         }
       });
     }

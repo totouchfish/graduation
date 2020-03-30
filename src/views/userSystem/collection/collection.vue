@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :style="{background:'#e0e0e0',padding:'10px'}">
+    <div>
       <div class="container">
 
         <Layout>
@@ -78,7 +78,7 @@ export default {
         if (res.code == 200) {
           // 申请成功后重新调用获取列表数据的接口
           this.delCollection(item);
-         
+          this.initData();
         }     
       });
     },
