@@ -24,6 +24,10 @@ export function queryPositionByMore(arg) {
 export function positionDetail(arg) {
   return request.post('/positionInfo/queryPositionDetail', arg)
 }
+//兼职信息
+export function queryPartTime(arg) {
+  return request.post('/positionInfo/queryPartTime', arg)
+}
 /**
  * 简历页面
  */

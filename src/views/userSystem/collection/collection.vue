@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :style="{background:'#e0e0e0',padding:'10px'}">
+    <div>
       <div class="container">
 
         <Layout>

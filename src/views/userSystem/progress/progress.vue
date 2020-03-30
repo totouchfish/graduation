@@ -20,7 +20,7 @@
                 <a class="ji-item-info-companyName" href="" target="_blank">{{item.company}}</a>
               </div>
               <div class="ji-item-status fr">
-                <p>{{itemType==1?'投递成功':itemType==2?'已查看':itemType==3?'面试':'不适合'}}</p>
+                <p>{{item.state}}</p>
                 <div><span>{{item.time}}</span></div>
               </div>
             </div>
@@ -34,7 +34,8 @@
 
 <script>
 import * as API from "@/api/user.js";
-
+import tool from "@/utils/formatDate"
+import switchFont from "@/utils/switchFont";
 export default {
   name: "index",
   props: {
@@ -54,12 +55,35 @@ export default {
   methods: {
     searchJob (type) {
       this.itemType = type;
+      this.jobLists=[]
       API.progress({
         userId: sessionStorage.getItem("userId"),
         type: type
       }).then(res => {
         if (res.code == 200) {
-          this.jobLists = res.result;
+          let _data=res.result
+          _data.forEach(item => {
+            item.time = tool.formatDate2(item.time);
+            item.salary = switchFont.salary(item.salary);
+            if(item.state==1){
+              item.state='投递成功'
+            }else if(item.state==2){
+              item.stete='被查看'
+            }else if(item.state==3){
+              item.state='有意向'
+            }else if(item.state==4){
+              item.state='未邀请'
+            }else if(item.state==5){
+              item.state='已邀请'
+            }else if(item.state==6){
+              item.state='未录取'
+            }else if(item.state==7){
+              item.state='已录取'
+            }else{
+              item.state='不合适'
+            }
+          });
+          this.jobLists = _data;
         }
       })
     }

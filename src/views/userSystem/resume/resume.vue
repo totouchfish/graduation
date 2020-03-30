@@ -366,7 +366,7 @@ export default {
       callback();
     };
     return {
-      url: '',
+      url: 'http://localhost:8080/uploadImg',
       userId: sessionStorage.getItem('userId'),
       userInfo: false,
       jobIntention: false,
@@ -621,7 +621,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           let _data = this.form1Validate;
-          _data.id = this.userId;
+          _data.id = sessionStorage.getItem("resumeId");
           API.updateUserInfo(_data).then(res => {
             if (res.code == 200) {
               this.userInfo = !this.userInfo;
@@ -637,7 +637,7 @@ export default {
     // 获取简历求职意向信息
     editIntentionInfo () {
       API.queryJobIntentionById({
-        userId: this.userId
+        id : sessionStorage.getItem("resumeId"),
 
       }).then(res => {
         if (res.code == 200) {
@@ -651,10 +651,11 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           let _data = this.form2Validate;
-          _data.id = this.userId;
+          _data.id = sessionStorage.getItem("resumeId");
           API.updateJobIntention(_data).then(res => {
             if (res.code == 200) {
               this.jobIntention = !this.jobIntention;
+              this.initData();
               this.$Message.success('Success!');
             }
           });

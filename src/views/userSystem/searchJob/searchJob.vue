@@ -319,7 +319,7 @@ dd {
 }
 .recruitContent li {
   position: relative;
-  padding: 32px 19px;
+  padding: 18px 15px;
   margin-top: 20px;
   background-color: #fff;
   border: 1px solid #e6e8ea;
@@ -327,7 +327,7 @@ dd {
   overflow: hidden;
 }
 .paddingtop-20px {
-  padding-top: 20px;
+  padding-top: 15px;
 }
 .recruitDetails {
   font-size: 14px;
@@ -335,7 +335,7 @@ dd {
   margin-top: 10px;
 }
 .recruitDetails svg {
-  margin-left: 30px;
+  margin-left: 10px;
   vertical-align: middle;
 }
 .float-left {
@@ -345,7 +345,7 @@ dd {
   float: right;
 }
 .company {
-  width: 300px;
+  width: 260px;
 }
 .company-logo {
   position: relative;

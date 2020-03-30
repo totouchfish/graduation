@@ -171,13 +171,71 @@ const testData = [{
       name: "实习",
       code: "type02",
       choose: false
-    },
-    {
-      name: "兼职",
-      code: "type03",
-      choose: false
     }
   ],
+  partTimeLists = [
+    {
+      name: "不限",
+      code: "ptype00",
+      choose: false
+    },
+    {
+    name: "家教",
+    code: "ptype01",
+    choose: true
+  },
+  {
+    name: "保姆",
+    code: "ptype02",
+    choose: false
+  },
+  {
+    name: "传单",
+    code: "ptype03",
+    choose: false
+  },
+  {
+    name: "替考",
+    code: "ptype04",
+    choose: false
+  },
+  {
+    name: "服务员",
+    code: "ptype05",
+    choose: false
+  },
+  {
+    name: "推销员",
+    code: "ptype06",
+    choose: false
+  },
+  {
+    name: "外卖员",
+    code: "ptype07",
+    choose: false
+  },
+  {
+    name: "打字员",
+    code: "ptype08",
+    choose: false
+  },
+  {
+    name: "话务员",
+    code: "ptype09",
+    choose: false
+  },
+  {
+    name: "自媒体",
+    code: "ptype10",
+    choose: false
+  },
+  {
+    name: "其他",
+    code: "ptype11",
+    choose: false
+  },
+  
+],
   functionTypeLists = [{
       name: "不限",
       code: "type00",
@@ -578,6 +636,7 @@ const testData = [{
 export default {
   testData,
   workCityLists,
+  partTimeLists,
   workCharacterLists,
   functionTypeLists,
   companyTypeLists,

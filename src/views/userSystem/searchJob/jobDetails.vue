@@ -129,8 +129,6 @@ export default {
         uid: sessionStorage.getItem("userId")
       }).then(res => {
         if(res.code == 200) {
-          // 为什么收藏成功要跳转页面 不跳转就在那个页面了 我问的是为什么要跳转，请正面回答
-          //想调到那个页面
           this.$router.push('searchJob');
           this.$Message.success("收藏成功！");
         }else{

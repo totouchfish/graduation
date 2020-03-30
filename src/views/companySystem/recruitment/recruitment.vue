@@ -59,7 +59,7 @@ export default {
         {
           type: "index",
           title: "序号",
-          width: 60,
+          width: 70,
           align: "center",
           render: (h, params) => {
             return h(
@@ -71,24 +71,26 @@ export default {
         {
           title: "职位",
           key: "p_name",
-          align: "center"
+          align: "center",
+          width: 160
         },
         {
           title: "薪资",
           key: "salary",
           align: "center",
-          width: 120
+          width: 140
         },
         {
           title: "学历",
           key: "degree",
           align: "center",
-          width: 100,
+          width: 110,
         },
         {
           title: "地点",
           key: "address",
-          align: "center"
+          align: "center",
+          width: 130
         },
         {
           title: "发布日期",
@@ -221,7 +223,7 @@ export default {
             _data.forEach(item => {
               item.state == '1' ? item.stateFont = '招聘中' : item.stateFont = '停止招聘';
               item.publicTime = tool.formatDate2(item.publicTime)
-              item.salary=switchFont.salary(item.salary);
+              item.salary=item.salary;
               item.degree=switchFont.degree(item.degree);
               item.address=item.workProvince+"-"+item.workCity;
             });
@@ -238,7 +240,7 @@ export default {
 </script>
 <style scoped>
 .main {
-  width: 1000px;
+  width: 1050px;
   height: 100vh;
   overflow-y: hidden;
   background-color: #fff;

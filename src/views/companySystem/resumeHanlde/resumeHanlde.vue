@@ -92,7 +92,7 @@ export default {
         {
           type: "index",
           title: "序号",
-          width: 60,
+          width: 70,
           align: "center",
           render: (h, params) => {
             return h(
@@ -110,7 +110,7 @@ export default {
           title: "性别",
           key: "gender",
           align: "center",
-          width: 60
+          width: 70
         },
         {
           title: "年龄",
@@ -120,7 +120,8 @@ export default {
         {
           title: "应聘职位",
           key: "job",
-          align: "center"
+          align: "center",
+          width: 180
         },
 
         {
@@ -128,7 +129,7 @@ export default {
           key: "applyDate",
           sortable: "true",
           align: "center",
-          width: 150
+          width: 180
         },
         {
           title: "操作",
@@ -196,7 +197,7 @@ export default {
         {
           type: "index",
           title: "序号",
-          width: 60,
+          width: 70,
           align: "center",
           render: (h, params) => {
             return h(
@@ -214,7 +215,7 @@ export default {
           title: "性别",
           key: "gender",
           align: "center",
-          width: 60
+          width: 70
         },
         {
           title: "年龄",
@@ -225,7 +226,8 @@ export default {
         {
           title: "应聘职位",
           key: "job",
-          align: "center"
+          align: "center",
+           width: 180
         },
 
         {
@@ -233,7 +235,7 @@ export default {
           key: "applyDate",
           sortable: "true",
           align: "center",
-          width: 150
+          width: 180
         },
         {
           title: "操作",
@@ -301,7 +303,7 @@ export default {
         {
           type: "index",
           title: "序号",
-          width: 60,
+          width: 70,
           align: "center",
           render: (h, params) => {
             return h(
@@ -319,7 +321,7 @@ export default {
           title: "性别",
           key: "gender",
           align: "center",
-          width: 60
+          width: 70
         },
         {
           title: "年龄",
@@ -329,14 +331,15 @@ export default {
         {
           title: "应聘职位",
           key: "job",
-          align: "center"
+          align: "center",
+          width: 180
         },
         {
           title: "申请日期",
           key: "applyDate",
           sortable: "true",
           align: "center",
-          width: 150
+          width: 180
         },
         {
           title: "操作",
@@ -417,6 +420,10 @@ export default {
     changepage3 (val) {
       this.currentPage3 = val;
       this.initData();
+    },
+
+    handleDetails(row){
+        //this.$router.push('')
     },
     // 添加审核
     addReview (row) {
