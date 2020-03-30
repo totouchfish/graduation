@@ -538,36 +538,47 @@ const testData = [{
 
   ],
   workWelfareData = [{
+      label:'五险一金',
       value: '五险一金'
     },
     {
+      label:'带薪年假',
       value: '带薪年假'
     },
     {
+      label:'弹性工作',
       value: '弹性工作'
     },
     {
+      label:'定期体检',
       value: '定期体检'
     },
     {
+      label:'节日礼物',
       value: '节日礼物'
     },
     {
+      label:'绩效奖金',
       value: '绩效奖金'
     },
     {
+      label:'五险一金',
       value: '通讯津贴'
     },
     {
+      label:'午餐补助',
       value: '午餐补助'
     },
     {
+      label:'岗位晋升',
       value: '岗位晋升'
     },
     {
+      label:'技能培训',
       value: '技能培训'
     },
   ]
+  // workWelfareData = ['五险一金','带薪年假','弹性工作','定期体检','节日礼物','绩效奖金','通讯津贴','午餐补助','岗位晋升','技能培训']
 
 export default {
   testData,

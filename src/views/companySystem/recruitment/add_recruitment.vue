@@ -14,9 +14,10 @@
           <Input type="textarea" :rows="3" v-model="formValidate.workClaim"></Input>
         </FormItem>
         <FormItem label="岗位福利:" prop="workWelfare">
-          <Select v-model="formValidate.workWelfare" filterable multiple allow-create @on-create="handleAddWelfare">
+          <!-- <Select v-model="formValidate.workWelfare" filterable multiple allow-create @on-create="handleAddWelfare">
             <Option v-for="item in workWelfareData" :value="item.value" :key="item.value">{{ item.value }}</Option>
-          </Select>
+          </Select> -->
+          <SelectArr @handleWelfare="handleWelfare" :workWelfare="formValidate.workWelfare" :workWelfareList="workWelfareData"></SelectArr>
         </FormItem>
         <!-- <FormItem label="行业名称:" prop="workType">
           <Select v-model="formValidate.workType">
@@ -136,6 +137,7 @@
 <script>
 // 引入常用变量
 import commonData from "@/common/commonData";
+import SelectArr from "@/common/SelectArr";
 import * as API from "@/api/common.js";
 import * as API2 from "@/api/company.js";
 
@@ -151,7 +153,7 @@ export default {
         p_name: '',
         workDuties: '',
         workClaim: '',
-        workWelfare: [],
+        workWelfare: '',
         //workType: '',
         functionType: '',
         workProvince: '',
@@ -178,7 +180,7 @@ export default {
           { required: true, message: '请输入岗位描述', trigger: 'blur' }
         ],
         workWelfare: [
-          { required: true, type: 'array', min: 1, message: '请选择岗位福利', trigger: 'change' },
+          { required: true, type: 'string', message: '请选择岗位福利', trigger: 'change' },
         ],
         // workType: [
         //   { required: true, message: '请选择行业', trigger: 'change' }
@@ -213,13 +215,20 @@ export default {
       },
     };
   },
+  components: {
+    SelectArr
+  },
   methods: {
-    handleAddWelfare (val) {
-      this.workWelfareData.push({
-        value: val,
-        label: val
-      });
+    handleWelfare (value) {
+      this.formValidate.workWelfare = value;
     },
+    // handleAddWelfare(val){
+    //   let obj = {
+    //     label:val,
+    //     value:val
+    //   }
+    //   this.workWelfareData.push(obj);
+    // },
     // 获取全国各省
     getProvince () {
       API.getProvince().then(res => {
@@ -250,11 +259,9 @@ export default {
           // 强大的JSON.parse(JSON.stringify(obj)) 先将对象转化为字符串(简单的数据类型)，再用JSON.pase转化成对象，从而实现深度克隆。
           let _data =  JSON.parse(JSON.stringify(this.formValidate));
           _data.publicId = sessionStorage.getItem("userId");
-          let workWelfare = '';
-          _data.workWelfare.forEach(item => {
-            workWelfare += item + '-'
-          })
-          _data.workWelfare = workWelfare.substr(0, workWelfare.length - 1);
+          // 使用computed的set()
+          // this.workWelfare = _data;
+          // let a = _data;
           API2.positionOperation(_data).then(res => {
             if (res.code == 200) {
               this.$router.push({ name: 'recruitment' });
@@ -275,14 +282,9 @@ export default {
           _data.workProvince = Number(_data.workProvince);
           _data.workCity = Number(_data.workCity);
           _data.detailAdr = Number(_data.detailAdr);
-          let workWelfare = [];
-          _data.workWelfare.split('-').forEach(item => {
-            let obj = {};
-            obj.value = item;
-            workWelfare.push(obj);
-          })
-          _data.workWelfare = workWelfare;
           this.formValidate = _data;
+          // 使用computed的get()，将computed中的workWelfare依赖指向formValidate.workWelfare然后进行对数据进行处理
+          // this.formValidate.workWelfare = this.workWelfare;
         }
       });
     },
@@ -301,30 +303,37 @@ export default {
       if (val) this.getCity(val);
     }
   },
-  // computed: {
-  //   workWelfare: {
-  //     get () {
-  //       console.log("get");
-  //       let workWelfare = [];
-  //       this.formValidate.workWelfare.split('-').forEach(item => {
-  //         let obj = {};
-  //         obj.value = item;
-  //         workWelfare.push(obj);
-  //       })
-  //       console.log(workWelfare);
-  //       return workWelfare;
-  //     },
-  //     set (val) {
-  //       console.log("set");
-  //       debugger
-  //       let workWelfare = '';
-  //       this.formValidate.workWelfare.forEach(item => {
-  //         workWelfare += item + '-'
-  //       })
-  //       return workWelfare.substr(0, workWelfare.length - 1);
-  //     }
-  //   }
-  // },
+  computed: {
+    workWelfare: {
+      get () {
+        console.log('get');
+        let workWelfare = [];
+        this.formValidate.workWelfare.split('-').forEach(item => {
+          // 拆分岗位福利数据
+          workWelfare.push(item);
+          // 比对岗位福利数据，如果不存在workWelfareData里，则添加到workWelfareData中
+          // 由于this.workWelfareData是数组对象，如果想要将里面的值取出进行比对则需要在此循环中载嵌套循环，影响性能
+          // 骚操作：将this.workWelfareData转换成字符串，然后通过比对此字符串中是否包含item即可
+          let string = JSON.stringify(this.workWelfareData);
+          if(string.indexOf(item) == -1){
+            let obj = {};
+            obj.value = item;
+            this.workWelfareData.push(obj);
+          }
+        })
+        return workWelfare;
+      },
+      set (val) {
+        console.log("set");
+        let workWelfare = '';
+        val.workWelfare.forEach(item => {
+          workWelfare += item + '-'
+        })
+        val.workWelfare = workWelfare.substr(0, workWelfare.length - 1);
+        return val;
+      }
+    }
+  },
   created () {
     if (this.$route.query.id) {
       this.id = this.$route.query.id;
