@@ -563,7 +563,7 @@ export default {
   methods: {
     handleUpload(file){
       this.file = file;
-      return false;
+      // return false;
     },
     upload () {
       this.loadingStatus = true;
