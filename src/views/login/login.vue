@@ -68,7 +68,8 @@ export default {
               this.$Message.success('登录成功！');
               sessionStorage.setItem('userType',this.userType);
               sessionStorage.setItem('userName',this.formValidate.userName);
-              sessionStorage.setItem('userId',res.result);
+              sessionStorage.setItem('userId',res.result.userId);
+              sessionStorage.setItem('token',res.result.token);
             }else{
               this.$Message.error('用户名或密码错误！');
             }
@@ -79,7 +80,6 @@ export default {
   },
   created () {
     if(this.$route.query.type){
-      // alert(this.$route.query.type);
       this.userType = this.$route.query.type;
     }
   }
@@ -113,6 +113,7 @@ export default {
   z-index: 10;
   position: absolute;
 }
+
 .login_center_bottom_bg_box {
   width: 100%;
   height: 100%;
@@ -123,12 +124,14 @@ export default {
   position: absolute;
   border-radius: 15px;
 }
+
 .login_center_bottom_word_box {
   padding: 60px 57px;
   input {
     width: 90%;
   }
 }
+
 .login_title {
   text-align: center;
   font-size: 30px;

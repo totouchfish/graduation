@@ -1,6 +1,8 @@
 import axios from "axios";
 import Qs from "querystring";
-import { Message } from 'view-design'
+import {
+  Message
+} from 'view-design'
 
 // 创建axios实例
 
@@ -10,15 +12,20 @@ const service = axios.create({
 });
 
 // request拦截器
-// service.interceptors.request.use(
-//   config => {
-//     return config;
-//   },
-//   error => {
-//     // Do something with request error
-//     return Promise.reject(error);
-//   }
-// );
+service.interceptors.request.use(
+  config => {
+    // 让每个请求携带自定义token 请根据实际情况自行修改
+    var _token = sessionStorage.getItem("token");
+    if (_token) {
+      config.headers["token"] = _token;
+    }
+    return config;
+  },
+  error => {
+    // Do something with request error
+    return Promise.reject(error);
+  }
+);
 
 // respone拦截器
 service.interceptors.response.use(
@@ -31,6 +38,14 @@ service.interceptors.response.use(
       return response.data;
     } else {
       var errorMsg = "抱歉，服务器出错啦~~~";
+      if (res.code === 1003) {
+        errorMsg = "长时间未登录，请重新登陆！";
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('userId');
+        sessionStorage.removeItem('userName');
+        sessionStorage.removeItem('userType');
+      }
+      location.reload();
       Message.error(errorMsg);
       return Promise.reject("error");
     }
