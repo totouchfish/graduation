@@ -69,7 +69,7 @@ export default {
               sessionStorage.setItem('userType',this.userType);
               sessionStorage.setItem('userName',this.formValidate.userName);
               sessionStorage.setItem('userId',res.result.userId);
-              sessionStorage.setItem('token',res.result.token);
+              localStorage.setItem('token',res.result.token);
             }else{
               this.$Message.error('用户名或密码错误！');
             }
