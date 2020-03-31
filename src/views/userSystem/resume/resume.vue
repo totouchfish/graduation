@@ -63,23 +63,9 @@
                 </FormItem>
                 </Col>
                 <Col span="6" offset="8">
-                <Upload :on-success="handleSuccess" 
-                        :format="['jpg','jpeg','png']" 
-                        :max-size="2048" 
-                        :before-upload="handleUpload"
-                        :on-exceeded-size="handleMaxSize" 
-                        :on-format-error="handleFormatError" 
-                        :data="{'userId': userId}" 
-                        :headers="{'token': token,'Content-Type': 'multipart/form-data'}"
-                        :action="url" style="display: inline-block;">
+                <Upload ref="upload" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-exceeded-size="handleMaxSize" :on-format-error="handleFormatError" :data="{'userId': userId}" :headers="{'token': token}" :action="url" style="display: inline-block;">
                   <div class="uploadButton">选择文件&ensp;</div>
                 </Upload>
-                <div v-if="file !== null">
-                  Upload file: {{ file.name }} 
-                  <Button type="text" @click="upload" :loading="loadingStatus">
-                    {{ loadingStatus ? 'Uploading' : 'Click to upload' }}
-                  </Button>
-                </div>
                 <img src="@/assets/images/man.jpg" style="width:100px;height:100px;">
                 <p>支持JPG、JPEG、PNG格式,大小不要超过2M,建议使用一寸证件照70*100像素</p>
                 </Col>
@@ -142,7 +128,7 @@
                 </Select>
               </FormItem>
               <FormItem>
-                <Button type="primary" @click="submitUserInfo('form1Validate')">提交</Button>
+                <Button type="primary" @click="checkUserInfo('form1Validate')">提交</Button>
                 <Button @click="userInfo = !userInfo;form1Validate = {};" style="margin-left: 8px">取消</Button>
               </FormItem>
             </Form>
@@ -370,7 +356,7 @@ export default {
       callback();
     };
     return {
-      token:localStorage.getItem('token'),
+      token: localStorage.getItem('token'),
       url: 'http://localhost:8080/uploadImg',
       userId: sessionStorage.getItem('userId'),
       userInfo: false,
@@ -522,8 +508,6 @@ export default {
       resumeIntention: [],
       projectExpData: [],
       educationExpData: [],
-      file:null,
-      loadingStatus:false
     };
   },
   watch: {
@@ -551,16 +535,6 @@ export default {
   components: {},
   computed: {},
   methods: {
-    handleUpload(file){
-      this.file = file;
-      // return false;
-    },
-    upload () {
-      this.loadingStatus = true;
-      console.log(this.file);
-      this.$refs.upload.post(this.file);
-      this.loadingStatus = false;
-    },
     handleMaxSize (file) {
       this.$Notice.warning({
         title: "图片大小超过限制",
@@ -627,34 +601,40 @@ export default {
           _data.liveCity = Number(_data.liveCity);
           _data.liveCounty = Number(_data.liveCounty);
           this.form1Validate = _data;
-          console.log(this.form1Validate);
         }
 
         this.userInfo = !this.userInfo;
       });
     },
     // 提交用户信息
-    submitUserInfo (name) {
+    checkUserInfo (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          let _data = this.form1Validate;
-          _data.id = sessionStorage.getItem("resumeId");
-          API.updateUserInfo(_data).then(res => {
-            if (res.code == 200) {
-              this.userInfo = !this.userInfo;
-              this.initData();
-              this.$Message.success('Success!');
-            }
-          });
+          submitUserInfo().then(msg =>{
+            this.$Message.success(msg)
+          })
         } else {
           this.$Message.error('Fail!');
         }
       })
     },
+    // 提交用户信息
+    async submitUserInfo () {
+      let _data = this.form1Validate;
+      _data.id = sessionStorage.getItem("resumeId");
+      API.updateUserInfo(_data).then(res => {
+        if (res.code == 200) {
+          this.userInfo = !this.userInfo;
+          this.initData();
+          // this.$Message.success('Success!');
+        }
+      });
+      return "提交成功！";
+    },
     // 获取简历求职意向信息
     editIntentionInfo () {
       API.queryJobIntentionById({
-        id : sessionStorage.getItem("resumeId"),
+        id: sessionStorage.getItem("resumeId"),
 
       }).then(res => {
         if (res.code == 200) {
@@ -792,7 +772,6 @@ export default {
             item.degree = switchFont.degree(item.degree);
           });
           this.educationExpData = _studyData;
-          // 什么的id存储？
           sessionStorage.setItem("resumeId", _data.id);
           // 隐藏数据填写的div
           this.userInfo = false;
