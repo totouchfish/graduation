@@ -14,10 +14,8 @@
           <Input type="textarea" :rows="3" v-model="formValidate.workClaim"></Input>
         </FormItem>
         <FormItem label="岗位福利:" prop="workWelfare">
-          <!-- <Select v-model="formValidate.workWelfare" filterable multiple allow-create @on-create="handleAddWelfare">
-            <Option v-for="item in workWelfareData" :value="item.value" :key="item.value">{{ item.value }}</Option>
-          </Select> -->
-          <SelectArr @handleWelfare="handleWelfare" :workWelfare="formValidate.workWelfare" :workWelfareList="workWelfareData"></SelectArr>
+          <SelectArr :workWelfare.sync="formValidate.workWelfare" :workWelfareList="workWelfareData"></SelectArr>
+          <!-- <SelectArr @handleWelfare="handleWelfare" :workWelfare="formValidate.workWelfare" :workWelfareList="workWelfareData"></SelectArr> -->
         </FormItem>
         <!-- <FormItem label="行业名称:" prop="workType">
           <Select v-model="formValidate.workType">
@@ -106,15 +104,6 @@
             <Option value="9">不限</Option>
           </Select>
         </FormItem>
-        <!-- <FormItem label="工作经验:" prop="workYears">
-          <Select v-model="formValidate.workYears">
-            <Option value="1">1年以下</Option>
-            <Option value="2">1-3年</Option>
-            <Option value="3">3-5年</Option>
-            <Option value="4">5年以上</Option>
-            <Option value="9">不限</Option>
-          </Select>
-        </FormItem> -->
         <!-- <FormItem label="税前月薪:" prop="salary">
           <Select v-model="formValidate.salary">
             <Option value="10">高中及以上</Option>
@@ -225,13 +214,6 @@ export default {
     handleWelfare (value) {
       this.formValidate.workWelfare = value;
     },
-    // handleAddWelfare(val){
-    //   let obj = {
-    //     label:val,
-    //     value:val
-    //   }
-    //   this.workWelfareData.push(obj);
-    // },
     // 获取全国各省
     getProvince () {
       API.getProvince().then(res => {
@@ -297,6 +279,9 @@ export default {
     }
   },
   watch: {
+    'formValidate.workWelfare': function(val){
+      console.log(val);
+    },
     'formValidate.workProvince': function (val) {
       // 如果是四个直辖市,第二级选择为对应区
       if (val == 110000) val = 110100;

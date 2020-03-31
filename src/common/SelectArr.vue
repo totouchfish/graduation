@@ -18,10 +18,7 @@ export default {
   name: 'SelectArr',
   data () {
     return {
-      // welfare: [],
       welfareTemp: [],
-      // workWelfareObject: []
-      // workWelfareObject: commonData.workWelfareData,
     }
   },
   components: {},
@@ -34,7 +31,7 @@ export default {
       set (val) {
         console.log('set');
         let data = val.join('-');
-        this.$emit('handleWelfare', data);
+        this.$emit('update:workWelfare', data);
       }
     },
     workWelfareObject: {
@@ -43,22 +40,6 @@ export default {
       },
       set (val) {}      
     }
-  },
-  watch: {
-    // welfare (val) {
-    //   let data = val.join('-');
-    //   this.$emit('handleWelfare', data);
-    // },
-    // workWelfare (val) {
-    //   this.welfare = this.switchData(val);
-    // },
-    // workWelfareList: {
-    //   handler (val) {
-    //     this.workWelfareObject = val;
-    //   },
-    //   // 代表在wacth里声明了workWelfareList这个方法之后立即先去执行handler方法
-    //   immediate: true
-    // }
   },
   methods: {
     handleAddWelfare (val) {

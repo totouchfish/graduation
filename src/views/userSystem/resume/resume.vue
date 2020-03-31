@@ -63,9 +63,23 @@
                 </FormItem>
                 </Col>
                 <Col span="6" offset="8">
-                <Upload :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-exceeded-size="handleMaxSize" :on-format-error="handleFormatError" :data="{'userId': userId}" :action="url" style="display: inline-block;">
+                <Upload :on-success="handleSuccess" 
+                        :format="['jpg','jpeg','png']" 
+                        :max-size="2048" 
+                        :before-upload="handleUpload"
+                        :on-exceeded-size="handleMaxSize" 
+                        :on-format-error="handleFormatError" 
+                        :data="{'userId': userId}" 
+                        :headers="{'token': token,'Content-Type': 'multipart/form-data'}"
+                        :action="url" style="display: inline-block;">
                   <div class="uploadButton">选择文件&ensp;</div>
                 </Upload>
+                <div v-if="file !== null">
+                  Upload file: {{ file.name }} 
+                  <Button type="text" @click="upload" :loading="loadingStatus">
+                    {{ loadingStatus ? 'Uploading' : 'Click to upload' }}
+                  </Button>
+                </div>
                 <img src="@/assets/images/man.jpg" style="width:100px;height:100px;">
                 <p>支持JPG、JPEG、PNG格式,大小不要超过2M,建议使用一寸证件照70*100像素</p>
                 </Col>
@@ -366,6 +380,7 @@ export default {
       callback();
     };
     return {
+      token:sessionStorage.getItem('token'),
       url: 'http://localhost:8080/uploadImg',
       userId: sessionStorage.getItem('userId'),
       userInfo: false,
@@ -516,7 +531,9 @@ export default {
       resumeInfo: [],
       resumeIntention: [],
       projectExpData: [],
-      educationExpData: []
+      educationExpData: [],
+      file:null,
+      loadingStatus:false
     };
   },
   watch: {
@@ -544,6 +561,16 @@ export default {
   components: {},
   computed: {},
   methods: {
+    handleUpload(file){
+      this.file = file;
+      return false;
+    },
+    upload () {
+      this.loadingStatus = true;
+      console.log(this.file);
+      this.$refs.upload.post(this.file);
+      this.loadingStatus = false;
+    },
     handleMaxSize (file) {
       this.$Notice.warning({
         title: "图片大小超过限制",
