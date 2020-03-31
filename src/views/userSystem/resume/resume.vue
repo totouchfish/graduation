@@ -380,7 +380,7 @@ export default {
       callback();
     };
     return {
-      token:sessionStorage.getItem('token'),
+      token:localStorage.getItem('token'),
       url: 'http://localhost:8080/uploadImg',
       userId: sessionStorage.getItem('userId'),
       userInfo: false,

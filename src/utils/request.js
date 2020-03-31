@@ -15,7 +15,7 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // 让每个请求携带自定义token 请根据实际情况自行修改
-    var _token = sessionStorage.getItem("token");
+    var _token = localStorage.getItem("token");
     if (_token) {
       config.headers["token"] = _token;
     }
@@ -40,7 +40,7 @@ service.interceptors.response.use(
       var errorMsg = "抱歉，服务器出错啦~~~";
       if (res.code === 1003) {
         errorMsg = "长时间未登录，请重新登陆！";
-        sessionStorage.removeItem('token');
+        localStorage.removeItem('token');
         sessionStorage.removeItem('userId');
         sessionStorage.removeItem('userName');
         sessionStorage.removeItem('userType');
