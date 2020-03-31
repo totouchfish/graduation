@@ -6,6 +6,9 @@ import router from './router'
 import global from './components/global.js'
 // import array from './common/array.js'
 
+// 路由守卫
+import './permission'
+
 // view-design
 import 'view-design/dist/styles/iview.css';
 import iview from "./utils/iview.js";
