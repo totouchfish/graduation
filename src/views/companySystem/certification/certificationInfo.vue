@@ -1,25 +1,23 @@
 <template>
-  <Layout class="layout">
-    <div class="title">企业信息</div>   
-    <Row class="content">
+  <Layout class="layout">    
+    <Row class="content">          
       <Form ref="formValidate" :model="formValidate" label-position="right" :rules="ruleValidate" :label-width="135">
+        <div class="title">个人信息</div>
+        <FormItem label="姓名:" prop="realname">
+          <Input v-model="formValidate.realname"></Input>
+        </FormItem>
+        <FormItem label="职位:" prop="pos">
+          <Input v-model="formValidate.pos"></Input>
+        </FormItem>
+        <FormItem label="联系电话:" prop="phone">
+          <Input v-model="formValidate.phone"></Input>
+        </FormItem>
+        <FormItem label="电子邮箱:" prop="email">
+          <Input v-model="formValidate.email"></Input>
+        </FormItem>
+        <div class="title">企业信息</div>  
         <FormItem label="企业全称:" prop="companyName">
           <Input v-model="formValidate.companyName"></Input>
-        </FormItem>
-        <FormItem label="营业执照注册号:" prop="companyId">
-          <Input v-model="formValidate.companyId"></Input>
-        </FormItem>
-        <FormItem label="法人姓名:" prop="legalPersonName">
-          <Input v-model="formValidate.legalPersonName"></Input>
-        </FormItem>
-        <FormItem label="法人身份证号:" prop="legalPersonId">
-          <Input v-model="formValidate.legalPersonId"></Input>
-        </FormItem>
-        <FormItem label="企业联系电话:" prop="companyPhone">
-          <Input v-model="formValidate.companyPhone"></Input>
-        </FormItem>
-        <FormItem label="企业官网地址:">
-          <Input v-model="formValidate.companyUrl"></Input>
         </FormItem>
         <FormItem label="企业所在地址:" prop="none">
           <Row>
@@ -49,9 +47,19 @@
         <FormItem label="企业详细地址:" prop="companyAddress">
           <Input v-model="formValidate.companyAddress"></Input>
         </FormItem>
-        <FormItem label="企业简介:" prop="companyDesc">
+        <FormItem label="企业简介:" prop="cbrief">
           <Input type="textarea" :rows="3" v-model="formValidate.workDuties"></Input>
         </FormItem>
+         <FormItem label="企业性质:" prop="companyType">
+              <Select v-model="formValidate.companyType">
+                <Option v-for="(item, index) in companyTypeLists" :key="index" :value="item.code">{{item.name}}</Option>
+              </Select>
+            </FormItem>
+            <FormItem label="所属行业:" prop="trade">
+              <Select v-model="formValidate.trade">
+                <Option v-for="(item, index) in workTypeLists" :key="index" :value="item.code">{{item.name}}</Option>
+              </Select>
+            </FormItem>
         <FormItem style="margin-left:30%;margin-top:30px;">
           <Button type="primary" @click="submit('formValidate')">修 改</Button>
           <!-- <Button @click="canel()" style="margin-left: 8px">取消</Button> -->
@@ -89,6 +97,8 @@ export default {
         companyAddress:'',
         companyDesc:''
       },
+      companyTypeLists: commonData.companyTypeLists,
+      workTypeLists: commonData.workTypeLists,
       provinceData: [],
       cityData: [],
       countyData: [],

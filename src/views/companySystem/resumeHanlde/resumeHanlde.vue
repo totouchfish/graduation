@@ -423,7 +423,7 @@ export default {
     },
 
     handleDetails(row){
-        //this.$router.push('')
+        this.$router.push('/preview?id='+row.id);
     },
     // 添加审核
     addReview (row) {

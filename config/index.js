@@ -10,6 +10,15 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+      '/positionInfo': {
+        target: devServerUrl, //转发到的地址
+        secure: false, // 如果是https接口，需要配置这个参数
+        changeOrigin: true, //是否跨域
+        ws: false, // 代理websocket
+        pathRewrite: {
+          '^/positionInfo': 'positionInfo', // 路径重写 pathRewrite 表示的意思是 把^/XX 替换为 /XX，
+        }
+      },
       '/resumeHandle': {
         target: devServerUrl, //转发到的地址
         secure: false, // 如果是https接口，需要配置这个参数

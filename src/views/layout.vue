@@ -56,7 +56,7 @@
             <!-- 发布招聘信息  -->
             </MenuItem>
             <MenuItem name="certificationInfo">
-            <Icon type="ios-keypad" />企业信息
+            <Icon type="ios-keypad" />个人中心
             <!-- 企业资质认证  -->
             </MenuItem>
           </div>

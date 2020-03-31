@@ -180,7 +180,6 @@ export default {
             _data.forEach(item => {
             item.publicTime = tool.translateTime1( item.publicTime);
             item.degree = switchFont.degree(item.degree);
-            item.salary = switchFont.salary(item.salary);
           }); 
           this.positionList = false;
           this.positionData =_data;
