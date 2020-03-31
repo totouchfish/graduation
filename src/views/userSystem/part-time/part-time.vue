@@ -42,7 +42,7 @@
       <Content class="content">
         <div class="recruit" v-for="(item,index) in resumeData" :key="index">
           <a class="recruit_left" href="#" style="color:#333">
-            <p class="recruit_right_postName">{{item.p_name}}</p>
+            <p class="recruit_right_postName"><a href="#" @click="jobDetails(item.p_id)">{{item.p_name}}</a></p>
             <p class="recruit_right_workInfo" :title="item.postRequirement" v-html="item.postRequirement2">{{item.postRequirement2}}</p>
             <p style="font-size:14px;margin-top:11px;">{{item.addressDetail}}</p>
           </a>
@@ -102,6 +102,9 @@ export default {
       }
       this.initData();//点击之后需要触发调用接口
       sessionStorage.setItem(string, index);
+    },
+    jobDetails (id) {
+      this.$router.push('jobDetails?id=' + id);     
     },
     initData () {
       this.resumeData = [];

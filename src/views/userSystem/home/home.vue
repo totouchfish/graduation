@@ -167,8 +167,8 @@ export default {
         if (res.code == 200) {
           let _data = res.result;
           _data.forEach(item => {
-            item.postRequirement = `${switchFont.salary(item.salary)} | ${item.workCity} | ${switchFont.degree(item.degree)} | ${item.employeeType}`
-            item.postRequirement2 = `<span style='color:red;'>${switchFont.salary(item.salary)}</span> | ${item.workCity} | ${switchFont.degree(item.degree)} | ${item.employeeType}`
+            item.postRequirement = `${item.salary} | ${item.workCity} | ${switchFont.degree(item.degree)} | ${item.employeeType}`
+            item.postRequirement2 = `<span style='color:red;'>${item.salary}</span> | ${item.workCity} | ${switchFont.degree(item.degree)} | ${item.employeeType}`
             item.companyWelfare = item.workWelfare.split("-");
           });
           this.resumeData = _data;

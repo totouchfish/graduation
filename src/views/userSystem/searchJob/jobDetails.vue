@@ -24,7 +24,6 @@
             </p>
             <div class="job-qualifications">
               <span>{{positionDetail.degree}}</span>
-              <span>{{positionDetail.workYears}}</span>
               <span>{{positionDetail.employeeType}}</span>
               <span>{{positionDetail.age}}</span>
             </div>
@@ -147,8 +146,8 @@ export default {
           _data.publicTime = tool.translateTime1( _data.publicTime);
           _data.degree = switchFont.degree(_data.degree);
           _data.age = switchFont.age(_data.age);
-          _data.workYears = switchFont.workYears(_data.workYears);
-          _data.salary = switchFont.salary(_data.salary);
+          //_data.workYears = switchFont.workYears(_data.workYears);
+          //_data.salary = switchFont.salary(_data.salary);
           this.positionDetail = _data;
         }
       })

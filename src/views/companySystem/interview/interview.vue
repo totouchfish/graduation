@@ -140,7 +140,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.handleDetails(params);
+                      this.handleDetails(params.row);
                     }
                   }
                 },
@@ -200,6 +200,9 @@ export default {
     searchData () {
       this.currentPage = 1;
       this.initData();
+    },
+    handleDetails(row){
+        this.$router.push('/preview?id='+row.id);
     },
     modifyStatus (row) {
       if (row.statusFlag) {

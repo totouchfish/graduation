@@ -25,7 +25,7 @@
                 </Row> -->
                 <li v-for="(item,index) in collectionData" :key="index">
                   <div class="float-left">
-                    <div class="infor1"><a>{{item.pName}}</a></div>
+                    <div class="infor1"><a  href="#" @click="jobDetails(item.pid)">{{item.pName}}</a></div>
                     <div class="infor2"><a>{{item.companyName}}</a>
                       <span>{{item.workCity}}</span>
                       <small>|</small>
@@ -92,6 +92,9 @@ export default {
           this.$Message.success('Success!');
         }
       });
+    },
+    jobDetails (id) {
+      this.$router.push('jobDetails?id=' + id);     
     },
     initData () {
       API.collection({

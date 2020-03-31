@@ -24,7 +24,7 @@
                 <Option v-for="(item, index) in companyTypeLists" :key="index" :value="item.code">{{item.name}}</Option>
               </Select>
             </FormItem>
-            <FormItem label="所属行业:" prop="trade"">
+            <FormItem label="所属行业:" prop="trade">
               <Select v-model="formValidate.trade">
                 <Option v-for="(item, index) in workTypeLists" :key="index" :value="item.code">{{item.name}}</Option>
               </Select>
