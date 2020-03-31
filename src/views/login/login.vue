@@ -64,12 +64,12 @@ export default {
             userType: this.userType
           }).then(res => {
             if (res.code == 200) {
-              this.$router.push(this.userType == 1 ? 'home' : this.userType == 2 ? 'chome' : 'ahome');
               this.$Message.success('登录成功！');
               sessionStorage.setItem('userType',this.userType);
               sessionStorage.setItem('userName',this.formValidate.userName);
               sessionStorage.setItem('userId',res.result.userId);
               localStorage.setItem('token',res.result.token);
+              this.$router.push(this.userType == 1 ? 'home' : this.userType == 2 ? 'chome' : 'ahome');
             }else{
               this.$Message.error('用户名或密码错误！');
             }

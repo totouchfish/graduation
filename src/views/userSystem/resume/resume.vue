@@ -199,17 +199,7 @@
                 <Input v-model="form2Validate.expectPost"></Input>
               </FormItem>
               <FormItem label="税前月薪：" prop="expectSalary">
-                <Select v-model="form2Validate.expectSalary">
-                  <Option value="1">1k元/月以下</Option>
-                  <Option value="2">1k-2k元/月</Option>
-                  <Option value="3">2k-4k元/月</Option>
-                  <Option value="4">4k-6k元/月</Option>
-                  <Option value="5">6k-8k元/月</Option>
-                  <Option value="6">8k-10k元/月</Option>
-                  <Option value="7">10k-15k元/月</Option>
-                  <Option value="8">15k-20k元/月</Option>
-                  <Option value="9">20k元/月以上</Option>
-                </Select>
+                <Input v-model="form2Validate.expectSalary"></Input>
               </FormItem>
               <FormItem>
                 <Button type="primary" @click="submitIntentionInfo('form2Validate')">提交</Button>
@@ -785,7 +775,7 @@ export default {
           _data.workDate = tool.getAge(_data.workDate);
           // 这种转义的活都应该是后台转的，前台只负责拿数据，展示数据。
           _data.workCharacter = _data.workCharacter == '1' ? '全职' : _data.workCharacter == '2' ? '兼职' : '实习';
-          _data.expectSalary = switchFont.salary(_data.expectSalary);
+          //_data.expectSalary = switchFont.salary(_data.expectSalary);
           this.resumeInfo = _data;
           // 项目经历
           let _projectData = res.result.projects;

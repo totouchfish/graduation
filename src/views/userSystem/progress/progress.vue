@@ -64,7 +64,7 @@ export default {
           let _data=res.result
           _data.forEach(item => {
             item.time = tool.formatDate2(item.time);
-            item.salary = switchFont.salary(item.salary);
+            //item.salary = switchFont.salary(item.salary);
             if(item.state==1){
               item.state='投递成功'
             }else if(item.state==2){
